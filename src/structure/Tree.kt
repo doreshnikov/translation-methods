@@ -3,7 +3,7 @@ package structure
 import grammar.Token
 import utils.*
 
-sealed class Tree(val token: Token, val id: Int) : TR by TRUniversal + TRFirst + TRState {
+sealed class Tree(val token: Token, private val id: Int) : TR by TRUniversal + TRFirst + TRState {
 
     companion object {
         private var lastId = 0
