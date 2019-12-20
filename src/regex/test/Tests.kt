@@ -171,6 +171,7 @@ A  -> ['a'..'z'] | '(' R ')'
 
     Test.ParseExceptionTest("UnmatchedOpeningParenthesis", "a(bc(d)e")
     Test.ParseExceptionTest("UnmatchedClosingParenthesis", "x(abc)d)e")
+    Test.ParseExceptionTest("AsteriskAfterLeftParenthesis", "a(*b)")
     Test.ParseExceptionTest("AsteriskAfterChoice", "a|b|*")
 
     Test.runAll()
