@@ -2,7 +2,7 @@ package parse
 
 import grammar.Expansion
 import grammar.Grammar
-import grammar.Token
+import grammar.token.Token
 import utils.*
 import utils.viewer.ConsistentViewer
 import utils.viewer.GetViewer
@@ -10,7 +10,7 @@ import utils.viewer.GetViewer
 @Suppress("PropertyName")
 class Helper(val grammar: Grammar) {
 
-    class FirstRestrictedSet(vararg elements: Token) : HashSet<Token>(), TR by TRUniversal + TRFirst {
+    class FirstRestrictedSet(vararg elements: Token) : HashSet<Token>(), TR by TRGeneral + TRFirst {
         init {
             addAll(elements)
         }
@@ -20,7 +20,7 @@ class Helper(val grammar: Grammar) {
         }
     }
 
-    class FollowRestrictedSet(vararg elements: Token) : HashSet<Token>(), TR by TRUniversal + TRFollow {
+    class FollowRestrictedSet(vararg elements: Token) : HashSet<Token>(), TR by TRGeneral + TRFollow {
         init {
             addAll(elements)
         }
@@ -67,8 +67,9 @@ class Helper(val grammar: Grammar) {
     private fun globalFirst(expansion: Expansion): Set<Token> {
         assert(expansion.size > 0) { "Unexpected empty expansion '$expansion'" }
         return when (expansion[0]) {
-            is Token.PredefinedToken -> hashSetOf(expansion[0] as Token.PredefinedToken)
+            /*is Token.PredefinedToken -> hashSetOf(expansion[0] as Token.PredefinedToken)
             is Token.AlphaToken -> hashSetOf(expansion[0] as Token.AlphaToken)
+            is Token.NumberToken -> hashSetOf(expansion[0] as Token.NumberToken)*/
             is Token.State -> first[expansion[0]]?.let {
                 if (it.contains(Token.EPSILON)) {
                     it.union(globalFirst(expansion.dropFirst(1)))
@@ -76,8 +77,8 @@ class Helper(val grammar: Grammar) {
                     it
                 }
             } ?: emptySet()
-            is Token.EPSILON -> hashSetOf(Token.EPSILON)
-            else -> emptySet()
+//            is Token.EPSILON -> hashSetOf(Token.EPSILON)
+            else -> hashSetOf(expansion[0])
         }
     }
 

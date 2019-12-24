@@ -2,7 +2,8 @@ package parse
 
 import grammar.Expansion
 import grammar.Grammar
-import grammar.Token
+import grammar.token.RepresentedBy
+import grammar.token.Token
 import structure.Tree
 import java.text.ParseException
 
@@ -10,9 +11,17 @@ class Parser(val grammar: Grammar) {
 
     private val helper = Helper(grammar)
 
+    private fun isAcceptable(token: Token, originalToken: Token) : Boolean {
+        return token == originalToken || token is RepresentedBy<*> && token.getRepresentation() == originalToken
+    }
+
+    private fun isAcceptable(token: Token, tokenSet: Set<Token>): Boolean {
+        return token in tokenSet || token is RepresentedBy<*> && token.getRepresentation() in tokenSet
+    }
+
     private fun parseExpandable(state: Token.State, expansion: Expansion, lexer: Lexer): Tree {
         fun checked(token: Token): Token {
-            if (token != lexer.getToken()) {
+            if (!isAcceptable(lexer.getToken(), token)) {
                 if (lexer.getToken() == Token.END) {
                     throw ParseException(
                         "Reached end of the line, expected $token while parsing rule $state -> $expansion",
@@ -24,7 +33,7 @@ class Parser(val grammar: Grammar) {
                     lexer.getIndex()
                 )
             }
-            return token
+            return lexer.getToken()
         }
 
         val node = Tree.InnerNode(state)
@@ -32,8 +41,11 @@ class Parser(val grammar: Grammar) {
             node.add(
                 when (token) {
                     is Token.State -> parse(token, lexer)
-                    is Token.PredefinedToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-                    is Token.AlphaToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
+                    is Token.SpecialToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
+//                    is Token.AlphaToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
+//                    is Token.NumberToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
+                    is Token.AlphaToken.AnyAlpha -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
+                    is Token.NumberToken.AnyNumber -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
                     else -> throw IllegalStateException("Unexpected token ${lexer.getToken()} received from lexer")
                 }
             )
@@ -48,7 +60,7 @@ class Parser(val grammar: Grammar) {
                 when (token) {
                     is Token.State -> parseNullable(
                         token,
-                        grammar.RULES[state].expansions.first { Token.EPSILON in helper.FIRST(it) }
+                        grammar.RULES[state].expansions.first { isAcceptable(Token.EPSILON, helper.FIRST(it)) }
                     )
                     is Token.EPSILON -> Tree.Leaf(token)
                     else -> throw IllegalArgumentException("Unexpected token $token in expansion of $state ->* ${Token.EPSILON}")
@@ -61,9 +73,10 @@ class Parser(val grammar: Grammar) {
     private fun parse(state: Token.State, lexer: Lexer): Tree {
         val rule = grammar.RULES[state]
 
-        val byFirst = rule.expansions.filter { lexer.getToken() in helper.FIRST(it) }
-        val byFollow = rule.expansions.filter { Token.EPSILON in helper.FIRST(it) }
-        val isNullable = Token.EPSILON in helper.FIRST[state] && lexer.getToken() in helper.FOLLOW[state]
+        val byFirst = rule.expansions.filter { isAcceptable(lexer.getToken(), helper.FIRST(it)) }
+        val byFollow = rule.expansions.filter { isAcceptable(Token.EPSILON, helper.FIRST(it)) }
+        val isNullable = isAcceptable(Token.EPSILON, helper.FIRST[state]) &&
+                isAcceptable(lexer.getToken(), helper.FOLLOW[state])
 
         return when (val options = byFirst.size + (if (isNullable) byFollow.size else 0)) {
             0 -> throw ParseException(

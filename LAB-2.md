@@ -43,7 +43,7 @@ C  -> eps | '*' C
 A  -> ['a'..'z'] | '(' R ')'
 ```
 
-2. если применить алгоритм устранения непосредственной левой рекурсии [Grammar::directLeftRecursionElimination](src/grammar/Grammar.kt), 
+2. если применить алгоритм устранения непосредственной левой рекурсии [Grammar::directLeftRecursionElimination](include/grammar/Grammar.kt), 
 получим:
 ```
 R  -> S R' | S
@@ -56,7 +56,7 @@ A  -> ['a'..'z'] | '(' R ')'
 ```
 
 Заметим, что в полученной грамматике теперь есть правое ветвление. 
-Воспользовавшись алгоритмом устранения правого ветвления, [Grammar::rightBranchingElimination](src/grammar/Grammar.kt),
+Воспользовавшись алгоритмом устранения правого ветвления, [Grammar::rightBranchingElimination](include/grammar/Grammar.kt),
 мы получим огромную грамматику, c которой работать явно менее удобно, чем с первой
 ```
 R    -> S R'
@@ -99,11 +99,11 @@ A  -> ['a'..'z'] | '(' R ')'
 ## FIRST и FOLLOW
 
 Построим множества FIRST и FOLLOW для описанной грамматики. 
-Для этого воспользуемся алгоритмом их построения, описанным в [Helper](src/parse/Helper.kt)
+Для этого воспользуемся алгоритмом их построения, описанным в [Helper](include/parse/Helper.kt)
 
-* для предоставления внешним классам доступа к `FIRST[state]` и `FIRST(expansion)` используется [ConsistentViewer](src/utils/viewer/ConsistentViewer.kt)
-* для предоставления внешним классам доступа к `FOLLOW[state]` используется [GetViewer](src/utils/viewer/GetViewer.kt)
-* для аккуратного вывода алфавитных терминалов используется [Beautifier::tokenFold](src/utils/Beautifier.kt)
+* для предоставления внешним классам доступа к `FIRST[state]` и `FIRST(expansion)` используется [ConsistentViewer](include/utils/viewer/ConsistentViewer.kt)
+* для предоставления внешним классам доступа к `FOLLOW[state]` используется [GetViewer](include/utils/viewer/GetViewer.kt)
+* для аккуратного вывода алфавитных терминалов используется [Beautifier::tokenFold](include/utils/Beautifier.kt)
 
 ### FIRST
 ```
@@ -175,16 +175,16 @@ val grammar = Grammar(
 
 ### Helper и Lexer
 
-1. В [Helper](src/parse/Helper.kt) считаем `FIRST` и `FOLLOW` по описанной грамматике
-2. В [Lexer](src/parse/Lexer.kt) описываем правила получения следующего [Token](src/grammar/Token.kt). 
-Для ограничения типа токена, получаемого из лексера, используем [TokenRestricted](src/utils/TokenRestricted.kt)
+1. В [Helper](include/parse/Helper.kt) считаем `FIRST` и `FOLLOW` по описанной грамматике
+2. В [Lexer](include/parse/Lexer.kt) описываем правила получения следующего [Token](include/grammar/token/Token.kt). 
+Для ограничения типа токена, получаемого из лексера, используем [TokenRestricted](include/grammar/token/RestrictedBy.kt)
     ```kotlin
     class Lexer : TR by TRUniversal + TRFollow
     ```
 
 ### Parser
 
-В [Parser](src/parse/Parser.kt) используем Lexer и Helper заданной грамматики, 
+В [Parser](include/parse/Parser.kt) используем Lexer и Helper заданной грамматики, 
 чтобы по построенным `FIRST` и `FOLLOW` для текущего состояния найти в какое правило его раскрыть.
 ```kotlin
 private fun parse(state: Token.State, lexer: Lexer): Tree {

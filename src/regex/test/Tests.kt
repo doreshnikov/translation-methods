@@ -174,6 +174,22 @@ A  -> ['a'..'z'] | '(' R ')'
     Test.ParseExceptionTest("AsteriskAfterLeftParenthesis", "a(*b)")
     Test.ParseExceptionTest("AsteriskAfterChoice", "a|b|*")
 
+    Test.CorrectnessTest("NoNumberNoAsterisk", "(x)")
+
+    Test.CorrectnessTest("NumberOnly", "(b)a1")
+    Test.CorrectnessTest("NumberOnlyLong", "(b)a12345")
+    Test.CorrectnessTest("NumberOnlyLongToParenthesis", "(a)12345")
+    Test.CorrectnessTest("AsteriskOnly", "(b)a*")
+    Test.CorrectnessTest("AsteriskOnlyLong", "(b)a****")
+    Test.CorrectnessTest("AsteriskOnlyLongToParenthesis", "(a)****")
+
+    Test.CorrectnessTest("NumberAndAsterisk", "a12*")
+    Test.CorrectnessTest("NumberAndAsteriskLong", "a12***")
+
+    Test.ParseExceptionTest("AsteriskAndNumber", "a*12")
+    Test.ParseExceptionTest("AsteriskWithNoAtom", "*d12")
+    Test.ParseExceptionTest("NumberWithNoAtom", "12d*")
+
     Test.runAll()
 
 }

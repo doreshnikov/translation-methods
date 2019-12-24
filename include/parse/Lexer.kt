@@ -1,15 +1,15 @@
 package parse
 
-import grammar.Token
+import grammar.token.Token
 import utils.TR
 import utils.TRFollow
-import utils.TRUniversal
+import utils.TRGeneral
 import java.text.ParseException
 
-class Lexer(private val input: String) : TR by TRUniversal + TRFollow {
+class Lexer(private val input: String) : TR by TRGeneral + TRFollow {
 
     private var index = -1
-    private var char: Char? = null
+    private var char: Char? = nextChar()
     private var token: Token
 
     init {
@@ -30,11 +30,18 @@ class Lexer(private val input: String) : TR by TRUniversal + TRFollow {
     }
 
     fun nextToken(): Token {
-        nextChar()
         when (char) {
             null -> Token.END
-            in Token.PredefinedToken -> Token.PredefinedToken[char!!]
-            in 'a'..'z' -> Token.AlphaToken(char!!)
+            in Token.SpecialToken -> Token.SpecialToken[char!!].also { nextChar() }
+            in 'a'..'z' -> Token.AlphaToken(char!!).also { nextChar() }
+            in '0'..'9' -> {
+                var number = 0
+                while (char != null && char!! in '0'..'9') {
+                    number = number * 10 + (char!! - '0')
+                    nextChar()
+                }
+                Token.NumberToken(number)
+            }
             else -> throw ParseException(
                 "Expected predefined token or lowercase latin letter instead of '$char'",
                 index

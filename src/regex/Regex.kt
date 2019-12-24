@@ -1,7 +1,7 @@
 package regex
 
 import grammar.Grammar
-import grammar.Token
+import grammar.token.Token
 import utils.*
 
 object Regex {
@@ -22,6 +22,8 @@ object Regex {
     val S0 = ST("S")
     val S1 = ST("S`")
     val T  = ST("T")
+    val M  = ST("M")
+    val N  = ST("N")
     val C  = ST("C")
     val A  = ST("A")
 
@@ -34,14 +36,18 @@ object Regex {
         S0 into E(T, S1),
         S1 into E(EPSILON),
         S1 into E(S0),
-        T  into E(A, C),
+        T  into E(A, M),
+        M  into E(N, C),
+        N  into E(EPSILON),
+        N  into E(Token.RepresentationToken.AnyNumber),
         C  into E(EPSILON),
         C  into E(KLEENE, C),
-        A  into E(LPAREN, R0, RPAREN)
+        A  into E(LPAREN, R0, RPAREN),
+        A  into E(Token.RepresentationToken.AnyAlpha)
     ).also {
-        ('a'..'z').map { c -> A into E(AT(c)) }.forEach { r ->
-            it.add(r)
-        }
+//        ('a'..'z').map { c -> A into E(AT(c)) }.forEach { r ->
+//            it.add(r)
+//        }
     }.order()
 
     // @formatter:on

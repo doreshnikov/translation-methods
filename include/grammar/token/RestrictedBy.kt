@@ -1,18 +1,20 @@
-package utils
+package grammar.token
 
-import grammar.Token
 import kotlin.reflect.KClass
 
-interface TokenRestricted {
+interface RestrictedBy {
 
-    object Universal : Restriction("Universal", Token.PredefinedToken::class, Token.AlphaToken::class)
+    object General : Restriction("General", Token.SpecialToken::class)
+
+    object Lexer : Restriction("Lexer", Token.AlphaToken::class, Token.NumberToken::class)
     object State : Restriction("State", Token.State::class)
+
     object First : Restriction("First", Token.EPSILON::class)
     object Follow : Restriction("Follow", Token.END::class)
 
     fun pass(token: Token): Token
 
-    open class Restriction(private val name: String, vararg clazz: KClass<*>) : TokenRestricted {
+    open class Restriction(private val name: String, vararg clazz: KClass<*>) : RestrictedBy {
 
         private val allowed = clazz.toSet()
 

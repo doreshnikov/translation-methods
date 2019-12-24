@@ -1,6 +1,6 @@
 package utils
 
-import grammar.Token
+import grammar.token.Token
 
 class Beautifier {
 

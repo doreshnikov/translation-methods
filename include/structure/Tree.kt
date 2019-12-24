@@ -1,9 +1,9 @@
 package structure
 
-import grammar.Token
+import grammar.token.Token
 import utils.*
 
-sealed class Tree(val token: Token, private val id: Int) : TR by TRUniversal + TRFirst + TRState {
+sealed class Tree(val token: Token, private val id: Int) : TR by TRGeneral + TRFirst + TRGrammar {
 
     companion object {
         private var lastId = 0

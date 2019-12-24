@@ -1,5 +1,6 @@
 package grammar
 
+import grammar.token.Token
 import utils.Beautifier
 import utils.viewer.GetViewer
 
@@ -103,7 +104,7 @@ class Grammar(private val startState: Token.State, vararg rules: Rule) {
         }
     }
 
-    fun globalSize(): Int {
+    private fun globalSize(): Int {
         return rules.map { it.expansions.size }.sum()
     }
 

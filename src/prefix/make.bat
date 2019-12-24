@@ -1,0 +1,1 @@
+antlr4 prefix.g4 -o . -package prefix
