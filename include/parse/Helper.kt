@@ -10,7 +10,8 @@ import utils.viewer.GetViewer
 @Suppress("PropertyName")
 class Helper(val grammar: Grammar) {
 
-    class FirstRestrictedSet(vararg elements: Token) : HashSet<Token>(), TR by TRGeneral + TRFirst {
+    class FirstRestrictedSet(vararg elements: Token) : HashSet<Token>(),
+        TR by TRGeneral + TRRepresentation + TRFirst {
         init {
             addAll(elements)
         }
@@ -20,7 +21,8 @@ class Helper(val grammar: Grammar) {
         }
     }
 
-    class FollowRestrictedSet(vararg elements: Token) : HashSet<Token>(), TR by TRGeneral + TRFollow {
+    class FollowRestrictedSet(vararg elements: Token) : HashSet<Token>(),
+        TR by TRGeneral + TRRepresentation + TRFollow {
         init {
             addAll(elements)
         }

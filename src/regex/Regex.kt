@@ -44,11 +44,7 @@ object Regex {
         C  into E(KLEENE, C),
         A  into E(LPAREN, R0, RPAREN),
         A  into E(Token.RepresentationToken.AnyAlpha)
-    ).also {
-//        ('a'..'z').map { c -> A into E(AT(c)) }.forEach { r ->
-//            it.add(r)
-//        }
-    }.order()
+    ).order()
 
     // @formatter:on
 

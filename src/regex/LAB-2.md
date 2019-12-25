@@ -1,6 +1,5 @@
 # Отчет, задание 2
 
-_Орешников Даниил_,\
 _Вариант 2_
 (ограниченные регулярные выражения)
 
@@ -28,7 +27,6 @@ A -> ['a'..'z'] | '(' R ')'
 
 1. заметить, что операции выбора и конкатенации не имеют строгой ассоциативности (их можно применять в любом порядке)
 2. воспользоваться стандартным алгоритмом избавления от непосредственной левой рекурсии
-    * этот способ реализован в [Restructure](src/regex/Restructure.kt)
 
 ## Переделаем грамматику
 
@@ -43,7 +41,7 @@ C  -> eps | '*' C
 A  -> ['a'..'z'] | '(' R ')'
 ```
 
-2. если применить алгоритм устранения непосредственной левой рекурсии [Grammar::directLeftRecursionElimination](include/grammar/Grammar.kt), 
+2. если применить алгоритм устранения непосредственной левой рекурсии [Grammar::directLeftRecursionElimination](../../include/grammar/Grammar.kt), 
 получим:
 ```
 R  -> S R' | S
@@ -56,7 +54,7 @@ A  -> ['a'..'z'] | '(' R ')'
 ```
 
 Заметим, что в полученной грамматике теперь есть правое ветвление. 
-Воспользовавшись алгоритмом устранения правого ветвления, [Grammar::rightBranchingElimination](include/grammar/Grammar.kt),
+Воспользовавшись алгоритмом устранения правого ветвления, [Grammar::rightBranchingElimination](../../include/grammar/Grammar.kt),
 мы получим огромную грамматику, c которой работать явно менее удобно, чем с первой
 ```
 R    -> S R'
@@ -99,11 +97,11 @@ A  -> ['a'..'z'] | '(' R ')'
 ## FIRST и FOLLOW
 
 Построим множества FIRST и FOLLOW для описанной грамматики. 
-Для этого воспользуемся алгоритмом их построения, описанным в [Helper](include/parse/Helper.kt)
+Для этого воспользуемся алгоритмом их построения, описанным в [Helper](../../include/parse/Helper.kt)
 
-* для предоставления внешним классам доступа к `FIRST[state]` и `FIRST(expansion)` используется [ConsistentViewer](include/utils/viewer/ConsistentViewer.kt)
-* для предоставления внешним классам доступа к `FOLLOW[state]` используется [GetViewer](include/utils/viewer/GetViewer.kt)
-* для аккуратного вывода алфавитных терминалов используется [Beautifier::tokenFold](include/utils/Beautifier.kt)
+* для предоставления внешним классам доступа к `FIRST[state]` и `FIRST(expansion)` используется [ConsistentViewer](../../include/utils/viewer/ConsistentViewer.kt)
+* для предоставления внешним классам доступа к `FOLLOW[state]` используется [GetViewer](../../include/utils/viewer/GetViewer.kt)
+* для аккуратного вывода алфавитных терминалов используется [Beautifier::tokenFold](../../include/utils/Beautifier.kt)
 
 ### FIRST
 ```
@@ -131,7 +129,7 @@ A  : $, '(', ')', '|', '*', ['a'..'z']
 
 ### Фиксированная грамматика
 
-В [Regex](src/regex/Regex.kt)
+В [Regex](Regex.kt)
 1. задаем алфавит языка
 ```kotlin
 init {
@@ -175,16 +173,16 @@ val grammar = Grammar(
 
 ### Helper и Lexer
 
-1. В [Helper](include/parse/Helper.kt) считаем `FIRST` и `FOLLOW` по описанной грамматике
-2. В [Lexer](include/parse/Lexer.kt) описываем правила получения следующего [Token](include/grammar/token/Token.kt). 
-Для ограничения типа токена, получаемого из лексера, используем [TokenRestricted](include/grammar/token/RestrictedBy.kt)
+1. В [Helper](../../include/parse/Helper.kt) считаем `FIRST` и `FOLLOW` по описанной грамматике
+2. В [Lexer](../../include/parse/Lexer.kt) описываем правила получения следующего [Token](../../include/grammar/token/Token.kt). 
+Для ограничения типа токена, получаемого из лексера, используем [TokenRestricted](../../include/grammar/token/RestrictedBy.kt)
     ```kotlin
     class Lexer : TR by TRUniversal + TRFollow
     ```
 
 ### Parser
 
-В [Parser](include/parse/Parser.kt) используем Lexer и Helper заданной грамматики, 
+В [Parser](../../include/parse/Parser.kt) используем Lexer и Helper заданной грамматики, 
 чтобы по построенным `FIRST` и `FOLLOW` для текущего состояния найти в какое правило его раскрыть.
 ```kotlin
 private fun parse(state: Token.State, lexer: Lexer): Tree {
@@ -216,7 +214,7 @@ private fun parse(state: Token.State, lexer: Lexer): Tree {
 
 ## Тесты
 
-Для тестирования используется класс [Test](src/regex/test/Test.kt):
+Для тестирования используется класс [Test](test/Test.kt):
 1. `CorrectnessTest`
     * для проверки совпадения структуры дерева разбора
     * для проверки, что парсер работает без ошибок
@@ -234,3 +232,66 @@ private fun parse(state: Token.State, lexer: Lexer): Tree {
         * следующий токен не в `FIRST` и не в `FOLLOW`
         * выражение заканчивается до окончания разбора
         * разбор закончился, но конец строки не достигнут
+        
+## Модификация
+
+Добавить выражения вида `<regex><number>`, означающие повторение `<regex>` `<number>` раз.
+
+### Новая модификация
+
+Поскольку чисел бесконечно много, мы не можем для каждого из них добавить правило в грамматику. Для этого:
+* в [Grammar](../../include/grammar/Grammar.kt) выводим токен для описания числа [AnyNumber](../../include/grammar/token/Token.kt)
+* в [Lexer](../../include/parse/Lexer.kt) возвращаем настоящее число
+
+Для проверки соответствия токена ожидаемому используется следующая проверка:
+```kotlin
+private fun isAcceptable(token: Token, originalToken: Token) : Boolean {
+    return token == originalToken || token is RepresentedBy<*> && token.getRepresentation() == originalToken
+}
+```
+
+Аналогично поступаем с символами алфавита для упрощения.
+
+### Новая грамматика
+
+```kotlin
+val LPAREN = PD('(')
+val RPAREN = PD(')')
+val KLEENE = PD('*')
+val CHOICE = PD('|')
+
+val R0 = ST("R")
+val R1 = ST("R`")
+val S0 = ST("S")
+val S1 = ST("S`")
+val T  = ST("T")
+val M  = ST("M")
+val N  = ST("N")
+val C  = ST("C")
+val A  = ST("A")
+
+val grammar = Grammar(
+    R0,
+
+    R0 into E(S0, R1),
+    R1 into E(EPSILON),
+    R1 into E(CHOICE, R0),
+    S0 into E(T, S1),
+    S1 into E(EPSILON),
+    S1 into E(S0),
+    T  into E(A, M),
+    M  into E(N, C),
+    N  into E(EPSILON),
+    N  into E(Token.RepresentationToken.AnyNumber),
+    C  into E(EPSILON),
+    C  into E(KLEENE, C),
+    A  into E(LPAREN, R0, RPAREN),
+    A  into E(Token.RepresentationToken.AnyAlpha)
+).order()
+```
+где
+
+| Nonterminal | Описание |
+| ----------- | -------- |
+| `M (modification)` | любой суффикс-модификация атома |
+| `N (number)` | число-множитель атома |

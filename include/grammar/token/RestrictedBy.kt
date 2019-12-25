@@ -7,6 +7,7 @@ interface RestrictedBy {
     object General : Restriction("General", Token.SpecialToken::class)
 
     object Lexer : Restriction("Lexer", Token.AlphaToken::class, Token.NumberToken::class)
+    object Representation : Restriction("Representation", Token.RepresentationToken::class)
     object State : Restriction("State", Token.State::class)
 
     object First : Restriction("First", Token.EPSILON::class)

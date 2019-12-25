@@ -3,7 +3,7 @@ package grammar
 import grammar.token.Token
 import utils.*
 
-class Expansion(vararg lexemes: Token) : ArrayList<Token>(), TR by TRGeneral + TRGrammar + TRFirst {
+class Expansion(vararg lexemes: Token) : ArrayList<Token>(), TR by TRGeneral + TRState + TRRepresentation + TRFirst {
 
     init {
         addAll(lexemes.map { pass(it) })

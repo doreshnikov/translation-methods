@@ -44,8 +44,8 @@ class Parser(val grammar: Grammar) {
                     is Token.SpecialToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
 //                    is Token.AlphaToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
 //                    is Token.NumberToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-                    is Token.AlphaToken.AnyAlpha -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-                    is Token.NumberToken.AnyNumber -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
+                    is Token.RepresentationToken.AnyAlpha -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
+                    is Token.RepresentationToken.AnyNumber -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
                     else -> throw IllegalStateException("Unexpected token ${lexer.getToken()} received from lexer")
                 }
             )

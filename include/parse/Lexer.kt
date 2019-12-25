@@ -4,9 +4,10 @@ import grammar.token.Token
 import utils.TR
 import utils.TRFollow
 import utils.TRGeneral
+import utils.TRLexer
 import java.text.ParseException
 
-class Lexer(private val input: String) : TR by TRGeneral + TRFollow {
+class Lexer(private val input: String) : TR by TRGeneral + TRLexer + TRFollow {
 
     private var index = -1
     private var char: Char? = nextChar()
