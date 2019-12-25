@@ -40,29 +40,29 @@ VAR                     : START (START | DIGIT)* ;
 
 // parser:
 
-code                    : code_block* EOF ;
-code_block              : statement | if_block | PASS ;
+code                    : codeBlock* EOF ;
+codeBlock               : statement | ifBlock | PASS ;
 
 statement               : print | assignment ;
 print                   : PRINT expression ;
-assignment              : VAR ASSIGN expression ;
+assignment              : ASSIGN VAR expression ;
 
-if_block                : IF logical_expression if_body if_body ;
-if_body                 : code_block | BOTH code_block if_body ;
+ifBlock                 : IF logicalExpression ifBody ifBody ;
+ifBody                  : codeBlock | BOTH codeBlock ifBody ;
 
-expression              : logical_expression | arithmetic_expression ;
+expression              : logicalExpression | arithmeticExpression ;
 
-logical_binop           : AND | OR | XOR ;
-logical_unop            : NOT ;
-logical_expression      : logical_binop logical_expression logical_expression
-                        | logical_unop logical_expression
-                        | l_atom ;
-l_atom                  : VAR | comparison ;
+logicalBinop            : AND | OR | XOR ;
+logicalUnop             : NOT ;
+logicalExpression       : logicalBinop logicalExpression logicalExpression
+                        | logicalUnop  logicalExpression
+                        | logicalAtom ;
+logicalAtom             : VAR | comparison ;
 
 relation                : EQ | GT | GE | LT | LE ;
-comparison              : relation arithmetic_expression arithmetic_expression ;
+comparison              : relation arithmeticExpression arithmeticExpression ;
 
-arithmetic_binop        : PLUS | MINUS | TIMES | DIV ;
-arithmetic_expression   : arithmetic_binop arithmetic_expression arithmetic_expression
-                        | arithmetic_atom ;
-arithmetic_atom         : VAR | NUMBER ;
+arithmeticBinop         : PLUS | MINUS | TIMES | DIV ;
+arithmeticExpression    : arithmeticBinop arithmeticExpression arithmeticExpression
+                        | arithmeticAtom ;
+arithmeticAtom          : VAR | NUMBER ;
