@@ -1,0 +1,48 @@
+tokens {
+
+    skip {
+        WHITESPACE  : r'[ \r\n\t]' ;
+    }
+
+    LPAREN  : '(' ;
+    RPAREN  : ')' ;
+
+    PLUS    : '+' ;
+    MINUS   : '-' ;
+    TIMES   : '*' ;
+    DIV     : '/' ;
+
+    UINT    : r'[0-9]*' ;
+
+}
+
+grammar {
+
+    companion {
+
+        synthesis : {
+            value : Int ;
+        }
+        inheritance : {
+            left : Int ;
+        }
+        start : expression ;
+
+    }
+
+    expression      : term expression'{ left = @1.value } :: { value = @2.value } ;
+    expression'     : PLUS  term expression'{ left = left + @2.value } :: { value = @3.value }
+                    | MINUS term expression'{ left = left - @2.value } :: { value = @3.value }
+                    | EPSILON :: { value = left } ;
+
+    term            : factor term'{ left = @1.value } :: { value = @2.value } ;
+    term'           : TIMES factor term'{ left = left * @2.value } :: { value = @3.value }
+                    | DIV   factor term'{ left = left / @2.value } :: { value = @3.value }
+                    | EPSILON :: { value = left } ;
+
+    factor          : MINUS factor :: { value = -@2.value }
+                    | atom :: { value = @1.value } ;
+    atom            : LPAREN expression RPAREN :: { value = @2.value }
+                    | UINT :: { value = @1.INT } ;
+
+}

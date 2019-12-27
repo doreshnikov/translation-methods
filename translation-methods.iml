@@ -7,7 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/lib" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/lab" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/src/old" />
+      <excludeFolder url="file://$MODULE_DIR$/src/prefix/old" />
+      <excludeFolder url="file://$MODULE_DIR$/src/prefix/out" />
+      <excludeFolder url="file://$MODULE_DIR$/src/prefix/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

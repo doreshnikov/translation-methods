@@ -1,0 +1,36 @@
+tokens {
+
+    LPAREN  : '(' ;
+    RPAREN  : ')' ;
+
+    KLEENE  : '*' ;
+    CHOICE  : '|' ;
+
+    ALPHA   : r'[a-z]' ;
+    UINT    : r'[0-9]*' ;
+
+}
+
+grammar {
+
+    companion {
+        start : regex ;
+    }
+
+    regex       : sequence regex' ;
+    regex'      : CHOICE regex
+                | EPSILON ;
+
+    sequence    : term sequence' ;
+    sequence'   : sequence
+                | EPSILON ;
+
+    term        : atom number closure ;
+    number      : UINT
+                | EPSILON ;
+    closure     : KLEENE closure
+                | EPSILON ;
+    atom        : LPAREN regex RPAREN
+                | ALPHA ;
+
+}
