@@ -147,127 +147,127 @@ defPlus -> , defAtom defPlus | <eps>
     
     abstract fun <T : Token> visitTerminal(token: T): R
     
-	fun visit_LPAREN(node: ASTNode.TerminalNode<MetaDescription.LPAREN>): R {
+	open fun visit_LPAREN(node: ASTNode.TerminalNode<MetaDescription.LPAREN>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_RPAREN(node: ASTNode.TerminalNode<MetaDescription.RPAREN>): R {
+	open fun visit_RPAREN(node: ASTNode.TerminalNode<MetaDescription.RPAREN>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_EOLN(node: ASTNode.TerminalNode<MetaDescription.EOLN>): R {
+	open fun visit_EOLN(node: ASTNode.TerminalNode<MetaDescription.EOLN>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_DEFINE(node: ASTNode.TerminalNode<MetaDescription.DEFINE>): R {
+	open fun visit_DEFINE(node: ASTNode.TerminalNode<MetaDescription.DEFINE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_DESCRIBE(node: ASTNode.TerminalNode<MetaDescription.DESCRIBE>): R {
+	open fun visit_DESCRIBE(node: ASTNode.TerminalNode<MetaDescription.DESCRIBE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_CHOICE(node: ASTNode.TerminalNode<MetaDescription.CHOICE>): R {
+	open fun visit_CHOICE(node: ASTNode.TerminalNode<MetaDescription.CHOICE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_LTRIG(node: ASTNode.TerminalNode<MetaDescription.LTRIG>): R {
+	open fun visit_LTRIG(node: ASTNode.TerminalNode<MetaDescription.LTRIG>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_RTRIG(node: ASTNode.TerminalNode<MetaDescription.RTRIG>): R {
+	open fun visit_RTRIG(node: ASTNode.TerminalNode<MetaDescription.RTRIG>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_CHARRANGE(node: ASTNode.TerminalNode<MetaDescription.CHARRANGE>): R {
+	open fun visit_CHARRANGE(node: ASTNode.TerminalNode<MetaDescription.CHARRANGE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_ASSIGN(node: ASTNode.TerminalNode<MetaDescription.ASSIGN>): R {
+	open fun visit_ASSIGN(node: ASTNode.TerminalNode<MetaDescription.ASSIGN>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_ADD(node: ASTNode.TerminalNode<MetaDescription.ADD>): R {
+	open fun visit_ADD(node: ASTNode.TerminalNode<MetaDescription.ADD>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_SUB(node: ASTNode.TerminalNode<MetaDescription.SUB>): R {
+	open fun visit_SUB(node: ASTNode.TerminalNode<MetaDescription.SUB>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_MUL(node: ASTNode.TerminalNode<MetaDescription.MUL>): R {
+	open fun visit_MUL(node: ASTNode.TerminalNode<MetaDescription.MUL>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_DIV(node: ASTNode.TerminalNode<MetaDescription.DIV>): R {
+	open fun visit_DIV(node: ASTNode.TerminalNode<MetaDescription.DIV>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_LARRAY(node: ASTNode.TerminalNode<MetaDescription.LARRAY>): R {
+	open fun visit_LARRAY(node: ASTNode.TerminalNode<MetaDescription.LARRAY>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_RARRAY(node: ASTNode.TerminalNode<MetaDescription.RARRAY>): R {
+	open fun visit_RARRAY(node: ASTNode.TerminalNode<MetaDescription.RARRAY>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_SEP(node: ASTNode.TerminalNode<MetaDescription.SEP>): R {
+	open fun visit_SEP(node: ASTNode.TerminalNode<MetaDescription.SEP>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_MACRO(node: ASTNode.TerminalNode<MetaDescription.MACRO>): R {
+	open fun visit_MACRO(node: ASTNode.TerminalNode<MetaDescription.MACRO>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_TOKENS(node: ASTNode.TerminalNode<MetaDescription.TOKENS>): R {
+	open fun visit_TOKENS(node: ASTNode.TerminalNode<MetaDescription.TOKENS>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_GRAMMAR(node: ASTNode.TerminalNode<MetaDescription.GRAMMAR>): R {
+	open fun visit_GRAMMAR(node: ASTNode.TerminalNode<MetaDescription.GRAMMAR>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_FRAGMENTS(node: ASTNode.TerminalNode<MetaDescription.FRAGMENTS>): R {
+	open fun visit_FRAGMENTS(node: ASTNode.TerminalNode<MetaDescription.FRAGMENTS>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_COMPANION(node: ASTNode.TerminalNode<MetaDescription.COMPANION>): R {
+	open fun visit_COMPANION(node: ASTNode.TerminalNode<MetaDescription.COMPANION>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_SKIP(node: ASTNode.TerminalNode<MetaDescription.SKIP>): R {
+	open fun visit_SKIP(node: ASTNode.TerminalNode<MetaDescription.SKIP>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_SYNTHESIS(node: ASTNode.TerminalNode<MetaDescription.SYNTHESIS>): R {
+	open fun visit_SYNTHESIS(node: ASTNode.TerminalNode<MetaDescription.SYNTHESIS>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_INHERITANCE(node: ASTNode.TerminalNode<MetaDescription.INHERITANCE>): R {
+	open fun visit_INHERITANCE(node: ASTNode.TerminalNode<MetaDescription.INHERITANCE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_COMPUTE(node: ASTNode.TerminalNode<MetaDescription.COMPUTE>): R {
+	open fun visit_COMPUTE(node: ASTNode.TerminalNode<MetaDescription.COMPUTE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_START(node: ASTNode.TerminalNode<MetaDescription.START>): R {
+	open fun visit_START(node: ASTNode.TerminalNode<MetaDescription.START>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_DEFAULT(node: ASTNode.TerminalNode<MetaDescription.DEFAULT>): R {
+	open fun visit_DEFAULT(node: ASTNode.TerminalNode<MetaDescription.DEFAULT>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_INT_TYPE(node: ASTNode.TerminalNode<MetaDescription.INT_TYPE>): R {
+	open fun visit_INT_TYPE(node: ASTNode.TerminalNode<MetaDescription.INT_TYPE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_DOUBLE_TYPE(node: ASTNode.TerminalNode<MetaDescription.DOUBLE_TYPE>): R {
+	open fun visit_DOUBLE_TYPE(node: ASTNode.TerminalNode<MetaDescription.DOUBLE_TYPE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_STRING_TYPE(node: ASTNode.TerminalNode<MetaDescription.STRING_TYPE>): R {
+	open fun visit_STRING_TYPE(node: ASTNode.TerminalNode<MetaDescription.STRING_TYPE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_KOTLIN_FUNC(node: ASTNode.TerminalNode<MetaDescription.KOTLIN_FUNC>): R {
+	open fun visit_KOTLIN_FUNC(node: ASTNode.TerminalNode<MetaDescription.KOTLIN_FUNC>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_DOUBLE(node: ASTNode.TerminalNode<MetaDescription.DOUBLE>): R {
+	open fun visit_DOUBLE(node: ASTNode.TerminalNode<MetaDescription.DOUBLE>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_INT(node: ASTNode.TerminalNode<MetaDescription.INT>): R {
+	open fun visit_INT(node: ASTNode.TerminalNode<MetaDescription.INT>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_CHAR(node: ASTNode.TerminalNode<MetaDescription.CHAR>): R {
+	open fun visit_CHAR(node: ASTNode.TerminalNode<MetaDescription.CHAR>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_STRING(node: ASTNode.TerminalNode<MetaDescription.STRING>): R {
+	open fun visit_STRING(node: ASTNode.TerminalNode<MetaDescription.STRING>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_RSTRING(node: ASTNode.TerminalNode<MetaDescription.RSTRING>): R {
+	open fun visit_RSTRING(node: ASTNode.TerminalNode<MetaDescription.RSTRING>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_SPNAME(node: ASTNode.TerminalNode<MetaDescription.SPNAME>): R {
+	open fun visit_SPNAME(node: ASTNode.TerminalNode<MetaDescription.SPNAME>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_CAMELNAME(node: ASTNode.TerminalNode<MetaDescription.CAMELNAME>): R {
+	open fun visit_CAMELNAME(node: ASTNode.TerminalNode<MetaDescription.CAMELNAME>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_CAPSNAME(node: ASTNode.TerminalNode<MetaDescription.CAPSNAME>): R {
+	open fun visit_CAPSNAME(node: ASTNode.TerminalNode<MetaDescription.CAPSNAME>): R {
 		return visitTerminal(node.getToken())
 	}
-	fun visit_WHITESPACE(node: ASTNode.TerminalNode<MetaDescription.WHITESPACE>): R {
+	open fun visit_WHITESPACE(node: ASTNode.TerminalNode<MetaDescription.WHITESPACE>): R {
 		return visitTerminal(node.getToken())
 	}
 	abstract fun visit_all(node: ASTNode.InnerNode<MetaDescription.all>): R

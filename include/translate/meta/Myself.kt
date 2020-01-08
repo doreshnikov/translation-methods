@@ -6,9 +6,12 @@ import java.io.File
 fun main() {
 
     val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
-    VisitorBuilder(MetaDescription, "MetaDescription").buildVisitor(
+    VisitorBuilder(
+        MetaDescription,
+        "MetaDescription",
         "translate.meta",
-        "MetaBaseVisitor",
+        "MetaBaseVisitor"
+    ).buildVisitor(
         File("$loc\\include\\translate\\meta\\MetaBaseVisitor.kt")
     )
 

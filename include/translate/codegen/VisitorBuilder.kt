@@ -4,15 +4,16 @@ import grammar.token.Token
 import structure.Description
 import java.io.File
 
-class VisitorBuilder(val description: Description, val name: String) {
+class VisitorBuilder(
+    private val description: Description,
+    private val name: String,
+    private val packageName: String,
+    private val className: String
+) {
 
     val tokens = Token.REGISTERED.all().filter { it !is Token.UniqueToken }
 
-    fun buildVisitor(
-        packageName: String,
-        className: String,
-        output: File
-    ) {
+    fun buildVisitor(output: File) {
         output.bufferedWriter().use { out ->
             out.write(
                 """/**
@@ -71,7 +72,7 @@ ${tokens.joinToString("\n") { token ->
         return if (token is Token.StateToken) {
             "\tabstract fun visit_${token.getName()}(node: ${nodeType(token)}<${fullName(token)}>): R\n"
         } else {
-            "\tfun visit_${token.getName()}(node: ${nodeType(token)}<${fullName(token)}>): R " +
+            "\topen fun visit_${token.getName()}(node: ${nodeType(token)}<${fullName(token)}>): R " +
                     "{\n\t\treturn visitTerminal(node.getToken())\n\t}\n"
         }
     }

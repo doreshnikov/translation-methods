@@ -9,8 +9,8 @@ import java.text.ParseException
 fun main() {
 
     val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
-    listOf("regex", "calculator", "").forEach { name ->
-        val str = File("src/translate/examples/$name.my").bufferedReader().use {
+    listOf("regex", "calculator", "prefix").forEach { name ->
+        val str = File("include/translate/examples/$name.my").bufferedReader().use {
             return@use it.readText()
         }
         File("$loc\\data\\$name.gv").bufferedWriter().use { out ->
