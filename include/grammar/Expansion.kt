@@ -3,7 +3,19 @@ package grammar
 import grammar.token.Restricted
 import grammar.token.Token
 
-class Expansion(vararg lexemes: Token) : ArrayList<Token>(), Restricted by Restricted.Terminal + Restricted.State {
+class Expansion(vararg lexemes: Token) : ArrayList<Token>(),
+    Restricted by Restricted.Terminal + Restricted.State {
+
+    companion object {
+        private val factory = hashMapOf<String, Int>()
+
+        operator fun invoke(state: Token.StateToken, expansion: Expansion): Expansion {
+            expansion.id = factory.getOrDefault(state.name, 0).also { factory[state.name] = it + 1 }
+            return expansion
+        }
+    }
+
+    private var id = 0
 
     init {
         addAll(lexemes.map { pass(it) })

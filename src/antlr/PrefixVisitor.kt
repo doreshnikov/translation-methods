@@ -1,7 +1,7 @@
-package prefix
+package antlr
 
-import prefix.gen.PrefixBaseVisitor
-import prefix.gen.PrefixParser.*
+import antlr.gen.PrefixBaseVisitor
+import antlr.gen.PrefixParser.*
 
 class PrefixVisitor : PrefixBaseVisitor<String>() {
     companion object {

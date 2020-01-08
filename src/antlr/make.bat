@@ -1,0 +1,1 @@
+antlr4 Prefix.g4 -o gen -package antlr.gen -no-listener -visitor

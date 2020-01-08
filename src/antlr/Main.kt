@@ -1,10 +1,10 @@
-package prefix
+package antlr
 
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
-import prefix.gen.PrefixLexer
-import prefix.gen.PrefixParser
+import antlr.gen.PrefixLexer
+import antlr.gen.PrefixParser
 import java.io.File
 
 fun main() {

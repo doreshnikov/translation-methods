@@ -12,11 +12,11 @@
     
 ## Лабораторная 3
 
-**Описание:** [LAB-3.md](src/prefix/LAB-3.md)
+**Описание:** [LAB-3.md](src/antlr/LAB-3.md)
 
 Код:
 * [lib/](lib): содержит _antlr-4.7.2-complete.jar_ в качестве библиотеки
-* [prefix/](src/prefix): содержит 
-    * [prefix.g4](src/prefix/Prefix.g4): грамматику _antlr_, описывающую примитивные префиксные программы
-    * [make.bat](src/prefix/make.bat): скрипт для сборки парсера
-    * сгенерированные файлы _antlr_, в том числе [prefixBaseListener](src/prefix/prefixBaseListener.java), использующийся для трансляции
+* [antlr/](src/antlr): содержит 
+    * [antlr.g4](src/antlr/Prefix.g4): грамматику _antlr_, описывающую примитивные префиксные программы
+    * [make.bat](src/antlr/make.bat): скрипт для сборки парсера
+    * сгенерированные файлы _antlr_, в том числе [prefixBaseListener](src/antlr/prefixBaseListener.java), использующийся для трансляции

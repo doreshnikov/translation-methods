@@ -1,21 +1,22 @@
-package translate.generate
+package translate.codegen
 
 import parse.Parser
-import structure.Tree
+import regex.GraphvisVisitor
+import structure.ASTNode
+import translate.codegen.meta.MetaDescription
 import java.io.File
 import java.text.ParseException
 
 fun main() {
 
     val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
-    listOf("regex", "calculator", "prefix").forEach { name ->
+    listOf("regex", "calculator", "").forEach { name ->
         val str = File("src/translate/examples/$name.my").bufferedReader().use {
             return@use it.readText()
         }
         File("$loc\\data\\$name.gv").bufferedWriter().use { out ->
             try {
-                Tree.resetAll()
-                out.write(Parser(MetaDescription).parse(str).toGraphViz())
+                out.write(GraphvisVisitor().collect(Parser(MetaDescription).parse(str)))
                 println("[SUCCESS]")
                 Runtime.getRuntime().exec(
                     "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe" +

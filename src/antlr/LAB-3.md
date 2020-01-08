@@ -10,7 +10,7 @@ _Вариант 1_
 ### Lexer
 
 ```antlrv4
-lexer grammar prefix;
+lexer grammar antlr;
 
 // keywords:
 
@@ -56,7 +56,7 @@ VAR                     : START (START | DIGIT)* ;
 ### Parser
 
 ```antlrv4
-parser grammar prefix;
+parser grammar antlr;
 
 code                    : codeBlock* EOF ;
 codeBlock               : statement | ifBlock | forBlock | PASS ;

@@ -2,7 +2,7 @@ package regex.test
 
 import parse.Parser
 import regex.RegexDescription
-import structure.Tree
+import structure.ASTNode
 import java.text.ParseException
 
 @Suppress("LeakingThis")
@@ -26,7 +26,7 @@ sealed class Test(protected val name: String) {
 
     abstract fun run(): Boolean
 
-    class CorrectnessTest(name: String, private val data: String, private val tree: Tree? = null) : Test(name) {
+    class CorrectnessTest(name: String, private val data: String, private val tree: ASTNode<*>? = null) : Test(name) {
         override fun run(): Boolean {
             try {
                 val result = Parser(me).parse(data)

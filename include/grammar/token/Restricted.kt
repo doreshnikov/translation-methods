@@ -36,7 +36,7 @@ interface Restricted {
             )
         }
 
-        override fun pass(token: Token): Token {
+        final override fun pass(token: Token): Token {
             if (check(token)) {
                 return token
             }

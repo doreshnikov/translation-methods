@@ -2,7 +2,6 @@ package grammar.token
 
 import grammar.Expansion
 import grammar.Grammar
-import utils.Beautifier
 import utils.viewer.GetViewer
 import kotlin.text.Regex
 
@@ -112,7 +111,8 @@ interface Token {
             }
         }
 
-        abstract class NamedVariantToken<T : Desriptor<*>> private constructor(protected val desc: T) : VariantToken {
+        abstract class NamedVariantToken<T : Desriptor<*>> private constructor(protected val descriptor: T) :
+            VariantToken {
             companion object {
                 operator fun <T : Desriptor<*>> invoke(name: String, desc: T): NamedVariantToken<T> {
                     return object : NamedVariantToken<T>(desc) {
@@ -121,7 +121,7 @@ interface Token {
                         }
 
                         override fun consume(data: String, offset: Int): String? {
-                            return this.desc.consume(data, offset)
+                            return this.descriptor.consume(data, offset)
                         }
                     }
                 }
@@ -130,7 +130,7 @@ interface Token {
             abstract fun getName(): String
 
             override fun toString(): String {
-                return desc.toString()
+                return descriptor.toString()
             }
 
         }
@@ -196,7 +196,7 @@ interface Token {
         }
     }
 
-    class StateToken private constructor(private val id: String) : Token {
+    class StateToken private constructor(val name: String) : Token {
         companion object {
             private const val pattern = "[A-Z+_]+"
 
@@ -209,7 +209,7 @@ interface Token {
         }
 
         fun derived(): StateToken {
-            var newId = id
+            var newId = name
             while (newId in factory.keys) {
                 newId += '_'
             }
@@ -217,11 +217,11 @@ interface Token {
         }
 
         infix fun into(expansion: Expansion): Grammar.Rule {
-            return Grammar.Rule(this, listOf(expansion))
+            return Grammar.Rule(this, listOf(Expansion(this, expansion)))
         }
 
         override fun toString(): String {
-            return id
+            return name
         }
     }
 

@@ -1,9 +1,8 @@
-package translate.generate
+package translate.codegen
 
 import parse.Parser
-import structure.Tree
+import translate.codegen.meta.MetaDescription
 import java.io.File
-import java.text.ParseException
 
 fun main() {
 

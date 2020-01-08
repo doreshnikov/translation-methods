@@ -1,8 +1,7 @@
 package regex.test
 
 import grammar.token.Token
-import structure.Tree
-import utils.*
+import structure.ASTNode
 
 @Suppress("DuplicatedCode")
 fun main() {
@@ -11,154 +10,154 @@ fun main() {
 
     Test.CorrectnessTest(
         "CorrectnessTreeLetter", "a",
-        Tree.InnerNode(
+        ASTNode.InnerNode(
             me.R0,
-            Tree.InnerNode(
+            ASTNode.InnerNode(
                 me.S0,
-                Tree.InnerNode(
+                ASTNode.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
-                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                    ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+            ASTNode.InnerNode(me.R1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeChoice", "a|b",
-        Tree.InnerNode(
+        ASTNode.InnerNode(
             me.R0,
-            Tree.InnerNode(
+            ASTNode.InnerNode(
                 me.S0,
-                Tree.InnerNode(
+                ASTNode.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
-                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                    ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(
+            ASTNode.InnerNode(
                 me.R1,
-                Tree.Leaf(me.CHOICE),
-                Tree.InnerNode(
+                ASTNode.TerminalNode(me.CHOICE),
+                ASTNode.InnerNode(
                     me.R0,
-                    Tree.InnerNode(
+                    ASTNode.InnerNode(
                         me.S0,
-                        Tree.InnerNode(
+                        ASTNode.InnerNode(
                             me.T,
-                            Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("b"))),
-                            Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                            Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                            ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("b"))),
+                            ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                            ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                         ),
-                        Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                        ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                     ),
-                    Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                    ASTNode.InnerNode(me.R1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 )
             )
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeNumber", "a5",
-        Tree.InnerNode(
+        ASTNode.InnerNode(
             me.R0,
-            Tree.InnerNode(
+            ASTNode.InnerNode(
                 me.S0,
-                Tree.InnerNode(
+                ASTNode.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
-                    Tree.InnerNode(me.N, Tree.Leaf(me.NUMBER.instantiate("5"))),
-                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                    ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(me.N, ASTNode.TerminalNode(me.NUMBER.instantiate("5"))),
+                    ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+            ASTNode.InnerNode(me.R1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeKleene", "a*",
-        Tree.InnerNode(
+        ASTNode.InnerNode(
             me.R0,
-            Tree.InnerNode(
+            ASTNode.InnerNode(
                 me.S0,
-                Tree.InnerNode(
+                ASTNode.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
-                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                    Tree.InnerNode(
+                    ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(
                         me.C,
-                        Tree.Leaf(me.KLEENE),
-                        Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                        ASTNode.TerminalNode(me.KLEENE),
+                        ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                     )
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+            ASTNode.InnerNode(me.R1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeConcatenate", "ab",
-        Tree.InnerNode(
+        ASTNode.InnerNode(
             me.R0,
-            Tree.InnerNode(
+            ASTNode.InnerNode(
                 me.S0,
-                Tree.InnerNode(
+                ASTNode.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
-                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                    ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(
+                ASTNode.InnerNode(
                     me.S1,
-                    Tree.InnerNode(
+                    ASTNode.InnerNode(
                         me.S0,
-                        Tree.InnerNode(
+                        ASTNode.InnerNode(
                             me.T,
-                            Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("b"))),
-                            Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                            Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                            ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("b"))),
+                            ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                            ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                         ),
-                        Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                        ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                     )
                 )
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+            ASTNode.InnerNode(me.R1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
-        "CorrectnessTreeParenthesis", "(a)", Tree.InnerNode(
+        "CorrectnessTreeParenthesis", "(a)", ASTNode.InnerNode(
             me.R0,
-            Tree.InnerNode(
+            ASTNode.InnerNode(
                 me.S0,
-                Tree.InnerNode(
+                ASTNode.InnerNode(
                     me.T,
-                    Tree.InnerNode(
+                    ASTNode.InnerNode(
                         me.A,
-                        Tree.Leaf(me.LPAREN),
-                        Tree.InnerNode(
+                        ASTNode.TerminalNode(me.LPAREN),
+                        ASTNode.InnerNode(
                             me.R0,
-                            Tree.InnerNode(
+                            ASTNode.InnerNode(
                                 me.S0,
-                                Tree.InnerNode(
+                                ASTNode.InnerNode(
                                     me.T,
-                                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
-                                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                                    ASTNode.InnerNode(me.A, ASTNode.TerminalNode(me.ALPHA.instantiate("a"))),
+                                    ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                                    ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                                 ),
-                                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                                ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                             ),
-                            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                            ASTNode.InnerNode(me.R1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                         ),
-                        Tree.Leaf(me.RPAREN)
+                        ASTNode.TerminalNode(me.RPAREN)
                     ),
-                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
-                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                    ASTNode.InnerNode(me.N, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(me.C, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+                ASTNode.InnerNode(me.S1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+            ASTNode.InnerNode(me.R1, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
 

@@ -1,4 +1,4 @@
-package translate.generate
+package translate.codegen.meta
 
 import grammar.Expansion
 import grammar.Grammar
