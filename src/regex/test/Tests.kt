@@ -1,51 +1,44 @@
 package regex.test
 
+import grammar.token.Token
 import structure.Tree
 import utils.*
 
 @Suppress("DuplicatedCode")
 fun main() {
 
-/*
-Start: R
-R  -> S R'
-R' -> eps | '|' R
-S  -> T S'
-S' -> eps | S
-T  -> A C
-C  -> eps | '*' C
-A  -> ['a'..'z'] | '(' R ')'
-
- */
-
     val me = Test.me
 
     Test.CorrectnessTest(
-        "CorrectnessTreeLetter", "a", Tree.InnerNode(
+        "CorrectnessTreeLetter", "a",
+        Tree.InnerNode(
             me.R0,
             Tree.InnerNode(
                 me.S0,
                 Tree.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(AT('a'))),
-                    Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
+                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
+                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(EPSILON))
+                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(EPSILON))
+            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
-        "CorrectnessTreeChoice", "a|b", Tree.InnerNode(
+        "CorrectnessTreeChoice", "a|b",
+        Tree.InnerNode(
             me.R0,
             Tree.InnerNode(
                 me.S0,
                 Tree.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(AT('a'))),
-                    Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
+                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
+                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(EPSILON))
+                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
             ),
             Tree.InnerNode(
                 me.R1,
@@ -56,44 +49,66 @@ A  -> ['a'..'z'] | '(' R ')'
                         me.S0,
                         Tree.InnerNode(
                             me.T,
-                            Tree.InnerNode(me.A, Tree.Leaf(AT('b'))),
-                            Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
+                            Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("b"))),
+                            Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                            Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                         ),
-                        Tree.InnerNode(me.S1, Tree.Leaf(EPSILON))
+                        Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
                     ),
-                    Tree.InnerNode(me.R1, Tree.Leaf(EPSILON))
+                    Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
                 )
             )
         )
     )
     Test.CorrectnessTest(
-        "CorrectnessTreeKleene", "a*", Tree.InnerNode(
+        "CorrectnessTreeNumber", "a5",
+        Tree.InnerNode(
             me.R0,
             Tree.InnerNode(
                 me.S0,
                 Tree.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(AT('a'))),
-                    Tree.InnerNode(
-                        me.C,
-                        Tree.Leaf(me.KLEENE),
-                        Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
-                    )
+                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
+                    Tree.InnerNode(me.N, Tree.Leaf(me.NUMBER.instantiate("5"))),
+                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(EPSILON))
+                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(EPSILON))
+            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
-        "CorrectnessTreeConcatenate", "ab", Tree.InnerNode(
+        "CorrectnessTreeKleene", "a*",
+        Tree.InnerNode(
             me.R0,
             Tree.InnerNode(
                 me.S0,
                 Tree.InnerNode(
                     me.T,
-                    Tree.InnerNode(me.A, Tree.Leaf(AT('a'))),
-                    Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
+                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
+                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                    Tree.InnerNode(
+                        me.C,
+                        Tree.Leaf(me.KLEENE),
+                        Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
+                    )
+                ),
+                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
+            ),
+            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
+        )
+    )
+    Test.CorrectnessTest(
+        "CorrectnessTreeConcatenate", "ab",
+        Tree.InnerNode(
+            me.R0,
+            Tree.InnerNode(
+                me.S0,
+                Tree.InnerNode(
+                    me.T,
+                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
+                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                 ),
                 Tree.InnerNode(
                     me.S1,
@@ -101,14 +116,15 @@ A  -> ['a'..'z'] | '(' R ')'
                         me.S0,
                         Tree.InnerNode(
                             me.T,
-                            Tree.InnerNode(me.A, Tree.Leaf(AT('b'))),
-                            Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
+                            Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("b"))),
+                            Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                            Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                         ),
-                        Tree.InnerNode(me.S1, Tree.Leaf(EPSILON))
+                        Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
                     )
                 )
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(EPSILON))
+            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
@@ -127,20 +143,22 @@ A  -> ['a'..'z'] | '(' R ')'
                                 me.S0,
                                 Tree.InnerNode(
                                     me.T,
-                                    Tree.InnerNode(me.A, Tree.Leaf(AT('a'))),
-                                    Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
+                                    Tree.InnerNode(me.A, Tree.Leaf(me.ALPHA.instantiate("a"))),
+                                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                                 ),
-                                Tree.InnerNode(me.S1, Tree.Leaf(EPSILON))
+                                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
                             ),
-                            Tree.InnerNode(me.R1, Tree.Leaf(EPSILON))
+                            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
                         ),
                         Tree.Leaf(me.RPAREN)
                     ),
-                    Tree.InnerNode(me.C, Tree.Leaf(EPSILON))
+                    Tree.InnerNode(me.N, Tree.Leaf(Token.UniqueToken.EPSILON)),
+                    Tree.InnerNode(me.C, Tree.Leaf(Token.UniqueToken.EPSILON))
                 ),
-                Tree.InnerNode(me.S1, Tree.Leaf(EPSILON))
+                Tree.InnerNode(me.S1, Tree.Leaf(Token.UniqueToken.EPSILON))
             ),
-            Tree.InnerNode(me.R1, Tree.Leaf(EPSILON))
+            Tree.InnerNode(me.R1, Tree.Leaf(Token.UniqueToken.EPSILON))
         )
     )
 
@@ -152,9 +170,8 @@ A  -> ['a'..'z'] | '(' R ')'
     Test.CorrectnessTest("ParsesComplicated (1)", "a|b*|c**|(a*|b**|(c*|d)**)*ab")
     Test.CorrectnessTest("ParsesComplicated (2)", "(z(y(x*)|(y|z*))*|(x|y)|z*)**")
 
-    Test.ParseExceptionTest("LexerAlphabet", "abcDef")
-    Test.ParseExceptionTest("LexerDigits", "abcd3f")
-    Test.ParseExceptionTest("LexerSymbols", "^bcdef")
+    Test.ParseExceptionTest("LexerCapital", "abcDef")
+    Test.ParseExceptionTest("LexerUnknown", "^bcdef")
 
     Test.ParseExceptionTest("StartsWithChoice", "|abcd")
     Test.ParseExceptionTest("StartsWithChoiceEmpty", "|")
@@ -163,7 +180,8 @@ A  -> ['a'..'z'] | '(' R ')'
     Test.ParseExceptionTest("StartsWithRightParenthesis", ")abc(d)")
 
     Test.ParseExceptionTest("EndsWithChoice", "a|b|c|")
-    Test.ParseExceptionTest("EndsWithOpeningParenthesis", "a(bc(")
+    Test.ParseExceptionTest("EndsWithOpeningParenthesis (1)", "a(bc(")
+    Test.ParseExceptionTest("EndsWithOpeningParenthesis (2)", "a(bc)(")
 
     Test.ParseExceptionTest("Empty", "")
     Test.ParseExceptionTest("EmptyChoice", "a||b")
@@ -176,12 +194,12 @@ A  -> ['a'..'z'] | '(' R ')'
 
     Test.CorrectnessTest("NoNumberNoAsterisk", "(x)")
 
-    Test.CorrectnessTest("NumberOnly", "(b)a1")
-    Test.CorrectnessTest("NumberOnlyLong", "(b)a12345")
-    Test.CorrectnessTest("NumberOnlyLongToParenthesis", "(a)12345")
-    Test.CorrectnessTest("AsteriskOnly", "(b)a*")
-    Test.CorrectnessTest("AsteriskOnlyLong", "(b)a****")
-    Test.CorrectnessTest("AsteriskOnlyLongToParenthesis", "(a)****")
+    Test.CorrectnessTest("Number", "(b)a1")
+    Test.CorrectnessTest("NumberLong", "(b)a12345")
+    Test.CorrectnessTest("NumberLongToParenthesis", "(a)12345")
+    Test.CorrectnessTest("Asterisk", "(b)a*")
+    Test.CorrectnessTest("AsteriskLong", "(b)a****")
+    Test.CorrectnessTest("AsteriskLongToParenthesis", "(a)****")
 
     Test.CorrectnessTest("NumberAndAsterisk", "a12*")
     Test.CorrectnessTest("NumberAndAsteriskLong", "a12***")

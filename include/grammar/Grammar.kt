@@ -5,30 +5,24 @@ import utils.Beautifier
 import utils.viewer.GetViewer
 
 @Suppress("PropertyName")
-class Grammar(private val startState: Token.State, vararg rules: Rule) {
+class Grammar(private val startState: Token.StateToken, vararg rules: Rule) {
 
-    class Rule(val state: Token.State, val expansions: List<Expansion>) {
+    class Rule(val state: Token.StateToken, val expansions: List<Expansion>) {
         override fun toString(): String {
-            val skip = expansions.filter { expansion -> expansion.size > 1 || expansion[0] !is Token.AlphaToken }
-            val alphas = Beautifier.alphaTokenFold(
-                expansions
-                    .filter { expansion -> expansion.size == 1 && expansion[0] is Token.AlphaToken }
-                    .map { expansion -> expansion[0] as Token.AlphaToken },
-                " | "
-            )
-            return "$state -> ${(if (alphas.isNotBlank()) skip.plus(alphas) else skip).joinToString(" | ")}"
+            return "$state -> " +
+                    expansions.joinToString(" | ", transform = { Beautifier.escape(it.toString()) })
         }
     }
 
     private var rules: MutableList<Rule> = rules.toMutableList()
 
     val RULES
-        get() = object : GetViewer<Token.State, Rule> {
+        get() = object : GetViewer<Token.StateToken, Rule> {
             override fun all(): List<Rule> {
                 return rules.toList()
             }
 
-            override fun get(key: Token.State): Rule {
+            override fun get(key: Token.StateToken): Rule {
                 return rules.find { it.state == key }
                     ?: throw IllegalArgumentException("State $key is not a non-terminal of this grammar")
             }
@@ -41,7 +35,7 @@ class Grammar(private val startState: Token.State, vararg rules: Rule) {
         rules.add(rule)
     }
 
-    fun getStart(): Token.State {
+    fun getStart(): Token.StateToken {
         return startState
     }
 

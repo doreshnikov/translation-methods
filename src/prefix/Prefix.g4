@@ -1,4 +1,4 @@
-grammar prefix;
+grammar Prefix;
 
 // keywords:
 
@@ -58,7 +58,7 @@ expression              : logicalExpression | arithmeticExpression ;
 logicalBinop            : AND | OR | XOR ;
 logicalUnop             : NOT ;
 logicalExpression       : logicalBinop logicalExpression logicalExpression
-                        | logicalUnop  logicalExpression
+                        | logicalUnop logicalExpression
                         | logicalAtom ;
 logicalAtom             : VAR | comparison ;
 

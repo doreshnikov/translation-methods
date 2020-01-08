@@ -1,9 +1,9 @@
 package grammar
 
+import grammar.token.Restricted
 import grammar.token.Token
-import utils.*
 
-class Expansion(vararg lexemes: Token) : ArrayList<Token>(), TR by TRGeneral + TRState + TRRepresentation + TRFirst {
+class Expansion(vararg lexemes: Token) : ArrayList<Token>(), Restricted by Restricted.Terminal + Restricted.State {
 
     init {
         addAll(lexemes.map { pass(it) })
@@ -13,16 +13,8 @@ class Expansion(vararg lexemes: Token) : ArrayList<Token>(), TR by TRGeneral + T
         return copy().also { it.add(pass(arg)) }
     }
 
-    operator fun plus(arg: String): Expansion {
-        return copy().also { it.add(pass(Token.State(arg))) }
-    }
-
-    operator fun plus(arg: Char): Expansion {
-        return copy().also { it.add(pass(Token.AlphaToken(arg))) }
-    }
-
     private fun epsilonChecked(expansion: Expansion): Expansion {
-        return expansion.also { if (expansion.isEmpty()) expansion.add(pass(Token.EPSILON)) }
+        return expansion.also { if (expansion.isEmpty()) expansion.add(pass(Token.UniqueToken.EPSILON)) }
     }
 
     fun takeFirst(i: Int): Expansion {

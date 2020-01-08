@@ -7,13 +7,13 @@ import java.text.ParseException
 
 fun main(args: Array<String>) {
 
-    val me = Regex
+    val me = RegexDescription
 
     args.forEachIndexed { index, data ->
         File("data/$index.gv").bufferedWriter().use { out ->
             try {
                 Tree.resetAll()
-                out.write(Parser(me.grammar).parse(data).toGraphViz())
+                out.write(Parser(me).parse(data).toGraphViz())
                 println("[SUCCESS] \"$data\" -> data/$index.gv")
                 Runtime.getRuntime().exec(
                     "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe" +

@@ -1,43 +1,43 @@
 tokens {
 
-    skip {
-        WHITESPACE  : r'[ \r\n\t]' ;
+    companion {
+        skip    : [WHITESPACE] ;
     }
 
-    LPAREN  : '(' ;
-    RPAREN  : ')' ;
+    WHITESPACE  : r"[ \r\n\t]" ;
 
-    PLUS    : '+' ;
-    MINUS   : '-' ;
-    TIMES   : '*' ;
-    DIV     : '/' ;
+    LPAREN      : "(" ;
+    RPAREN      : ")" ;
 
-    UINT    : r'[0-9]*' ;
+    PLUS        : "+" ;
+    MINUS       : "-" ;
+    TIMES       : "*" ;
+    DIV         : "/" ;
+
+    UINT        : r"[0-9]*" ;
 
 }
 
 grammar {
 
     companion {
-
-        synthesis : {
+        synthesis {
             value : Int ;
         }
-        inheritance : {
+        inheritance {
             left : Int ;
         }
         start : expression ;
-
     }
 
-    expression      : term expression'{ left = @1.value } :: { value = @2.value } ;
-    expression'     : PLUS  term expression'{ left = left + @2.value } :: { value = @3.value }
-                    | MINUS term expression'{ left = left - @2.value } :: { value = @3.value }
+    expression      : term expression{ left = @1.value } :: { value = @2.value } ;
+    expressionPlus  : PLUS  term expressionPlus{ left = left + @2.value } :: { value = @3.value }
+                    | MINUS term expressionPlus{ left = left - @2.value } :: { value = @3.value }
                     | EPSILON :: { value = left } ;
 
-    term            : factor term'{ left = @1.value } :: { value = @2.value } ;
-    term'           : TIMES factor term'{ left = left * @2.value } :: { value = @3.value }
-                    | DIV   factor term'{ left = left / @2.value } :: { value = @3.value }
+    term            : factor termPlus{ left = @1.value } :: { value = @2.value } ;
+    termPlus        : TIMES factor termPlus{ left = left * @2.value } :: { value = @3.value }
+                    | DIV   factor termPlus{ left = left / @2.value } :: { value = @3.value }
                     | EPSILON :: { value = left } ;
 
     factor          : MINUS factor :: { value = -@2.value }

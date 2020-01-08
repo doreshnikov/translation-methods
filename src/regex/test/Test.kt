@@ -1,7 +1,7 @@
 package regex.test
 
 import parse.Parser
-import regex.Regex
+import regex.RegexDescription
 import structure.Tree
 import java.text.ParseException
 
@@ -9,7 +9,7 @@ import java.text.ParseException
 sealed class Test(protected val name: String) {
 
     companion object {
-        val me = Regex
+        val me = RegexDescription
         val tests = mutableListOf<Test>()
 
         fun runAll() {
@@ -29,7 +29,7 @@ sealed class Test(protected val name: String) {
     class CorrectnessTest(name: String, private val data: String, private val tree: Tree? = null) : Test(name) {
         override fun run(): Boolean {
             try {
-                val result = Parser(me.grammar).parse(data)
+                val result = Parser(me).parse(data)
                 try {
                     tree?.checkIsSame(result)
                     println("[PASSED] $name")
@@ -47,7 +47,7 @@ sealed class Test(protected val name: String) {
     class ParseExceptionTest(name: String, private val data: String) : Test(name) {
         override fun run(): Boolean {
             try {
-                Parser(me.grammar).parse(data)
+                Parser(me).parse(data)
                 println("[FAILED] $name: no exception occurred")
             } catch (e: ParseException) {
                 println("[PASSED] $name: ${e.message}")

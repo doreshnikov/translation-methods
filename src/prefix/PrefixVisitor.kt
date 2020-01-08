@@ -1,10 +1,9 @@
 package prefix
 
-import prefix.gen.prefixBaseVisitor
-import prefix.gen.prefixParser
-import prefix.gen.prefixParser.*
+import prefix.gen.PrefixBaseVisitor
+import prefix.gen.PrefixParser.*
 
-class PrefixVisitor : prefixBaseVisitor<String>() {
+class PrefixVisitor : PrefixBaseVisitor<String>() {
     companion object {
         fun tab(block: String): String {
             return block.replace("\n", "\n\t")

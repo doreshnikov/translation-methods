@@ -3,8 +3,8 @@ package prefix
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
-import prefix.gen.prefixLexer
-import prefix.gen.prefixParser
+import prefix.gen.PrefixLexer
+import prefix.gen.PrefixParser
 import java.io.File
 
 fun main() {
@@ -31,8 +31,8 @@ fun main() {
         }
     }
     */
-    val lexer = prefixLexer(ANTLRInputStream(expression))
-    val parser = prefixParser(CommonTokenStream(lexer))
+    val lexer = PrefixLexer(ANTLRInputStream(expression))
+    val parser = PrefixParser(CommonTokenStream(lexer))
     val tree: ParseTree = parser.code()
     val result: String? = PrefixVisitor().visit(tree)
     File("src/prefix/out/Gen.kt").printWriter().use { out ->

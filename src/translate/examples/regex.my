@@ -1,13 +1,13 @@
 tokens {
 
-    LPAREN  : '(' ;
-    RPAREN  : ')' ;
+    LPAREN  : "(" ;
+    RPAREN  : ")" ;
 
-    KLEENE  : '*' ;
-    CHOICE  : '|' ;
+    KLEENE  : "*" ;
+    CHOICE  : "|" ;
 
-    ALPHA   : r'[a-z]' ;
-    UINT    : r'[0-9]*' ;
+    ALPHA   : <'a'..'z'> ;
+    UINT    : r"[1-9][0-9]*" ;
 
 }
 
@@ -17,20 +17,20 @@ grammar {
         start : regex ;
     }
 
-    regex       : sequence regex' ;
-    regex'      : CHOICE regex
-                | EPSILON ;
+    regex           : sequence regexPlus ;
+    regexPlus       : CHOICE regex
+                    | EPSILON ;
 
-    sequence    : term sequence' ;
-    sequence'   : sequence
-                | EPSILON ;
+    sequence        : term sequencePlus ;
+    sequencePlus    : sequence
+                    | EPSILON ;
 
-    term        : atom number closure ;
-    number      : UINT
-                | EPSILON ;
-    closure     : KLEENE closure
-                | EPSILON ;
-    atom        : LPAREN regex RPAREN
-                | ALPHA ;
+    term            : atom number closure ;
+    number          : UINT
+                    | EPSILON ;
+    closure         : KLEENE closure
+                    | EPSILON ;
+    atom            : LPAREN regex RPAREN
+                    | ALPHA ;
 
 }

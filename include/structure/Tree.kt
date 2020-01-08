@@ -1,9 +1,11 @@
 package structure
 
+import grammar.token.Restricted
 import grammar.token.Token
 import utils.*
 
-sealed class Tree(val token: Token, private val id: Int) : TR by TRGeneral + TRFirst + TRState {
+sealed class Tree(val token: Token, private val id: Int) :
+    Restricted by Restricted.Symbolic + Restricted.State + Restricted.Epsilon {
 
     companion object {
         private var lastId = 0
@@ -23,17 +25,24 @@ sealed class Tree(val token: Token, private val id: Int) : TR by TRGeneral + TRF
 
     class Leaf(state: Token) : Tree(state, newNodeId()) {
         override fun checkIsSame(other: Tree) {
-            if (other !is Leaf) {
-                throw IllegalStateException("Original contains leaf $this where given tree has inner node $other")
+            when {
+                other !is Leaf ->
+                    throw IllegalStateException("Original contains leaf $this where given tree has inner node $other")
+                token != other.token ->
+                    throw IllegalStateException("Original $this and given $other have different corresponding tokens")
             }
         }
 
         override fun collectTo(sb: StringBuilder) {
-            sb.append("\tnode [shape = circle, label = \"$token\"]; \"$this\";\n")
+//            val s = if (token is Token.VariantToken.VariantInstanceToken) token.origin.toString() else this.toString()
+            sb.append(
+                "\tnode [shape = circle, label = \"${Beautifier.escape(token.toString())}\"];" +
+                        " \"${Beautifier.escape(this.toString())}\";\n"
+            )
         }
     }
 
-    class InnerNode(state: Token.State, vararg children: Tree) : Tree(state, newNodeId()) {
+    class InnerNode(state: Token.StateToken, vararg children: Tree) : Tree(state, newNodeId()) {
         val children = children.toMutableList()
 
         fun add(child: Tree) {
@@ -54,10 +63,13 @@ sealed class Tree(val token: Token, private val id: Int) : TR by TRGeneral + TRF
         }
 
         override fun collectTo(sb: StringBuilder) {
-            sb.append("\tnode [shape = doublecircle, label = \"$token\"]; \"$this\";\n")
+            sb.append(
+                "\tnode [shape = doublecircle, label = \"${Beautifier.escape(token.toString())}\"];" +
+                        " \"${Beautifier.escape(this.toString())}\";\n"
+            )
             this.children.forEach {
                 it.collectTo(sb)
-                sb.append("\t\"$this\" -> \"$it\"\n")
+                sb.append("\t\"${Beautifier.escape(this.toString())}\" -> \"${Beautifier.escape(it.toString())}\"\n")
             }
         }
     }

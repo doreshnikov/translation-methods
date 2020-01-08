@@ -129,7 +129,7 @@ A  : $, '(', ')', '|', '*', ['a'..'z']
 
 ### Фиксированная грамматика
 
-В [Regex](Regex.kt)
+В [Regex](RegexDescription.kt)
 1. задаем алфавит языка
 ```kotlin
 init {
@@ -175,7 +175,7 @@ val grammar = Grammar(
 
 1. В [Helper](../../include/parse/Helper.kt) считаем `FIRST` и `FOLLOW` по описанной грамматике
 2. В [Lexer](../../include/parse/Lexer.kt) описываем правила получения следующего [Token](../../include/grammar/token/Token.kt). 
-Для ограничения типа токена, получаемого из лексера, используем [TokenRestricted](../../include/grammar/token/RestrictedBy.kt)
+Для ограничения типа токена, получаемого из лексера, используем [TokenRestricted](../../include/grammar/token/Restricted.kt)
     ```kotlin
     class Lexer : TR by TRUniversal + TRFollow
     ```

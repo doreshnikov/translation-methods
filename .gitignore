@@ -1,4 +1,5 @@
-data/
-out/
+/data/
+/out/
 
 src/*/gen/
+src/*/out/

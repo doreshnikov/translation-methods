@@ -1,29 +1,22 @@
 package parse
 
+import grammar.token.Restricted
 import grammar.token.Token
-import utils.TR
-import utils.TRFollow
-import utils.TRGeneral
-import utils.TRLexer
+import structure.Description
 import java.text.ParseException
 
-class Lexer(private val input: String) : TR by TRGeneral + TRLexer + TRFollow {
+class Lexer(private val input: String, private val description: Description) :
+    Restricted by Restricted.Symbolic + Restricted.Eof {
 
-    private var index = -1
-    private var char: Char? = nextChar()
+    private var offset = 0
     private var token: Token
 
     init {
         token = nextToken()
     }
 
-    private fun nextChar(): Char? {
-        index++
-        return input.getOrNull(index).also { char = it }
-    }
-
     fun getIndex(): Int {
-        return index
+        return offset
     }
 
     fun getToken(): Token {
@@ -31,24 +24,17 @@ class Lexer(private val input: String) : TR by TRGeneral + TRLexer + TRFollow {
     }
 
     fun nextToken(): Token {
-        when (char) {
-            null -> Token.END
-            in Token.SpecialToken -> Token.SpecialToken[char!!].also { nextChar() }
-            in 'a'..'z' -> Token.AlphaToken(char!!).also { nextChar() }
-            in '0'..'9' -> {
-                var number = 0
-                while (char != null && char!! in '0'..'9') {
-                    number = number * 10 + (char!! - '0')
-                    nextChar()
-                }
-                Token.NumberToken(number)
-            }
-            else -> throw ParseException(
-                "Expected predefined token or lowercase latin letter instead of '$char'",
-                index
-            )
-        }.also { token = pass(it) }
-        return token
+        for (grammarToken in Token.REGISTERED.all()) {
+            val item = grammarToken.consume(input, offset) ?: continue
+            offset += item.length
+            when (grammarToken) {
+                is Token.VariantToken.Instantiable -> grammarToken.instantiate(item)
+                else -> grammarToken
+            }.also { token = pass(it) }
+
+            return if (Token.isAcceptable(token, description.getSkippedTokens())) nextToken() else token
+        }
+        throw ParseException("No valid tokens found in input on position $offset", offset)
     }
 
 }

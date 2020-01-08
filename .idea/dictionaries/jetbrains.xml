@@ -2,6 +2,7 @@
   <dictionary name="jetbrains">
     <words>
       <w>doublecircle</w>
+      <w>endmacro</w>
       <w>kleene</w>
       <w>lchar</w>
       <w>lstate</w>

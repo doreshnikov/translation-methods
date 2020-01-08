@@ -2,138 +2,216 @@ package grammar.token
 
 import grammar.Expansion
 import grammar.Grammar
-import utils.Factory
-import utils.RB
-import utils.RBObject
+import utils.Beautifier
+import utils.viewer.GetViewer
+import kotlin.text.Regex
 
-sealed class Token {
+interface Token {
 
-    /**
-     * [SpecialToken] is a general-purpose token that represents any grammar-defined special symbols
-     *
-     * [AlphaToken] is a lexer-specific token that holds a value of alphabet character
-     * it is [RepresentedBy]<[RepresentationToken.AnyAlpha]>
-     * [NumberToken] is a lexer-specific token that holds a value of an integer
-     * it is [RepresentedBy]<[RepresentationToken.AnyNumber]>
-     *
-     * [RepresentationToken] is a grammar-specific token used for representation of lexer-specific tokens in grammar
-     *
-     * [END] is a lexer-specific token used as a signal of end of the line
-     * is also used in [parse.Helper.FOLLOW]
-     * [EPSILON] is a grammar-specific token allowing empty expansions
-     * is also used in [parse.Helper.FIRST]
-     *
-     * [State] is a grammar-specific token representing non-terminal state of a grammar
-     */
+    fun consume(data: String, offset: Int): String? {
+        return null
+    }
+
+    companion object TokenStorage {
+        private val factory = hashMapOf<String, Token>()
+        private val all = mutableListOf<Token>()
+
+        val REGISTERED: GetViewer<String, Token>
+            get() = object : GetViewer<String, Token> {
+                override fun all(): List<Token> {
+                    return all.toList()
+                }
+
+                override fun get(key: String): Token {
+                    return factory[key]!!
+                }
+            }
+
+        operator fun invoke(name: String, token: Token): Token {
+            if (name in factory) {
+                throw IllegalArgumentException("Token '$name' already exists")
+            }
+            return token.also {
+                factory[name] = it
+                all.add(it)
+            }
+        }
+
+        fun isAcceptable(lexerToken: Token, grammarToken: Token): Boolean {
+            return lexerToken == grammarToken ||
+                    lexerToken is VariantToken.VariantInstanceToken && lexerToken.origin == grammarToken
+        }
+
+        fun isAcceptable(token: Token, tokenSet: Set<Token>): Boolean {
+            return tokenSet.any { isAcceptable(token, it) }
+        }
+    }
 
     @Suppress("LeakingThis")
-    class SpecialToken private constructor(private val data: Char) : Token() {
-        companion object : Factory<Char, SpecialToken>() {
-            override fun create(id: Char): SpecialToken {
-                return SpecialToken(id)
-            }
-
-            operator fun contains(key: Char): Boolean {
-                return key in factory
-            }
-
-            operator fun get(key: Char): SpecialToken {
-                return factory[key]!!
-            }
+    sealed class UniqueToken(name: String) : Token {
+        init {
+            TokenStorage(name, this)
         }
 
-        override fun toString(): String {
-            return "'$data'"
-        }
-    }
-
-    class AlphaToken private constructor(val data: Char) : Token(),
-        RB<RepresentationToken.AnyAlpha> by RBObject(RepresentationToken.AnyAlpha) {
-        companion object : Factory<Char, AlphaToken>() {
-            private val alphabet = hashSetOf<Char>()
-
-            fun allow(charRange: CharRange): AlphaToken.Companion {
-                alphabet.addAll(charRange)
-                return this
+        object EOF : UniqueToken("EOF") {
+            override fun consume(data: String, offset: Int): String? {
+                return if (offset == data.length) "" else null
             }
 
-            fun allow(char: Char): AlphaToken.Companion {
-                alphabet.add(char)
-                return this
-            }
-
-            override fun create(id: Char): AlphaToken {
-                if (id !in alphabet) {
-                    throw IllegalArgumentException("Alphabet does not contain character '$id'")
-                }
-                return AlphaToken(id)
-            }
-        }
-
-        override fun toString(): String {
-            return "'$data'"
-        }
-    }
-
-    class NumberToken private constructor(private val data: Int) : Token(),
-        RB<RepresentationToken.AnyNumber> by RBObject(RepresentationToken.AnyNumber) {
-        companion object : Factory<Int, NumberToken>() {
-            override fun create(id: Int): NumberToken {
-                return NumberToken(id)
-            }
-        }
-
-        override fun toString(): String {
-            return data.toString()
-        }
-    }
-
-    sealed class RepresentationToken : Token() {
-        object AnyAlpha : RepresentationToken() {
             override fun toString(): String {
-                return "<alpha>"
+                return "<eof>"
             }
         }
 
-        object AnyNumber : RepresentationToken() {
+        object EPSILON : UniqueToken("EPSILON") {
             override fun toString(): String {
-                return "<number>"
+                return "<eps>"
             }
         }
     }
 
-    object END : Token() {
-        override fun toString(): String {
-            return "$"
-        }
-    }
+    interface DataToken : Token {
 
-    object EPSILON : Token() {
-        override fun toString(): String {
-            return "eps"
-        }
-    }
+        abstract class NamedDataToken private constructor(val data: String) : DataToken {
+            companion object {
+                operator fun invoke(name: String, data: String): NamedDataToken {
+                    return object : NamedDataToken(data) {
+                        override fun getName(): String {
+                            return name
+                        }
 
-    /**
-     * [State] is a grammar-specific class which represents a non-terminal state
-     */
-
-    class State private constructor(private val id: String) : Token() {
-        companion object : Factory<String, State>() {
-            private const val pattern = "[A-Z]\\d*`*"
-
-            override fun create(id: String): State {
-                if (!id.matches(pattern.toRegex())) {
-                    throw IllegalArgumentException("State id should match '$pattern")
+                        override fun consume(data: String, offset: Int): String? {
+                            return if (data.startsWith(this.data, offset)) this.data else null
+                        }
+                    }
                 }
-                return State(id)
+            }
+
+            abstract fun getName(): String
+
+            override fun toString() = getName()
+        }
+
+        override fun toString(): String
+
+    }
+
+    interface VariantToken : Token {
+
+        abstract class Instantiable : VariantToken {
+            fun instantiate(value: String): VariantInstanceToken {
+                return VariantInstanceToken(this, value)
             }
         }
 
-        fun derived(): State {
+        abstract class Desriptor<T>(val data: T) {
+            abstract fun consume(data: String, offset: Int): String?
+
+            override fun toString(): String {
+                return data.toString()
+            }
+        }
+
+        abstract class NamedVariantToken<T : Desriptor<*>> private constructor(protected val desc: T) : VariantToken {
+            companion object {
+                operator fun <T : Desriptor<*>> invoke(name: String, desc: T): NamedVariantToken<T> {
+                    return object : NamedVariantToken<T>(desc) {
+                        override fun getName(): String {
+                            return name
+                        }
+
+                        override fun consume(data: String, offset: Int): String? {
+                            return this.desc.consume(data, offset)
+                        }
+                    }
+                }
+            }
+
+            abstract fun getName(): String
+
+            override fun toString(): String {
+                return desc.toString()
+            }
+
+        }
+
+        class VariantInstanceToken(val origin: VariantToken, val value: String) : Token {
+            override fun toString(): String {
+                return "'$value'"
+            }
+
+            override fun equals(other: Any?): Boolean {
+                return other is VariantInstanceToken && other.origin == origin && other.value == value
+            }
+
+            override fun hashCode(): Int {
+                var result = origin.hashCode()
+                result = 31 * result + value.hashCode()
+                return result
+            }
+        }
+
+        override fun toString(): String
+
+    }
+
+    class StringToken(name: String, data: String) : DataToken by DataToken.NamedDataToken(name, data) {
+        init {
+            TokenStorage(name, this)
+        }
+    }
+
+    class RegexToken(name: String, data: Regex) : VariantToken.Instantiable(),
+        VariantToken by VariantToken.NamedVariantToken(name,
+            object : VariantToken.Desriptor<Regex>(data) {
+                override fun consume(data: String, offset: Int): String? {
+                    val match = this.data.find(data, offset) ?: return null
+                    return if (match.range.first == offset) match.value else null
+                }
+
+                override fun toString(): String {
+                    return "re($data)"
+                }
+            }
+        ) {
+        init {
+            TokenStorage(name, this)
+        }
+    }
+
+    class CharRangeToken(name: String, data: CharRange) : VariantToken.Instantiable(),
+        VariantToken by VariantToken.NamedVariantToken(name,
+            object : VariantToken.Desriptor<CharRange>(data) {
+                override fun consume(data: String, offset: Int): String? {
+                    return if (offset < data.length && data[offset] in this.data) data[offset].toString() else null
+                }
+
+                override fun toString(): String {
+                    return "cr($data)"
+                }
+            }
+        ) {
+        init {
+            TokenStorage(name, this)
+        }
+    }
+
+    class StateToken private constructor(private val id: String) : Token {
+        companion object {
+            private const val pattern = "[A-Z+_]+"
+
+            operator fun invoke(name: String): StateToken {
+                if (!name.matches(pattern.toRegex())) {
+                    throw IllegalArgumentException("State id should match '$pattern', got '$name' instead")
+                }
+                return StateToken(name).also { TokenStorage(name, it) }
+            }
+        }
+
+        fun derived(): StateToken {
             var newId = id
-            while (newId in State.factory.keys) {
-                newId += '`'
+            while (newId in factory.keys) {
+                newId += '_'
             }
             return Companion(newId)
         }

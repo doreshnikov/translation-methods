@@ -1,35 +1,29 @@
 package parse
 
 import grammar.Expansion
-import grammar.Grammar
-import grammar.token.RepresentedBy
 import grammar.token.Token
+import structure.Description
 import structure.Tree
+import utils.Beautifier
 import java.text.ParseException
 
-class Parser(val grammar: Grammar) {
+class Parser(private val description: Description) {
 
-    private val helper = Helper(grammar)
+    private val helper = Helper(description.getGrammar())
 
-    private fun isAcceptable(token: Token, originalToken: Token) : Boolean {
-        return token == originalToken || token is RepresentedBy<*> && token.getRepresentation() == originalToken
-    }
-
-    private fun isAcceptable(token: Token, tokenSet: Set<Token>): Boolean {
-        return token in tokenSet || token is RepresentedBy<*> && token.getRepresentation() in tokenSet
-    }
-
-    private fun parseExpandable(state: Token.State, expansion: Expansion, lexer: Lexer): Tree {
+    private fun parseExpandable(state: Token.StateToken, expansion: Expansion, lexer: Lexer): Tree {
         fun checked(token: Token): Token {
-            if (!isAcceptable(lexer.getToken(), token)) {
-                if (lexer.getToken() == Token.END) {
+            if (!Token.isAcceptable(lexer.getToken(), token)) {
+                if (lexer.getToken() == Token.UniqueToken.EOF) {
                     throw ParseException(
-                        "Reached end of the line, expected $token while parsing rule $state -> $expansion",
+                        "Reached end of the line, expected ${Beautifier.escape(token.toString())}" +
+                                " while parsing rule $state -> " + Beautifier.escape(expansion.toString()),
                         lexer.getIndex()
                     )
                 }
                 throw ParseException(
-                    "Invalid token ${lexer.getToken()} met, expected $token while parsing rule $state -> $expansion",
+                    "Invalid token ${lexer.getToken()} met, expected ${Beautifier.escape(token.toString())}" +
+                            " while parsing rule $state -> " + Beautifier.escape(expansion.toString()),
                     lexer.getIndex()
                 )
             }
@@ -40,43 +34,43 @@ class Parser(val grammar: Grammar) {
         for (token in expansion) {
             node.add(
                 when (token) {
-                    is Token.State -> parse(token, lexer)
-                    is Token.SpecialToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-//                    is Token.AlphaToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-//                    is Token.NumberToken -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-                    is Token.RepresentationToken.AnyAlpha -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-                    is Token.RepresentationToken.AnyNumber -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
-                    else -> throw IllegalStateException("Unexpected token ${lexer.getToken()} received from lexer")
+                    is Token.StateToken -> parse(token, lexer)
+                    else -> Tree.Leaf(checked(token)).also { lexer.nextToken() }
                 }
             )
         }
         return node
     }
 
-    private fun parseNullable(state: Token.State, expansion: Expansion): Tree {
+    private fun parseNullable(state: Token.StateToken, expansion: Expansion): Tree {
         val node = Tree.InnerNode(state)
         for (token in expansion) {
             node.add(
                 when (token) {
-                    is Token.State -> parseNullable(
+                    is Token.StateToken -> parseNullable(
                         token,
-                        grammar.RULES[state].expansions.first { isAcceptable(Token.EPSILON, helper.FIRST(it)) }
+                        description.getGrammar().RULES[state].expansions.first {
+                            Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST(it))
+                        }
                     )
-                    is Token.EPSILON -> Tree.Leaf(token)
-                    else -> throw IllegalArgumentException("Unexpected token $token in expansion of $state ->* ${Token.EPSILON}")
+                    is Token.UniqueToken.EPSILON -> Tree.Leaf(token)
+                    else -> throw IllegalArgumentException(
+                        "Unexpected token $token in expansion of $state ->* " +
+                                "${Token.UniqueToken.EPSILON}"
+                    )
                 }
             )
         }
         return node
     }
 
-    private fun parse(state: Token.State, lexer: Lexer): Tree {
-        val rule = grammar.RULES[state]
+    private fun parse(state: Token.StateToken, lexer: Lexer): Tree {
+        val rule = description.getGrammar().RULES[state]
 
-        val byFirst = rule.expansions.filter { isAcceptable(lexer.getToken(), helper.FIRST(it)) }
-        val byFollow = rule.expansions.filter { isAcceptable(Token.EPSILON, helper.FIRST(it)) }
-        val isNullable = isAcceptable(Token.EPSILON, helper.FIRST[state]) &&
-                isAcceptable(lexer.getToken(), helper.FOLLOW[state])
+        val byFirst = rule.expansions.filter { Token.isAcceptable(lexer.getToken(), helper.FIRST(it)) }
+        val byFollow = rule.expansions.filter { Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST(it)) }
+        val isNullable = Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST[state]) &&
+                Token.isAcceptable(lexer.getToken(), helper.FOLLOW[state])
 
         return when (val options = byFirst.size + (if (isNullable) byFollow.size else 0)) {
             0 -> throw ParseException(
@@ -98,9 +92,9 @@ class Parser(val grammar: Grammar) {
     }
 
     fun parse(line: String): Tree {
-        val lexer = Lexer(line)
-        return parse(grammar.getStart(), lexer).also {
-            if (lexer.getToken() != Token.END) {
+        val lexer = Lexer(line, description)
+        return parse(description.getGrammar().getStart(), lexer).also {
+            if (lexer.getToken() != Token.UniqueToken.EOF) {
                 throw ParseException("Parsing ended and end of the line is not reached", lexer.getIndex())
             }
         }
