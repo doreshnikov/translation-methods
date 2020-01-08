@@ -16,7 +16,7 @@ abstract class ASTNode<T : Token> private constructor(private val id: Int) {
         return id.toString()
     }
 
-    fun visit(visitor: Visitor): String {
+    fun <R> visit(visitor: Visitor<R>): R {
         return visitor.visit(this)
     }
 

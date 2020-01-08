@@ -11,6 +11,8 @@ interface Token {
         return null
     }
 
+    fun getName(): String
+
     companion object TokenStorage {
         private val factory = hashMapOf<String, Token>()
         private val all = mutableListOf<Token>()
@@ -47,9 +49,13 @@ interface Token {
     }
 
     @Suppress("LeakingThis")
-    sealed class UniqueToken(name: String) : Token {
+    sealed class UniqueToken(private val name: String) : Token {
         init {
             TokenStorage(name, this)
+        }
+
+        override fun getName(): String {
+            return name
         }
 
         object EOF : UniqueToken("EOF") {
@@ -86,9 +92,7 @@ interface Token {
                 }
             }
 
-            abstract fun getName(): String
-
-            override fun toString() = getName()
+            override fun toString() = data
         }
 
         override fun toString(): String
@@ -127,7 +131,7 @@ interface Token {
                 }
             }
 
-            abstract fun getName(): String
+            abstract override fun getName(): String
 
             override fun toString(): String {
                 return descriptor.toString()
@@ -137,7 +141,11 @@ interface Token {
 
         class VariantInstanceToken(val origin: VariantToken, val value: String) : Token {
             override fun toString(): String {
-                return "'$value'"
+                return value
+            }
+
+            override fun getName(): String {
+                return origin.getName()
             }
 
             override fun equals(other: Any?): Boolean {
@@ -155,13 +163,13 @@ interface Token {
 
     }
 
-    class StringToken(name: String, data: String) : DataToken by DataToken.NamedDataToken(name, data) {
+    open class StringToken(name: String, data: String) : DataToken by DataToken.NamedDataToken(name, data) {
         init {
             TokenStorage(name, this)
         }
     }
 
-    class RegexToken(name: String, data: Regex) : VariantToken.Instantiable(),
+    open class RegexToken(name: String, data: Regex) : VariantToken.Instantiable(),
         VariantToken by VariantToken.NamedVariantToken(name,
             object : VariantToken.Desriptor<Regex>(data) {
                 override fun consume(data: String, offset: Int): String? {
@@ -179,7 +187,7 @@ interface Token {
         }
     }
 
-    class CharRangeToken(name: String, data: CharRange) : VariantToken.Instantiable(),
+    open class CharRangeToken(name: String, data: CharRange) : VariantToken.Instantiable(),
         VariantToken by VariantToken.NamedVariantToken(name,
             object : VariantToken.Desriptor<CharRange>(data) {
                 override fun consume(data: String, offset: Int): String? {
@@ -196,24 +204,33 @@ interface Token {
         }
     }
 
-    class StateToken private constructor(val name: String) : Token {
+    open class StateToken(private val name: String) : Token {
         companion object {
-            private const val pattern = "[A-Z+_]+"
+            private const val pattern = "[a-z]+([A-Z][a-z]+)*"
 
-            operator fun invoke(name: String): StateToken {
+            operator fun invoke(name: String, token: StateToken) {
                 if (!name.matches(pattern.toRegex())) {
                     throw IllegalArgumentException("State id should match '$pattern', got '$name' instead")
                 }
-                return StateToken(name).also { TokenStorage(name, it) }
+                TokenStorage(name, token)
             }
+        }
+
+        init {
+            @Suppress("LeakingThis")
+            Companion(name, this)
+        }
+
+        override fun getName(): String {
+            return name
         }
 
         fun derived(): StateToken {
             var newId = name
             while (newId in factory.keys) {
-                newId += '_'
+                newId += "Plus"
             }
-            return Companion(newId)
+            return StateToken(newId)
         }
 
         infix fun into(expansion: Expansion): Grammar.Rule {

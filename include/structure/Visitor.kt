@@ -2,10 +2,12 @@ package structure
 
 import grammar.token.Token
 
-interface Visitor {
+interface Visitor<R> {
 
-    fun <T : Token> collect(root: ASTNode<T>) : String
+    fun <T : Token> collect(root: ASTNode<T>) : R {
+        return visit(root)
+    }
 
-    fun <T : Token> visit(node: ASTNode<T>) : String
+    fun <T : Token> visit(node: ASTNode<T>) : R
 
 }

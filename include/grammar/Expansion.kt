@@ -10,7 +10,7 @@ class Expansion(vararg lexemes: Token) : ArrayList<Token>(),
         private val factory = hashMapOf<String, Int>()
 
         operator fun invoke(state: Token.StateToken, expansion: Expansion): Expansion {
-            expansion.id = factory.getOrDefault(state.name, 0).also { factory[state.name] = it + 1 }
+            expansion.id = factory.getOrDefault(state.getName(), 0).also { factory[state.getName()] = it + 1 }
             return expansion
         }
     }

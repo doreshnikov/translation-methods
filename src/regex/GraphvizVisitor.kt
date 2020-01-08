@@ -6,7 +6,7 @@ import structure.Visitor
 import utils.Beautifier
 import java.lang.StringBuilder
 
-class GraphvizVisitor : Visitor {
+class GraphvizVisitor : Visitor<String> {
 
     override fun <T : Token> collect(root: ASTNode<T>) : String {
         return "digraph tree {\n${visit(root)}}"

@@ -9,39 +9,45 @@ object RegexDescription : Description {
 
     // @formatter:off
 
-    val ALPHA = Token.CharRangeToken("<alpha>", 'a'..'z')
-    val NUMBER = Token.RegexToken("<number>", "[1-9]\\d*".toRegex())
+    object ALPHA : Token.CharRangeToken("ALPHA", 'a'..'z')
+    object NUMBER : Token.RegexToken("NUMBER", "[1-9]\\d*".toRegex())
 
-    val LPAREN = Token.StringToken("<lparen>","(")
-    val RPAREN = Token.StringToken("<rparen>", ")")
-    val KLEENE = Token.StringToken("<kleene>", "*")
-    val CHOICE = Token.StringToken("<choice>", "|")
+    object LPAREN : Token.StringToken("LPAREN","(")
+    object RPAREN : Token.StringToken("RPAREN", ")")
+    object KLEENE : Token.StringToken("KLEENE", "*")
+    object CHOICE : Token.StringToken("CHOICE", "|")
 
-    val R0 = Token.StateToken("REGEX")
-    val R1 = R0.derived()
-    val S0 = Token.StateToken("SEQUENCE")
-    val S1 = S0.derived()
-    val T  = Token.StateToken("TERM")
-    val N  = Token.StateToken("NUMBER")
-    val C  = Token.StateToken("CLOSURE")
-    val A  = Token.StateToken("ALPHA")
+    object regex        : Token.StateToken("regex")
+    object regexPlus    : Token.StateToken("regexPlus")
+    object sequence     : Token.StateToken("sequence")
+    object sequencePlus : Token.StateToken("sequencePlus")
+    object term         : Token.StateToken("term")
+    object numberState  : Token.StateToken("numberState")
+    object closure      : Token.StateToken("closure")
+    object atom         : Token.StateToken("alpha")
+
+    init {
+        check(
+            ALPHA, NUMBER, LPAREN, RPAREN, KLEENE, CHOICE
+        )
+    }
 
     private val grammar = Grammar(
-        R0,
+        regex,
 
-        R0 into Expansion(S0, R1),
-        R1 into Expansion(Token.UniqueToken.EPSILON),
-        R1 into Expansion(CHOICE, R0),
-        S0 into Expansion(T, S1),
-        S1 into Expansion(Token.UniqueToken.EPSILON),
-        S1 into Expansion(S0),
-        T  into Expansion(A, N, C),
-        N  into Expansion(Token.UniqueToken.EPSILON),
-        N  into Expansion(NUMBER),
-        C  into Expansion(Token.UniqueToken.EPSILON),
-        C  into Expansion(KLEENE, C),
-        A  into Expansion(LPAREN, R0, RPAREN),
-        A  into Expansion(ALPHA)
+        regex           into Expansion(sequence, regexPlus),
+        regexPlus       into Expansion(Token.UniqueToken.EPSILON),
+        regexPlus       into Expansion(CHOICE, regex),
+        sequence        into Expansion(term, sequencePlus),
+        sequencePlus    into Expansion(Token.UniqueToken.EPSILON),
+        sequencePlus    into Expansion(sequence),
+        term            into Expansion(atom, numberState, closure),
+        numberState     into Expansion(Token.UniqueToken.EPSILON),
+        numberState     into Expansion(NUMBER),
+        closure         into Expansion(Token.UniqueToken.EPSILON),
+        closure         into Expansion(KLEENE, closure),
+        atom            into Expansion(LPAREN, regex, RPAREN),
+        atom            into Expansion(ALPHA)
     ).order()
 
     // @formatter:on

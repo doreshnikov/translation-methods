@@ -2,17 +2,17 @@ package translate.codegen
 
 import grammar.token.Token
 import structure.ASTNode
-import translate.codegen.meta.MetaDescription
+import translate.meta.MetaDescription
 import java.io.File
 import java.lang.StringBuilder
 
-class Walker {
+class DescriptionBuilder {
 
     fun walk(tree: ASTNode<*>) {
         File("src/translate/gen/Me.kt").bufferedWriter().use {
             it.write(
                 """
-package translate.gen
+package gen.gen
 
 import grammar.Expansion
 import grammar.Grammar
@@ -138,10 +138,10 @@ ${collectRules(tree.children[3], sb).joinToString(",\n")}
         val res = mutableListOf<String>()
         while ((tmp as ASTNode.InnerNode<*>).children.size > 1) {
             res.add("\t\t$s into Expansion(${collectSequence(
-                (tmp.children.first { it.getToken() == MetaDescription.RULE } as ASTNode.InnerNode).children[0]
+                (tmp.children.first { it.getToken() == MetaDescription.rule } as ASTNode.InnerNode).children[0]
             ).filter { !it.matches("\\s*".toRegex()) }.joinToString(", ")})"
             )
-            tmp = tmp.children.first { it.getToken() == MetaDescription.RULESPLUS }
+            tmp = tmp.children.first { it.getToken() == MetaDescription.rulesPlus }
         }
         return res
     }
