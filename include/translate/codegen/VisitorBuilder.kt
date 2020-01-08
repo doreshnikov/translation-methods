@@ -34,7 +34,7 @@ abstract class $className<R> : Visitor<R> {
 ${description.getGrammar()}
 */
 
-    override fun <T : Token> visit(node: ASTNode<T>): R {${collectChoiceVisit()}
+    override fun visit(node: ASTNode<out Token>): R {${collectChoiceVisit()}
     }
     
     abstract fun <T : Token> visitTerminal(token: T): R

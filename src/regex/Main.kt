@@ -1,5 +1,6 @@
 package regex
 
+import gen.RegexDescription
 import parse.Parser
 import structure.ASTNode
 import java.io.File

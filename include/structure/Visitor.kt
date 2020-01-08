@@ -8,6 +8,6 @@ interface Visitor<R> {
         return visit(root)
     }
 
-    fun <T : Token> visit(node: ASTNode<T>) : R
+    fun visit(node: ASTNode<out Token>) : R
 
 }

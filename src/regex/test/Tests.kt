@@ -1,7 +1,7 @@
 package regex.test
 
 import grammar.token.Token
-import regex.RegexDescription
+import gen.RegexDescription
 import structure.ASTNode
 
 @Suppress("DuplicatedCode")
@@ -15,8 +15,10 @@ fun main() {
                 RegexDescription.sequence,
                 ASTNode.InnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(
+                        RegexDescription.atom, ASTNode.TerminalNode(
+                            RegexDescription.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                     ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
                 ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
@@ -32,8 +34,10 @@ fun main() {
                 RegexDescription.sequence,
                 ASTNode.InnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(
+                        RegexDescription.atom, ASTNode.TerminalNode(
+                            RegexDescription.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                     ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
                 ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
@@ -47,8 +51,10 @@ fun main() {
                         RegexDescription.sequence,
                         ASTNode.InnerNode(
                             RegexDescription.term,
-                            ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("b"))),
-                            ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                            ASTNode.InnerNode(
+                                RegexDescription.atom, ASTNode.TerminalNode(
+                                    RegexDescription.ALPHA.instantiate("b"))),
+                            ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                             ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                         ),
                         ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
@@ -66,8 +72,12 @@ fun main() {
                 RegexDescription.sequence,
                 ASTNode.InnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(RegexDescription.NUMBER.instantiate("5"))),
+                    ASTNode.InnerNode(
+                        RegexDescription.atom, ASTNode.TerminalNode(
+                            RegexDescription.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(
+                        RegexDescription.number, ASTNode.TerminalNode(
+                            RegexDescription.UINT.instantiate("5"))),
                     ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
                 ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
@@ -83,8 +93,10 @@ fun main() {
                 RegexDescription.sequence,
                 ASTNode.InnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(
+                        RegexDescription.atom, ASTNode.TerminalNode(
+                            RegexDescription.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                     ASTNode.InnerNode(
                         RegexDescription.closure,
                         ASTNode.TerminalNode(RegexDescription.KLEENE),
@@ -104,8 +116,10 @@ fun main() {
                 RegexDescription.sequence,
                 ASTNode.InnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(
+                        RegexDescription.atom, ASTNode.TerminalNode(
+                            RegexDescription.ALPHA.instantiate("a"))),
+                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                     ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
                 ASTNode.InnerNode(
@@ -114,8 +128,10 @@ fun main() {
                         RegexDescription.sequence,
                         ASTNode.InnerNode(
                             RegexDescription.term,
-                            ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("b"))),
-                            ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                            ASTNode.InnerNode(
+                                RegexDescription.atom, ASTNode.TerminalNode(
+                                    RegexDescription.ALPHA.instantiate("b"))),
+                            ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                             ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                         ),
                         ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
@@ -141,8 +157,10 @@ fun main() {
                                 RegexDescription.sequence,
                                 ASTNode.InnerNode(
                                     RegexDescription.term,
-                                    ASTNode.InnerNode(RegexDescription.atom, ASTNode.TerminalNode(RegexDescription.ALPHA.instantiate("a"))),
-                                    ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                                    ASTNode.InnerNode(
+                                        RegexDescription.atom, ASTNode.TerminalNode(
+                                            RegexDescription.ALPHA.instantiate("a"))),
+                                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                                     ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                                 ),
                                 ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
@@ -151,7 +169,7 @@ fun main() {
                         ),
                         ASTNode.TerminalNode(RegexDescription.RPAREN)
                     ),
-                    ASTNode.InnerNode(RegexDescription.numberState, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
                     ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
                 ),
                 ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))

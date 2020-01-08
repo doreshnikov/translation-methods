@@ -129,7 +129,7 @@ A  : $, '(', ')', '|', '*', ['a'..'z']
 
 ### Фиксированная грамматика
 
-В [Regex](RegexDescription.kt)
+В [Regex](../gen/RegexDescription.kt)
 1. задаем алфавит языка
 ```kotlin
 init {

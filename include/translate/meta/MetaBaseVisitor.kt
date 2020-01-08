@@ -57,7 +57,7 @@ atName -> re(@(\d*|macro)\.[a-zA-Z()]+) | re([a-z]+([A-Z][a-z]*)*)
 defPlus -> , defAtom defPlus | <eps>
 */
 
-    override fun <T : Token> visit(node: ASTNode<T>): R {
+    override fun visit(node: ASTNode<out Token>): R {
         return when(node.getToken()) {
 			MetaDescription.LPAREN -> visit_LPAREN(node as ASTNode.TerminalNode<MetaDescription.LPAREN>)
 			MetaDescription.RPAREN -> visit_RPAREN(node as ASTNode.TerminalNode<MetaDescription.RPAREN>)

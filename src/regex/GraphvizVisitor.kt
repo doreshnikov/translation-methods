@@ -12,11 +12,11 @@ class GraphvizVisitor : Visitor<String> {
         return "digraph tree {\n${visit(root)}}"
     }
 
-    override fun <T : Token> visit(node: ASTNode<T>): String {
-        return if (node is ASTNode.TerminalNode<T>) {
+    override fun visit(node: ASTNode<out Token>): String {
+        return if (node is ASTNode.TerminalNode<*>) {
             visitTerminal(node)
         } else {
-            visitInner(node as ASTNode.InnerNode<T>)
+            visitInner(node as ASTNode.InnerNode<*>)
         }
     }
 

@@ -43,8 +43,8 @@ abstract class ASTNode<T : Token> private constructor(private val id: Int) {
         }
 
         @Suppress("UNCHECKED_CAST")
-        fun <R : Token> getChild(i: Int): ASTNode<R> {
-            return children[i] as ASTNode<R>
+        fun <R : ASTNode<out Token>> getChild(i: Int): R {
+            return children[i] as R
         }
 
     }

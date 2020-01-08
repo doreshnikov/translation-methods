@@ -1,6 +1,6 @@
 macro {
 
-    fun tab(depth : Int) {
+    fun tab(depth : Int): String {
         return "\t".repeat(depth)
     }
 
@@ -13,9 +13,9 @@ tokens {
     }
 
     fragments {
-        LETTER  : r"[a-zA-Z]" ;
-        DIGIT   : r"[0-9]" ;
-        FIRST   : r"($LETTER|_)" ;
+        LETTER  : "[a-zA-Z]" ;
+        DIGIT   : "[0-9]" ;
+        FIRST   : "($LETTER|_)" ;
     }
 
     WHITESPACE  : r"[ \r\n\t]" ;
@@ -118,6 +118,6 @@ grammar {
                             | arithmeticAtom ;
     arithmeticAtom :: { view = @1.STRING }
                             : VAR
-                            | NUMBER ;
+                            | UINT ;
 
 }
