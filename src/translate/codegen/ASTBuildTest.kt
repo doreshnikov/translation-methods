@@ -1,8 +1,7 @@
 package translate.codegen
 
 import parse.Parser
-import regex.GraphvisVisitor
-import structure.ASTNode
+import regex.GraphvizVisitor
 import translate.codegen.meta.MetaDescription
 import java.io.File
 import java.text.ParseException
@@ -16,7 +15,7 @@ fun main() {
         }
         File("$loc\\data\\$name.gv").bufferedWriter().use { out ->
             try {
-                out.write(GraphvisVisitor().collect(Parser(MetaDescription).parse(str)))
+                out.write(GraphvizVisitor().collect(Parser(MetaDescription).parse(str)))
                 println("[SUCCESS]")
                 Runtime.getRuntime().exec(
                     "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe" +

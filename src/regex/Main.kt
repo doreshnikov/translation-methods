@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
         File("data/$index.gv").bufferedWriter().use { out ->
             try {
                 ASTNode
-                out.write(GraphvisVisitor().collect(Parser(me).parse(data)))
+                out.write(GraphvizVisitor().collect(Parser(me).parse(data)))
                 println("[SUCCESS] \"$data\" -> data/$index.gv")
                 Runtime.getRuntime().exec(
                     "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe" +
