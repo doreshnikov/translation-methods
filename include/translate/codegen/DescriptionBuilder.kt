@@ -100,7 +100,17 @@ ${visit_gPlus(node.getChild(3))}
     }
 
     override fun visit_tFrag(node: ASTNode.InnerNode<MetaDescription.tFrag>): String {
-        return ""
+        return if (node.children.size == 1) "" else visit_tFragPlus(node.getChild(2))
+    }
+
+    override fun visit_tFragPlus(node: ASTNode.InnerNode<MetaDescription.tFragPlus>): String {
+        return if (node.children.size == 1) "" else
+            listOf(visit_tFragLine(node.getChild(0)), visit_tFragPlus(node.getChild(1)))
+                .filter { it.isNotBlank() }.joinToString("\n")
+    }
+
+    override fun visit_tFragLine(node: ASTNode.InnerNode<MetaDescription.tFragLine>): String {
+        return "\tval ${visit_CAPSNAME(node.getChild(0))} = ${visit_STRING(node.getChild(2))}"
     }
 
     override fun visit_tPlus(node: ASTNode.InnerNode<MetaDescription.tPlus>): String {

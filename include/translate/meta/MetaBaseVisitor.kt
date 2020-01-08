@@ -22,7 +22,9 @@ tComp -> companion { tSkip } | <eps>
 tSkip -> skip : tArray ;
 tArray -> [ re([A-Z]+) tArrayPlus ]
 tArrayPlus -> , re([A-Z]+) tArrayPlus | <eps>
-tFrag -> fragments { tPlus } | <eps>
+tFrag -> fragments { tFragPlus } | <eps>
+tFragPlus -> tFragLine tFragPlus | <eps>
+tFragLine -> re([A-Z]+) : re(\"[^\"]*\") ;
 tPlus -> tLine tPlus | <eps>
 tLine -> re([A-Z]+) : tDef ;
 tDef -> re(\"[^\"]*\") | re(r\"[^\"]*\") | < re('[^']') .. re('[^']') >
@@ -111,6 +113,8 @@ defPlus -> , defAtom defPlus | <eps>
 			MetaDescription.tSkip -> visit_tSkip(node as ASTNode.InnerNode<MetaDescription.tSkip>)
 			MetaDescription.tArray -> visit_tArray(node as ASTNode.InnerNode<MetaDescription.tArray>)
 			MetaDescription.tArrayPlus -> visit_tArrayPlus(node as ASTNode.InnerNode<MetaDescription.tArrayPlus>)
+			MetaDescription.tFragPlus -> visit_tFragPlus(node as ASTNode.InnerNode<MetaDescription.tFragPlus>)
+			MetaDescription.tFragLine -> visit_tFragLine(node as ASTNode.InnerNode<MetaDescription.tFragLine>)
 			MetaDescription.tLine -> visit_tLine(node as ASTNode.InnerNode<MetaDescription.tLine>)
 			MetaDescription.tDef -> visit_tDef(node as ASTNode.InnerNode<MetaDescription.tDef>)
 			MetaDescription.gComp -> visit_gComp(node as ASTNode.InnerNode<MetaDescription.gComp>)
@@ -281,6 +285,8 @@ defPlus -> , defAtom defPlus | <eps>
 	abstract fun visit_tSkip(node: ASTNode.InnerNode<MetaDescription.tSkip>): R
 	abstract fun visit_tArray(node: ASTNode.InnerNode<MetaDescription.tArray>): R
 	abstract fun visit_tArrayPlus(node: ASTNode.InnerNode<MetaDescription.tArrayPlus>): R
+	abstract fun visit_tFragPlus(node: ASTNode.InnerNode<MetaDescription.tFragPlus>): R
+	abstract fun visit_tFragLine(node: ASTNode.InnerNode<MetaDescription.tFragLine>): R
 	abstract fun visit_tLine(node: ASTNode.InnerNode<MetaDescription.tLine>): R
 	abstract fun visit_tDef(node: ASTNode.InnerNode<MetaDescription.tDef>): R
 	abstract fun visit_gComp(node: ASTNode.InnerNode<MetaDescription.gComp>): R

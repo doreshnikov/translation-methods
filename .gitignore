@@ -1,5 +1,5 @@
 /data/
 /out/
 
-src/*/gen/
-src/*/out/
+src/antlr/gen/
+src/antlr/out/

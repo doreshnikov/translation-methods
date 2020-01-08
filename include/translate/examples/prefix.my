@@ -65,7 +65,7 @@ grammar {
         start : main ;
     }
 
-    main                    : code EOF :: { view = "fun main() {\n${@1.view}}\n" } ;
+    main                    : code :: { view = "fun main() {\n${@1.view}}\n" } ;
 
     code                    : codeBlock{ depth = 1 } code :: { view = "${@1.view}${@2.view}" }
                             | EPSILON :: { view = "" } ;

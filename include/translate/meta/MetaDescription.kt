@@ -11,118 +11,120 @@ object MetaDescription : Description {
 
     // special symbols
 
-    object LPAREN      : Token.StringToken("LPAREN", "{")
-    object RPAREN      : Token.StringToken("RPAREN", "}")
-    object EOLN        : Token.StringToken("EOLN", ";")
+    object LPAREN       : Token.StringToken("LPAREN", "{")
+    object RPAREN       : Token.StringToken("RPAREN", "}")
+    object EOLN         : Token.StringToken("EOLN", ";")
 
-    object DEFINE      : Token.StringToken("DEFINE", "::")
-    object DESCRIBE    : Token.StringToken("DESCRIBE" , ":")
-    object CHOICE      : Token.StringToken("CHOICE", "|")
+    object DEFINE       : Token.StringToken("DEFINE", "::")
+    object DESCRIBE     : Token.StringToken("DESCRIBE" , ":")
+    object CHOICE       : Token.StringToken("CHOICE", "|")
 
-    object LTRIG       : Token.StringToken("LTRIG", "<")
-    object RTRIG       : Token.StringToken("RTRIG", ">")
-    object CHARRANGE   : Token.StringToken("CHARRANGE", "..")
+    object LTRIG        : Token.StringToken("LTRIG", "<")
+    object RTRIG        : Token.StringToken("RTRIG", ">")
+    object CHARRANGE    : Token.StringToken("CHARRANGE", "..")
 
-    object ASSIGN      : Token.StringToken("ASSIGN", "=")
-    object ADD         : Token.StringToken("ADD", "+")
-    object SUB         : Token.StringToken("SUB", "-")
-    object MUL         : Token.StringToken("MUL", "*")
-    object DIV         : Token.StringToken("DIV", "/")
+    object ASSIGN       : Token.StringToken("ASSIGN", "=")
+    object ADD          : Token.StringToken("ADD", "+")
+    object SUB          : Token.StringToken("SUB", "-")
+    object MUL          : Token.StringToken("MUL", "*")
+    object DIV          : Token.StringToken("DIV", "/")
 
-    object LARRAY      : Token.StringToken("LARRAY", "[")
-    object RARRAY      : Token.StringToken("RARRAY", "]")
-    object SEP         : Token.StringToken("SEP", ",")
+    object LARRAY       : Token.StringToken("LARRAY", "[")
+    object RARRAY       : Token.StringToken("RARRAY", "]")
+    object SEP          : Token.StringToken("SEP", ",")
 
     // keywords
 
-    object MACRO       : Token.StringToken("MACRO", "macro")
-    object TOKENS      : Token.StringToken("TOKENS", "tokens")
-    object GRAMMAR     : Token.StringToken("GRAMMAR", "grammar")
-    object FRAGMENTS   : Token.StringToken("FRAGMENTS", "fragments")
-    object COMPANION   : Token.StringToken("COMPANION", "companion")
+    object MACRO        : Token.StringToken("MACRO", "macro")
+    object TOKENS       : Token.StringToken("TOKENS", "tokens")
+    object GRAMMAR      : Token.StringToken("GRAMMAR", "grammar")
+    object FRAGMENTS    : Token.StringToken("FRAGMENTS", "fragments")
+    object COMPANION    : Token.StringToken("COMPANION", "companion")
 
-    object SKIP        : Token.StringToken("SKIP", "skip")
-    object SYNTHESIS   : Token.StringToken("SYNTHESIS", "synthesis")
-    object INHERITANCE : Token.StringToken("INHERITANCE", "inheritance")
-    object COMPUTE     : Token.StringToken("COMPUTE", "compute")
-    object START       : Token.StringToken("START", "start")
-    object DEFAULT     : Token.StringToken("DEFAULT", "default")
+    object SKIP         : Token.StringToken("SKIP", "skip")
+    object SYNTHESIS    : Token.StringToken("SYNTHESIS", "synthesis")
+    object INHERITANCE  : Token.StringToken("INHERITANCE", "inheritance")
+    object COMPUTE      : Token.StringToken("COMPUTE", "compute")
+    object START        : Token.StringToken("START", "start")
+    object DEFAULT      : Token.StringToken("DEFAULT", "default")
 
     // kotlin types
 
-    object INT_TYPE    : Token.StringToken("INT_TYPE", "Int")
-    object DOUBLE_TYPE : Token.StringToken("DOUBLE_TYPE", "Double")
-    object STRING_TYPE : Token.StringToken("STRING_TYPE", "String")
+    object INT_TYPE     : Token.StringToken("INT_TYPE", "Int")
+    object DOUBLE_TYPE  : Token.StringToken("DOUBLE_TYPE", "Double")
+    object STRING_TYPE  : Token.StringToken("STRING_TYPE", "String")
 
     // miscellaneous
 
-    object KOTLIN_FUNC : Token.RegexToken("KOTLIN_FUNC", "(\\t| {4})fun .* \\{(\n|\r\n)(\\1.*\\2)+\\1}".toRegex())
+    object KOTLIN_FUNC  : Token.RegexToken("KOTLIN_FUNC", "(\\t| {4})fun .* \\{(\n|\r\n)(\\1.*\\2)+\\1}".toRegex())
 
     // literals and names
 
-    object DOUBLE      : Token.RegexToken("DOUBLE", "(0|[1-9]\\d*)\\.\\d*".toRegex())
-    object INT         : Token.RegexToken("INT", "(0|[1-9]\\d*)".toRegex())
-    object CHAR        : Token.RegexToken("CHAR", "'[^']'".toRegex())
-    object STRING      : Token.RegexToken("STRING", "\"[^\"]*\"".toRegex())
-    object RSTRING     : Token.RegexToken("RSTRING", "r\"[^\"]*\"".toRegex())
+    object DOUBLE       : Token.RegexToken("DOUBLE", "(0|[1-9]\\d*)\\.\\d*".toRegex())
+    object INT          : Token.RegexToken("INT", "(0|[1-9]\\d*)".toRegex())
+    object CHAR         : Token.RegexToken("CHAR", "'[^']'".toRegex())
+    object STRING       : Token.RegexToken("STRING", "\"[^\"]*\"".toRegex())
+    object RSTRING      : Token.RegexToken("RSTRING", "r\"[^\"]*\"".toRegex())
 
-    object SPNAME      : Token.RegexToken("SPNAME", "@(\\d*|macro)\\.[a-zA-Z()]+".toRegex())
-    object CAMELNAME   : Token.RegexToken("CAMELNAME", "[a-z]+([A-Z][a-z]*)*".toRegex())
-    object CAPSNAME    : Token.RegexToken("CAPSNAME", "[A-Z]+".toRegex())
+    object SPNAME       : Token.RegexToken("SPNAME", "@(\\d*|macro)\\.[a-zA-Z()]+".toRegex())
+    object CAMELNAME    : Token.RegexToken("CAMELNAME", "[a-z]+([A-Z][a-z]*)*".toRegex())
+    object CAPSNAME     : Token.RegexToken("CAPSNAME", "[A-Z]+".toRegex())
 
-    object WHITESPACE  : Token.RegexToken("WHITESPACE", "[ \\t\\n\\r]".toRegex())
+    object WHITESPACE   : Token.RegexToken("WHITESPACE", "[ \\t\\n\\r]".toRegex())
 
     // states
 
-    object all         : Token.StateToken("all")
+    object all          : Token.StateToken("all")
 
-    object m           : Token.StateToken("m")
-    object kfPlus      : Token.StateToken("kfPlus")
+    object m            : Token.StateToken("m")
+    object kfPlus       : Token.StateToken("kfPlus")
 
-    object t           : Token.StateToken("t")
-    object tComp       : Token.StateToken("tComp")
-    object tSkip       : Token.StateToken("tSkip")
-    object tArray      : Token.StateToken("tArray")
-    object tArrayPlus  : Token.StateToken("tArrayPlus")
-    object tFrag       : Token.StateToken("tFrag")
-    object tLine       : Token.StateToken("tLine")
-    object tDef        : Token.StateToken("tDef")
-    object tPlus       : Token.StateToken("tPlus")
+    object t            : Token.StateToken("t")
+    object tComp        : Token.StateToken("tComp")
+    object tSkip        : Token.StateToken("tSkip")
+    object tArray       : Token.StateToken("tArray")
+    object tArrayPlus   : Token.StateToken("tArrayPlus")
+    object tFrag        : Token.StateToken("tFrag")
+    object tFragLine    : Token.StateToken("tFragLine")
+    object tFragPlus    : Token.StateToken("tFragPlus")
+    object tLine        : Token.StateToken("tLine")
+    object tDef         : Token.StateToken("tDef")
+    object tPlus        : Token.StateToken("tPlus")
 
-    object g           : Token.StateToken("g")
-    object gComp       : Token.StateToken("gComp")
-    object gSynth      : Token.StateToken("gSynth")
-    object gInh        : Token.StateToken("gInh")
-    object gCompv      : Token.StateToken("gCompv")
-    object gStart      : Token.StateToken("gStart")
-    object gLine       : Token.StateToken("gLine")
-    object gPlus       : Token.StateToken("gPlus")
+    object g            : Token.StateToken("g")
+    object gComp        : Token.StateToken("gComp")
+    object gSynth       : Token.StateToken("gSynth")
+    object gInh         : Token.StateToken("gInh")
+    object gCompv       : Token.StateToken("gCompv")
+    object gStart       : Token.StateToken("gStart")
+    object gLine        : Token.StateToken("gLine")
+    object gPlus        : Token.StateToken("gPlus")
 
-    object attribs     : Token.StateToken("attribs")
-    object attribsPlus : Token.StateToken("attribsPlus")
-    object attrib      : Token.StateToken("attrib")
-    object type        : Token.StateToken("type")
+    object attribs      : Token.StateToken("attribs")
+    object attribsPlus  : Token.StateToken("attribsPlus")
+    object attrib       : Token.StateToken("attrib")
+    object type         : Token.StateToken("type")
 
-    object rule        : Token.StateToken("rule")
-    object rules       : Token.StateToken("rules")
-    object rulesPlus   : Token.StateToken("rulesPlus")
+    object rule         : Token.StateToken("rule")
+    object rules        : Token.StateToken("rules")
+    object rulesPlus    : Token.StateToken("rulesPlus")
 
-    object def         : Token.StateToken("def")
-    object pass        : Token.StateToken("pass")
-    object defBody     : Token.StateToken("defBody")
-    object defAtom     : Token.StateToken("defAtom")
-    object defValue    : Token.StateToken("defValue")
-    object defTerm     : Token.StateToken("defTerm")
-    object defMod      : Token.StateToken("defMod")
-    object setDef      : Token.StateToken("setDef")
-    object op          : Token.StateToken("op")
-    object defPlus     : Token.StateToken("defPlus")
+    object def          : Token.StateToken("def")
+    object pass         : Token.StateToken("pass")
+    object defBody      : Token.StateToken("defBody")
+    object defAtom      : Token.StateToken("defAtom")
+    object defValue     : Token.StateToken("defValue")
+    object defTerm      : Token.StateToken("defTerm")
+    object defMod       : Token.StateToken("defMod")
+    object setDef       : Token.StateToken("setDef")
+    object op           : Token.StateToken("op")
+    object defPlus      : Token.StateToken("defPlus")
 
-    object seq         : Token.StateToken("seq")
-    object seqPlus     : Token.StateToken("seqPlus")
-    object atom        : Token.StateToken("atom")
+    object seq          : Token.StateToken("seq")
+    object seqPlus      : Token.StateToken("seqPlus")
+    object atom         : Token.StateToken("atom")
 
-    object atName      : Token.StateToken("atName")
+    object atName       : Token.StateToken("atName")
 
     init {
         check(
@@ -154,7 +156,10 @@ object MetaDescription : Description {
                         tArrayPlus  into Expansion(SEP, CAPSNAME, tArrayPlus),
                         tArrayPlus  into Expansion(Token.UniqueToken.EPSILON),
                 tComp       into Expansion(Token.UniqueToken.EPSILON),
-                tFrag       into Expansion(FRAGMENTS, LPAREN, tPlus, RPAREN),
+                tFrag       into Expansion(FRAGMENTS, LPAREN, tFragPlus, RPAREN),
+                    tFragPlus   into Expansion(tFragLine, tFragPlus),
+                        tFragLine   into Expansion(CAPSNAME, DESCRIBE, STRING, EOLN),
+                    tFragPlus   into Expansion(Token.UniqueToken.EPSILON),
                 tFrag       into Expansion(Token.UniqueToken.EPSILON),
                 tPlus       into Expansion(tLine, tPlus),
                     tLine       into Expansion(CAPSNAME, DESCRIBE, tDef, EOLN),
