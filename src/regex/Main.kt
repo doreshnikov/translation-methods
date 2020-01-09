@@ -1,15 +1,15 @@
 package regex
 
-import gen.RegexDescription
+import gen.RegexGrammarInfo
 import parse.Parser
 import structure.ASTNode
-import structure.GraphvizVisitor
+import utils.GraphvizVisitor
 import java.io.File
 import java.text.ParseException
 
 fun main(args: Array<String>) {
 
-    val me = RegexDescription
+    val me = RegexGrammarInfo
 
     args.forEachIndexed { index, data ->
         File("data/$index.gv").bufferedWriter().use { out ->

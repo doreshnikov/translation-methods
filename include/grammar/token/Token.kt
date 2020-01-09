@@ -19,37 +19,47 @@ interface Token {
 
     companion object TokenStorage {
         data class Storage(val factory: MutableMap<String, Token>, val all: MutableList<Token>)
-        private val grammars = hashMapOf<String, Storage>()
+
+        private val grammars = hashMapOf<String?, Storage>()
         private var grammarName: String? = null
 
-        val current: Storage?
-            get() {
-                return grammars[grammarName ?: return null] ?: return null
-            }
+        init {
+            switchTo(null)
+            UniqueToken.all.forEach { it.getString() }
+        }
 
-        fun switchTo(name: String) {
+        val current: Storage?
+            get() = grammars[grammarName]
+
+        val common: Storage
+            get() = grammars[null]!!
+
+        fun switchTo(name: String?) {
             grammarName = name.also { if (it !in grammars) grammars[it] = Storage(hashMapOf(), arrayListOf()) }
         }
 
         val REGISTERED: GetViewer<String, Token>
             get() = object : GetViewer<String, Token> {
                 override fun all(): List<Token> {
-                    return current!!.all.toList()
+                    return current!!.all.toList() + common.all.toList()
                 }
 
                 override fun get(key: String): Token {
-                    return current!!.factory[key]!!
+                    return current!!.factory[key] ?: common.factory[key]!!
                 }
             }
 
-        operator fun invoke(name: String, token: Token): Token {
-            if (name in current!!.factory) {
+        operator fun invoke(name: String, token: Token) {
+            if (name in current!!.factory || name in common.factory) {
                 throw IllegalArgumentException("Token '$name' already exists")
             }
-            return token.also {
-                current!!.factory[name] = it
-                current!!.all.add(it)
-            }
+            current!!.factory[name] = token
+            current!!.all.add(token)
+        }
+
+        fun registerUnique(name: String, token: UniqueToken) {
+            common.factory[token.getString()]
+            common.all.add(token)
         }
 
         fun isAcceptable(lexerToken: Token, grammarToken: Token): Boolean {
@@ -63,9 +73,14 @@ interface Token {
     }
 
     @Suppress("LeakingThis")
-    sealed class UniqueToken(private val name: String) : Token {
+    sealed class UniqueToken(name: String) : Token {
+        companion object {
+            val all = mutableListOf<UniqueToken>()
+        }
+
         init {
-            TokenStorage(name, this)
+            TokenStorage.registerUnique(name, this)
+            all.add(this)
         }
 
         object EOF : UniqueToken("EOF") {

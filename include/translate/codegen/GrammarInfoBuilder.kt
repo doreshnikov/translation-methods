@@ -3,13 +3,13 @@ package translate.codegen
 import grammar.token.Token
 import structure.ASTNode
 import translate.meta.MetaBaseVisitor
-import translate.meta.MetaDescription
+import translate.meta.MetaGrammarInfo
 import utils.Beautifier.Companion.detabify
 
-class DescriptionBuilder(
+class GrammarInfoBuilder(
     private val packageName: String,
     private val objectName: String
-) : MetaBaseVisitor<String>() {
+) : MetaBaseVisitor<String> {
 
     private val skippedTokens = mutableListOf<String>()
     private val lexerTokens = mutableListOf<String>()
@@ -28,9 +28,9 @@ package $packageName
 import grammar.token.Token
 import grammar.Grammar
 import grammar.Expansion
-import structure.Description
+import translate.codegen.info.GrammarInfo
 
-object ${objectName}Description : Description {
+object $objectName : GrammarInfo {
 
     override fun getSkippedTokens(): Set<Token> {
         return setOf(${skippedTokens.joinToString(", ")})
@@ -48,7 +48,7 @@ object ${objectName}Description : Description {
     }
     
     override fun getName(): String {
-        return "<${objectName}>"
+        return "$objectName"
     }
     
     init {
@@ -71,12 +71,12 @@ $collected
         return token.getText()
     }
 
-    override fun visit_CAPSNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>): String {
+    override fun visit_CAPSNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CAPSNAME>>): String {
         val name = super.visit_CAPSNAME(node)
         return if (name == "EPSILON") "Token.UniqueToken.EPSILON" else name
     }
 
-    override fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>): String {
+    override fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.RSTRING>>): String {
         return super.visit_RSTRING(node).substring(1)
     }
 
@@ -87,7 +87,7 @@ $collected
     /**
     all -> m t g
      */
-    override fun visit_all(node: ASTNode.InnerNode<MetaDescription.all>): String {
+    override fun visit_all(node: ASTNode.InnerNode<MetaGrammarInfo.all>): String {
         return visitList(
             "\n",
             visit_m(node.getChild(0)),
@@ -99,21 +99,21 @@ $collected
     /**
     m -> MACRO LPAREN kfPlus RPAREN
      */
-    override fun visit_m_0(node: ASTNode.InnerNode<MetaDescription.m>): String {
+    override fun visit_m_0(node: ASTNode.InnerNode<MetaGrammarInfo.m>): String {
         return visit_kfPlus(node.getChild(2))
     }
 
     /**
     m -> <eps>
      */
-    override fun visit_m_1(node: ASTNode.InnerNode<MetaDescription.m>): String {
+    override fun visit_m_1(node: ASTNode.InnerNode<MetaGrammarInfo.m>): String {
         return ""
     }
 
     /**
     t -> TOKENS LPAREN tComp tFrag tPlus RPAREN
      */
-    override fun visit_t(node: ASTNode.InnerNode<MetaDescription.t>): String {
+    override fun visit_t(node: ASTNode.InnerNode<MetaGrammarInfo.t>): String {
         return visitList(
             "\n",
             visit_tComp(node.getChild(2)),
@@ -125,7 +125,7 @@ $collected
     /**
     g -> GRAMMAR LPAREN gComp gPlus RPAREN
      */
-    override fun visit_g(node: ASTNode.InnerNode<MetaDescription.g>): String {
+    override fun visit_g(node: ASTNode.InnerNode<MetaGrammarInfo.g>): String {
         return """
     private val grammar = Grammar(${visit_gComp(node.getChild(2))},
         
@@ -136,63 +136,63 @@ ${visit_gPlus(node.getChild(3))}
     /**
     kfPlus -> KOTLIN_FUNC kfPlus
      */
-    override fun visit_kfPlus_0(node: ASTNode.InnerNode<MetaDescription.kfPlus>): String {
+    override fun visit_kfPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.kfPlus>): String {
         return "${visit_KOTLIN_FUNC(node.getChild(0))}\n${visit_kfPlus(node.getChild(1))}"
     }
 
     /**
     kfPlus -> <eps>
      */
-    override fun visit_kfPlus_1(node: ASTNode.InnerNode<MetaDescription.kfPlus>): String {
+    override fun visit_kfPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.kfPlus>): String {
         return ""
     }
 
     /**
     tComp -> COMPANION LPAREN tSkip RPAREN
      */
-    override fun visit_tComp_0(node: ASTNode.InnerNode<MetaDescription.tComp>): String {
+    override fun visit_tComp_0(node: ASTNode.InnerNode<MetaGrammarInfo.tComp>): String {
         return visit_tSkip(node.getChild(2))
     }
 
     /**
     tComp -> <eps>
      */
-    override fun visit_tComp_1(node: ASTNode.InnerNode<MetaDescription.tComp>): String {
+    override fun visit_tComp_1(node: ASTNode.InnerNode<MetaGrammarInfo.tComp>): String {
         return ""
     }
 
     /**
     tFrag -> FRAGMENTS LPAREN tFragPlus RPAREN
      */
-    override fun visit_tFrag_0(node: ASTNode.InnerNode<MetaDescription.tFrag>): String {
+    override fun visit_tFrag_0(node: ASTNode.InnerNode<MetaGrammarInfo.tFrag>): String {
         return visit_tFragPlus(node.getChild(2))
     }
 
     /**
     tFrag -> <eps>
      */
-    override fun visit_tFrag_1(node: ASTNode.InnerNode<MetaDescription.tFrag>): String {
+    override fun visit_tFrag_1(node: ASTNode.InnerNode<MetaGrammarInfo.tFrag>): String {
         return ""
     }
 
     /**
     tPlus -> tLine tPlus
      */
-    override fun visit_tPlus_0(node: ASTNode.InnerNode<MetaDescription.tPlus>): String {
+    override fun visit_tPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.tPlus>): String {
         return visitList("\n", visit_tLine(node.getChild(0)), visit_tPlus(node.getChild(1)))
     }
 
     /**
     tPlus -> <eps>
      */
-    override fun visit_tPlus_1(node: ASTNode.InnerNode<MetaDescription.tPlus>): String {
+    override fun visit_tPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.tPlus>): String {
         return ""
     }
 
     /**
     tSkip -> SKIP DESCRIBE tArray EOLN
      */
-    override fun visit_tSkip(node: ASTNode.InnerNode<MetaDescription.tSkip>): String {
+    override fun visit_tSkip(node: ASTNode.InnerNode<MetaGrammarInfo.tSkip>): String {
         visit_tArray(node.getChild(2))
         return ""
     }
@@ -200,7 +200,7 @@ ${visit_gPlus(node.getChild(3))}
     /**
     tArray -> LARRAY CAPSNAME tArrayPlus RARRAY
      */
-    override fun visit_tArray(node: ASTNode.InnerNode<MetaDescription.tArray>): String {
+    override fun visit_tArray(node: ASTNode.InnerNode<MetaGrammarInfo.tArray>): String {
         skippedTokens.add(visit_CAPSNAME(node.getChild(1)))
         return visit_tArrayPlus(node.getChild(2))
     }
@@ -208,7 +208,7 @@ ${visit_gPlus(node.getChild(3))}
     /**
     tArrayPlus -> SEP CAPSNAME tArrayPlus
      */
-    override fun visit_tArrayPlus_0(node: ASTNode.InnerNode<MetaDescription.tArrayPlus>): String {
+    override fun visit_tArrayPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.tArrayPlus>): String {
         skippedTokens.add(visit_CAPSNAME(node.getChild(1)))
         return visit_tArrayPlus(node.getChild(2))
     }
@@ -216,35 +216,35 @@ ${visit_gPlus(node.getChild(3))}
     /**
     tArrayPlus -> <eps>
      */
-    override fun visit_tArrayPlus_1(node: ASTNode.InnerNode<MetaDescription.tArrayPlus>): String {
+    override fun visit_tArrayPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.tArrayPlus>): String {
         return ""
     }
 
     /**
     tFragPlus -> tFragLine tFragPlus
      */
-    override fun visit_tFragPlus_0(node: ASTNode.InnerNode<MetaDescription.tFragPlus>): String {
+    override fun visit_tFragPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.tFragPlus>): String {
         return visitList("\n", visit_tFragLine(node.getChild(0)), visit_tFragPlus(node.getChild(1)))
     }
 
     /**
     tFragPlus -> <eps>
      */
-    override fun visit_tFragPlus_1(node: ASTNode.InnerNode<MetaDescription.tFragPlus>): String {
+    override fun visit_tFragPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.tFragPlus>): String {
         return ""
     }
 
     /**
     tFragLine -> CAPSNAME DESCRIBE STRING EOLN
      */
-    override fun visit_tFragLine(node: ASTNode.InnerNode<MetaDescription.tFragLine>): String {
+    override fun visit_tFragLine(node: ASTNode.InnerNode<MetaGrammarInfo.tFragLine>): String {
         return "\tval ${visit_CAPSNAME(node.getChild(0))} = ${visit_STRING(node.getChild(2))}"
     }
 
     /**
     tLine -> CAPSNAME DESCRIBE tDef EOLN
      */
-    override fun visit_tLine(node: ASTNode.InnerNode<MetaDescription.tLine>): String {
+    override fun visit_tLine(node: ASTNode.InnerNode<MetaGrammarInfo.tLine>): String {
         val name = visit_CAPSNAME(node.getChild(0))
         lexerTokens.add(name)
         return "\tobject $name : ${visit_tDef(node.getChild(2)).format(name)}"
@@ -253,28 +253,28 @@ ${visit_gPlus(node.getChild(3))}
     /**
     tDef -> STRING
      */
-    override fun visit_tDef_0(node: ASTNode.InnerNode<MetaDescription.tDef>): String {
+    override fun visit_tDef_0(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): String {
         return "Token.StringToken(\"%s\", ${visit_STRING(node.getChild(0))})"
     }
 
     /**
     tDef -> RSTRING
      */
-    override fun visit_tDef_1(node: ASTNode.InnerNode<MetaDescription.tDef>): String {
+    override fun visit_tDef_1(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): String {
         return "Token.RegexToken(\"%s\", ${visit_RSTRING(node.getChild(0))}.toRegex())"
     }
 
     /**
     tDef -> LTRIG CHAR CHARRANGE CHAR RTRIG
      */
-    override fun visit_tDef_2(node: ASTNode.InnerNode<MetaDescription.tDef>): String {
+    override fun visit_tDef_2(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): String {
         return "Token.CharRangeToken(\"%s\", ${visit_CHAR(node.getChild(1))}..${visit_CHAR(node.getChild(3))})"
     }
 
     /**
     gComp -> COMPANION LPAREN gSynth gInh gCompv gStart RPAREN
      */
-    override fun visit_gComp(node: ASTNode.InnerNode<MetaDescription.gComp>): String {
+    override fun visit_gComp(node: ASTNode.InnerNode<MetaGrammarInfo.gComp>): String {
         return """
         /*
         ${visitList(
@@ -290,77 +290,77 @@ ${visit_gPlus(node.getChild(3))}
     /**
     gPlus -> gLine gPlus
      */
-    override fun visit_gPlus_0(node: ASTNode.InnerNode<MetaDescription.gPlus>): String {
+    override fun visit_gPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.gPlus>): String {
         return visitList(",\n", visit_gLine(node.getChild(0)), visit_gPlus(node.getChild(1)))
     }
 
     /**
     gPlus -> <eps>
      */
-    override fun visit_gPlus_1(node: ASTNode.InnerNode<MetaDescription.gPlus>): String {
+    override fun visit_gPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.gPlus>): String {
         return ""
     }
 
     /**
     gSynth -> SYNTHESIS LPAREN attribs RPAREN
      */
-    override fun visit_gSynth_0(node: ASTNode.InnerNode<MetaDescription.gSynth>): String {
+    override fun visit_gSynth_0(node: ASTNode.InnerNode<MetaGrammarInfo.gSynth>): String {
         return "synthesis: ${visit_attribs(node.getChild(2))}"
     }
 
     /**
     gSynth -> <eps>
      */
-    override fun visit_gSynth_1(node: ASTNode.InnerNode<MetaDescription.gSynth>): String {
+    override fun visit_gSynth_1(node: ASTNode.InnerNode<MetaGrammarInfo.gSynth>): String {
         return ""
     }
 
     /**
     gInh -> INHERITANCE LPAREN attribs RPAREN
      */
-    override fun visit_gInh_0(node: ASTNode.InnerNode<MetaDescription.gInh>): String {
+    override fun visit_gInh_0(node: ASTNode.InnerNode<MetaGrammarInfo.gInh>): String {
         return "inheritance: ${visit_attribs(node.getChild(2))}"
     }
 
     /**
     gInh -> <eps>
      */
-    override fun visit_gInh_1(node: ASTNode.InnerNode<MetaDescription.gInh>): String {
+    override fun visit_gInh_1(node: ASTNode.InnerNode<MetaGrammarInfo.gInh>): String {
         return ""
     }
 
     /**
     gCompv -> COMPUTE LPAREN attribs RPAREN
      */
-    override fun visit_gCompv_0(node: ASTNode.InnerNode<MetaDescription.gCompv>): String {
+    override fun visit_gCompv_0(node: ASTNode.InnerNode<MetaGrammarInfo.gCompv>): String {
         return "compute: ${visit_attribs(node.getChild(2))}"
     }
 
     /**
     gCompv -> <eps>
      */
-    override fun visit_gCompv_1(node: ASTNode.InnerNode<MetaDescription.gCompv>): String {
+    override fun visit_gCompv_1(node: ASTNode.InnerNode<MetaGrammarInfo.gCompv>): String {
         return ""
     }
 
     /**
     gStart -> START DESCRIBE CAMELNAME EOLN
      */
-    override fun visit_gStart(node: ASTNode.InnerNode<MetaDescription.gStart>): String {
+    override fun visit_gStart(node: ASTNode.InnerNode<MetaGrammarInfo.gStart>): String {
         return visit_CAMELNAME(node.getChild(2))
     }
 
     /**
     attribs -> attrib attribsPlus
      */
-    override fun visit_attribs(node: ASTNode.InnerNode<MetaDescription.attribs>): String {
+    override fun visit_attribs(node: ASTNode.InnerNode<MetaGrammarInfo.attribs>): String {
         return visitList(", ", visit_attrib(node.getChild(0)), visit_attribsPlus(node.getChild(1)))
     }
 
     /**
     attrib -> CAMELNAME DESCRIBE type setDef EOLN
      */
-    override fun visit_attrib(node: ASTNode.InnerNode<MetaDescription.attrib>): String {
+    override fun visit_attrib(node: ASTNode.InnerNode<MetaGrammarInfo.attrib>): String {
         return "${visit_CAMELNAME(node.getChild(0))}: ${visit_type(node.getChild(2))}" +
                 visit_setDef(node.getChild(3))
     }
@@ -368,77 +368,77 @@ ${visit_gPlus(node.getChild(3))}
     /**
     attribsPlus -> attrib attribsPlus
      */
-    override fun visit_attribsPlus_0(node: ASTNode.InnerNode<MetaDescription.attribsPlus>): String {
+    override fun visit_attribsPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.attribsPlus>): String {
         return visitList(", ", visit_attrib(node.getChild(0)), visit_attribsPlus(node.getChild(1)))
     }
 
     /**
     attribsPlus -> <eps>
      */
-    override fun visit_attribsPlus_1(node: ASTNode.InnerNode<MetaDescription.attribsPlus>): String {
+    override fun visit_attribsPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.attribsPlus>): String {
         return ""
     }
 
     /**
     type -> INT_TYPE
      */
-    override fun visit_type_0(node: ASTNode.InnerNode<MetaDescription.type>): String {
+    override fun visit_type_0(node: ASTNode.InnerNode<MetaGrammarInfo.type>): String {
         return "Int"
     }
 
     /**
     type -> DOUBLE_TYPE
      */
-    override fun visit_type_1(node: ASTNode.InnerNode<MetaDescription.type>): String {
+    override fun visit_type_1(node: ASTNode.InnerNode<MetaGrammarInfo.type>): String {
         return "Double"
     }
 
     /**
     type -> STRING_TYPE
      */
-    override fun visit_type_2(node: ASTNode.InnerNode<MetaDescription.type>): String {
+    override fun visit_type_2(node: ASTNode.InnerNode<MetaGrammarInfo.type>): String {
         return "String"
     }
 
     /**
     setDef -> DEFINE LPAREN DEFAULT ASSIGN defValue RPAREN
      */
-    override fun visit_setDef_0(node: ASTNode.InnerNode<MetaDescription.setDef>): String {
+    override fun visit_setDef_0(node: ASTNode.InnerNode<MetaGrammarInfo.setDef>): String {
         return " = ${visit_defValue(node.getChild(4))}"
     }
 
     /**
     setDef -> <eps>
      */
-    override fun visit_setDef_1(node: ASTNode.InnerNode<MetaDescription.setDef>): String {
+    override fun visit_setDef_1(node: ASTNode.InnerNode<MetaGrammarInfo.setDef>): String {
         return ""
     }
 
     /**
     defValue -> STRING
      */
-    override fun visit_defValue_0(node: ASTNode.InnerNode<MetaDescription.defValue>): String {
+    override fun visit_defValue_0(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): String {
         return visit_STRING(node.getChild(0))
     }
 
     /**
     defValue -> defTerm defMod
      */
-    override fun visit_defValue_1(node: ASTNode.InnerNode<MetaDescription.defValue>): String {
+    override fun visit_defValue_1(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): String {
         return "${visit_defTerm(node.getChild(0))} ${visit_defMod(node.getChild(1))}"
     }
 
     /**
     defValue -> SUB defTerm
      */
-    override fun visit_defValue_2(node: ASTNode.InnerNode<MetaDescription.defValue>): String {
+    override fun visit_defValue_2(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): String {
         return "-${visit_defTerm(node.getChild(1))}"
     }
 
     /**
     gLine -> CAMELNAME def DESCRIBE rules EOLN
      */
-    override fun visit_gLine(node: ASTNode.InnerNode<MetaDescription.gLine>): String {
+    override fun visit_gLine(node: ASTNode.InnerNode<MetaGrammarInfo.gLine>): String {
         val name = visit_CAMELNAME(node.getChild(0))
         stateTokens.add(name)
         val def = visit_def(node.getChild(1))
@@ -450,28 +450,28 @@ ${visit_gPlus(node.getChild(3))}
     /**
     def -> DEFINE LPAREN defBody RPAREN
      */
-    override fun visit_def_0(node: ASTNode.InnerNode<MetaDescription.def>): String {
+    override fun visit_def_0(node: ASTNode.InnerNode<MetaGrammarInfo.def>): String {
         return "{ ${visit_defBody(node.getChild(2))} }"
     }
 
     /**
     def -> <eps>
      */
-    override fun visit_def_1(node: ASTNode.InnerNode<MetaDescription.def>): String {
+    override fun visit_def_1(node: ASTNode.InnerNode<MetaGrammarInfo.def>): String {
         return ""
     }
 
     /**
     rules -> rule rulesPlus
      */
-    override fun visit_rules(node: ASTNode.InnerNode<MetaDescription.rules>): String {
+    override fun visit_rules(node: ASTNode.InnerNode<MetaGrammarInfo.rules>): String {
         return visitList("|", visit_rule(node.getChild(0)), visit_rulesPlus(node.getChild(1)))
     }
 
     /**
     rule -> seq def
      */
-    override fun visit_rule(node: ASTNode.InnerNode<MetaDescription.rule>): String {
+    override fun visit_rule(node: ASTNode.InnerNode<MetaGrammarInfo.rule>): String {
         val def = visit_def(node.getChild(1))
         return "Expansion(${visit_seq(node.getChild(0))})${if (def.isBlank()) "" else " /* $def */"}"
     }
@@ -479,35 +479,35 @@ ${visit_gPlus(node.getChild(3))}
     /**
     rulesPlus -> CHOICE rule rulesPlus
      */
-    override fun visit_rulesPlus_0(node: ASTNode.InnerNode<MetaDescription.rulesPlus>): String {
+    override fun visit_rulesPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.rulesPlus>): String {
         return visitList("|", visit_rule(node.getChild(1)), visit_rulesPlus(node.getChild(2)))
     }
 
     /**
     rulesPlus -> <eps>
      */
-    override fun visit_rulesPlus_1(node: ASTNode.InnerNode<MetaDescription.rulesPlus>): String {
+    override fun visit_rulesPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.rulesPlus>): String {
         return ""
     }
 
     /**
     seq -> atom seqPlus
      */
-    override fun visit_seq(node: ASTNode.InnerNode<MetaDescription.seq>): String {
+    override fun visit_seq(node: ASTNode.InnerNode<MetaGrammarInfo.seq>): String {
         return visitList(", ", visit_atom(node.getChild(0)), visit_seqPlus(node.getChild(1)))
     }
 
     /**
     atom -> CAPSNAME
      */
-    override fun visit_atom_0(node: ASTNode.InnerNode<MetaDescription.atom>): String {
+    override fun visit_atom_0(node: ASTNode.InnerNode<MetaGrammarInfo.atom>): String {
         return visit_CAPSNAME(node.getChild(0))
     }
 
     /**
     atom -> CAMELNAME pass
      */
-    override fun visit_atom_1(node: ASTNode.InnerNode<MetaDescription.atom>): String {
+    override fun visit_atom_1(node: ASTNode.InnerNode<MetaGrammarInfo.atom>): String {
         val pass = visit_pass(node.getChild(1))
         return "${visit_CAMELNAME(node.getChild(0))}${if (pass.isBlank()) "" else " /* $pass */"}"
     }
@@ -515,133 +515,133 @@ ${visit_gPlus(node.getChild(3))}
     /**
     seqPlus -> atom seqPlus
      */
-    override fun visit_seqPlus_0(node: ASTNode.InnerNode<MetaDescription.seqPlus>): String {
+    override fun visit_seqPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.seqPlus>): String {
         return visitList(", ", visit_atom(node.getChild(0)), visit_seqPlus(node.getChild(1)))
     }
 
     /**
     seqPlus -> <eps>
      */
-    override fun visit_seqPlus_1(node: ASTNode.InnerNode<MetaDescription.seqPlus>): String {
+    override fun visit_seqPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.seqPlus>): String {
         return ""
     }
 
     /**
     pass -> LPAREN defBody RPAREN
      */
-    override fun visit_pass_0(node: ASTNode.InnerNode<MetaDescription.pass>): String {
+    override fun visit_pass_0(node: ASTNode.InnerNode<MetaGrammarInfo.pass>): String {
         return "{ ${visit_defBody(node.getChild(1))} }"
     }
 
     /**
     pass -> <eps>
      */
-    override fun visit_pass_1(node: ASTNode.InnerNode<MetaDescription.pass>): String {
+    override fun visit_pass_1(node: ASTNode.InnerNode<MetaGrammarInfo.pass>): String {
         return ""
     }
 
     /**
     defBody -> defAtom defPlus
      */
-    override fun visit_defBody(node: ASTNode.InnerNode<MetaDescription.defBody>): String {
+    override fun visit_defBody(node: ASTNode.InnerNode<MetaGrammarInfo.defBody>): String {
         return visitList(", ", visit_defAtom(node.getChild(0)), visit_defPlus(node.getChild(1)))
     }
 
     /**
     defAtom -> CAMELNAME ASSIGN defValue
      */
-    override fun visit_defAtom(node: ASTNode.InnerNode<MetaDescription.defAtom>): String {
+    override fun visit_defAtom(node: ASTNode.InnerNode<MetaGrammarInfo.defAtom>): String {
         return "${visit_CAMELNAME(node.getChild(0))} = ${visit_defValue(node.getChild(2))}"
     }
 
     /**
     defPlus -> SEP defAtom defPlus
      */
-    override fun visit_defPlus_0(node: ASTNode.InnerNode<MetaDescription.defPlus>): String {
+    override fun visit_defPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.defPlus>): String {
         return visitList(", ", visit_defAtom(node.getChild(1)), visit_defPlus(node.getChild(2)))
     }
 
     /**
     defPlus -> <eps>
      */
-    override fun visit_defPlus_1(node: ASTNode.InnerNode<MetaDescription.defPlus>): String {
+    override fun visit_defPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.defPlus>): String {
         return ""
     }
 
     /**
     defTerm -> atName
      */
-    override fun visit_defTerm_0(node: ASTNode.InnerNode<MetaDescription.defTerm>): String {
+    override fun visit_defTerm_0(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>): String {
         return visit_atName(node.getChild(0))
     }
 
     /**
     defTerm -> INT
      */
-    override fun visit_defTerm_1(node: ASTNode.InnerNode<MetaDescription.defTerm>): String {
+    override fun visit_defTerm_1(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>): String {
         return visit_INT(node.getChild(0))
     }
 
     /**
     defTerm -> DOUBLE
      */
-    override fun visit_defTerm_2(node: ASTNode.InnerNode<MetaDescription.defTerm>): String {
+    override fun visit_defTerm_2(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>): String {
         return visit_DOUBLE(node.getChild(0))
     }
 
     /**
     defMod -> op defTerm
      */
-    override fun visit_defMod_0(node: ASTNode.InnerNode<MetaDescription.defMod>): String {
+    override fun visit_defMod_0(node: ASTNode.InnerNode<MetaGrammarInfo.defMod>): String {
         return "${visit_op(node.getChild(0))} ${visit_defTerm(node.getChild(1))}"
     }
 
     /**
     defMod -> <eps>
      */
-    override fun visit_defMod_1(node: ASTNode.InnerNode<MetaDescription.defMod>): String {
+    override fun visit_defMod_1(node: ASTNode.InnerNode<MetaGrammarInfo.defMod>): String {
         return ""
     }
 
     /**
     atName -> SPNAME
      */
-    override fun visit_atName_0(node: ASTNode.InnerNode<MetaDescription.atName>): String {
+    override fun visit_atName_0(node: ASTNode.InnerNode<MetaGrammarInfo.atName>): String {
         return visit_SPNAME(node.getChild(0))
     }
 
     /**
     atName -> CAMELNAME
      */
-    override fun visit_atName_1(node: ASTNode.InnerNode<MetaDescription.atName>): String {
+    override fun visit_atName_1(node: ASTNode.InnerNode<MetaGrammarInfo.atName>): String {
         return visit_CAMELNAME(node.getChild(0))
     }
 
     /**
     op -> ADD
      */
-    override fun visit_op_0(node: ASTNode.InnerNode<MetaDescription.op>): String {
+    override fun visit_op_0(node: ASTNode.InnerNode<MetaGrammarInfo.op>): String {
         return "+"
     }
 
     /**
     op -> SUB
      */
-    override fun visit_op_1(node: ASTNode.InnerNode<MetaDescription.op>): String {
+    override fun visit_op_1(node: ASTNode.InnerNode<MetaGrammarInfo.op>): String {
         return "-"
     }
 
     /**
     op -> MUL
      */
-    override fun visit_op_2(node: ASTNode.InnerNode<MetaDescription.op>): String {
+    override fun visit_op_2(node: ASTNode.InnerNode<MetaGrammarInfo.op>): String {
         return "*"
     }
 
     /**
     op -> DIV
      */
-    override fun visit_op_3(node: ASTNode.InnerNode<MetaDescription.op>): String {
+    override fun visit_op_3(node: ASTNode.InnerNode<MetaGrammarInfo.op>): String {
         return "/"
     }
 

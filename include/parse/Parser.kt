@@ -2,14 +2,14 @@ package parse
 
 import grammar.Expansion
 import grammar.token.Token
-import structure.Description
+import translate.codegen.info.GrammarInfo
 import structure.ASTNode
 import utils.Beautifier
 import java.text.ParseException
 
-class Parser(private val description: Description) {
+class Parser(private val grammarInfo: GrammarInfo) {
 
-    private val helper = Helper(description.getGrammar())
+    private val helper = Helper(grammarInfo.getGrammar())
 
     private fun parseExpandable(
         state: Token.StateToken,
@@ -53,7 +53,7 @@ class Parser(private val description: Description) {
                 when (token) {
                     is Token.StateToken -> parseNullable(
                         token,
-                        description.getGrammar().RULES[state].expansions.first {
+                        grammarInfo.getGrammar().RULES[state].expansions.first {
                             Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST(it))
                         }
                     )
@@ -69,7 +69,7 @@ class Parser(private val description: Description) {
     }
 
     private fun parse(state: Token.StateToken, lexer: Lexer): ASTNode<Token.StateToken> {
-        val rule = description.getGrammar().RULES[state]
+        val rule = grammarInfo.getGrammar().RULES[state]
 
         val byFirst = rule.expansions.filter { Token.isAcceptable(lexer.getToken(), helper.FIRST(it)) }
         val byFollow = rule.expansions.filter { Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST(it)) }
@@ -96,9 +96,9 @@ class Parser(private val description: Description) {
     }
 
     fun parse(line: String): ASTNode<Token.StateToken> {
-        Token.switchTo(description.getName())
-        val lexer = Lexer(line, description)
-        return parse(description.getGrammar().getStart(), lexer).also {
+        Token.switchTo(grammarInfo.getName())
+        val lexer = Lexer(line, grammarInfo)
+        return parse(grammarInfo.getGrammar().getStart(), lexer).also {
             if (lexer.getToken() != Token.UniqueToken.EOF) {
                 throw ParseException("Parsing ended and end of the line is not reached", lexer.getIndex())
             }

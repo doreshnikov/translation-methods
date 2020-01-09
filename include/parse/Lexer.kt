@@ -2,10 +2,10 @@ package parse
 
 import grammar.token.Restricted
 import grammar.token.Token
-import structure.Description
+import translate.codegen.info.GrammarInfo
 import java.text.ParseException
 
-class Lexer(private val input: String, private val description: Description) :
+class Lexer(private val input: String, private val grammarInfo: GrammarInfo) :
     Restricted by Restricted.Symbolic + Restricted.Eof {
 
     private var offset = 0
@@ -32,7 +32,7 @@ class Lexer(private val input: String, private val description: Description) :
                 else -> grammarToken
             }.also { token = pass(it) }
 
-            return if (Token.isAcceptable(token, description.getSkippedTokens())) nextToken() else token
+            return if (Token.isAcceptable(token, grammarInfo.getSkippedTokens())) nextToken() else token
         }
         throw ParseException("No valid tokens found in input on position $offset", offset)
     }

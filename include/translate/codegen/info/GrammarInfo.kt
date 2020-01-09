@@ -1,9 +1,9 @@
-package structure
+package translate.codegen.info
 
 import grammar.Grammar
 import grammar.token.Token
 
-interface Description {
+interface GrammarInfo {
 
     fun getGrammar(): Grammar
 

@@ -8,9 +8,9 @@ package gen
 import grammar.token.Token
 import grammar.Grammar
 import grammar.Expansion
-import structure.Description
+import translate.codegen.info.GrammarInfo
 
-object RegexDescription : Description {
+object RegexGrammarInfo : GrammarInfo {
 
     override fun getSkippedTokens(): Set<Token> {
         return setOf()
@@ -28,7 +28,7 @@ object RegexDescription : Description {
     }
     
     override fun getName(): String {
-        return "<Regex>"
+        return "RegexGrammarInfo"
     }
     
     init {

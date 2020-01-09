@@ -1,8 +1,8 @@
 package translate.test
 
 import parse.Parser
-import translate.codegen.DescriptionBuilder
-import translate.meta.MetaDescription
+import translate.codegen.GrammarInfoBuilder
+import translate.meta.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException
 
@@ -17,10 +17,11 @@ fun main() {
         val str = File("$loc\\include\\translate\\examples\\$name.my").bufferedReader().use {
             return@use it.readText()
         }
-        val uname = singleUpperCase(name)
+        val uname = "${singleUpperCase(name)}GrammarInfo"
         try {
-            val s = DescriptionBuilder("gen", uname).collect(Parser(MetaDescription).parse(str))
-            File("$loc\\src\\gen\\${uname}Description.kt").bufferedWriter().use { out ->
+            val s = GrammarInfoBuilder("gen", uname)
+                .collect(Parser(MetaGrammarInfo).parse(str))
+            File("$loc\\src\\gen\\${uname}.kt").bufferedWriter().use { out ->
                 out.write(s)
             }
             println("[SUCCESS] $name")

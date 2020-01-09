@@ -1,7 +1,7 @@
 package regex.test
 
 import parse.Parser
-import gen.RegexDescription
+import gen.RegexGrammarInfo
 import structure.ASTNode
 import java.text.ParseException
 
@@ -9,7 +9,7 @@ import java.text.ParseException
 sealed class Test(protected val name: String) {
 
     companion object {
-        val me = RegexDescription
+        val me = RegexGrammarInfo
         val tests = mutableListOf<Test>()
 
         fun runAll() {

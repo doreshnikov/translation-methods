@@ -8,9 +8,9 @@ package gen
 import grammar.token.Token
 import grammar.Grammar
 import grammar.Expansion
-import structure.Description
+import translate.codegen.info.GrammarInfo
 
-object PrefixDescription : Description {
+object PrefixGrammarInfo : GrammarInfo {
 
     override fun getSkippedTokens(): Set<Token> {
         return setOf(WHITESPACE)
@@ -28,7 +28,7 @@ object PrefixDescription : Description {
     }
     
     override fun getName(): String {
-        return "<Prefix>"
+        return "PrefixGrammarInfo"
     }
     
     init {

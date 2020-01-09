@@ -7,12 +7,12 @@ fun main() {
 
     val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
     AbstractVisitorBuilder(
-        MetaDescription,
-        "MetaDescription",
+        MetaGrammarInfo,
+        MetaVisitorInfo,
         "translate.meta",
-        "MetaBaseVisitor2"
+        "MetaBaseVisitor"
     ).buildVisitor(
-        File("$loc\\include\\translate\\meta\\MetaBaseVisitor2.kt")
+        File("$loc\\include\\translate\\meta\\MetaBaseVisitor.kt")
     )
 
 }

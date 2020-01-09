@@ -1,7 +1,8 @@
-package structure
+package utils
 
 import grammar.token.Token
-import utils.Beautifier
+import structure.ASTNode
+import structure.Visitor
 import java.lang.StringBuilder
 
 class GraphvizVisitor : Visitor<String> {

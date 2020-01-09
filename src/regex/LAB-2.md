@@ -125,7 +125,7 @@ A  : $, '(', ')', '|', '*', ['a'..'z']
 
 ### Фиксированная грамматика
 
-В [RegexDescriptionы](../gen/RegexDescription.kt)
+В [RegexDescriptionы](../gen/RegexGrammarInfo.kt)
 * задаем алфавит языка
 ```kotlin
 object regex        : Token.StateToken("regex")

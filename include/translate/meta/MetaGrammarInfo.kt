@@ -3,9 +3,9 @@ package translate.meta
 import grammar.Expansion
 import grammar.Grammar
 import grammar.token.Token
-import structure.Description
+import translate.codegen.info.GrammarInfo
 
-object MetaDescription : Description {
+object MetaGrammarInfo : GrammarInfo {
 
     override fun getAll(): List<Token> {
         return listOf(
@@ -31,7 +31,7 @@ object MetaDescription : Description {
     }
 
     override fun getName(): String {
-        return "<meta>"
+        return "MetaGrammarInfo"
     }
 
     init {
