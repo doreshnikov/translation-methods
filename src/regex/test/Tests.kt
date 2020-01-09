@@ -1,7 +1,7 @@
 package regex.test
 
+import gen.regex.RegexGrammarInfo
 import grammar.token.Token
-import gen.RegexGrammarInfo
 import structure.ASTNode
 
 @Suppress("DuplicatedCode")

@@ -14,14 +14,12 @@ fun main() {
         }
         val uname = singleUpperCase(name)
         try {
-            val s = VisitorInfoBuilder(
-                "gen",
+            VisitorInfoBuilder(
+                "gen.$name",
                 "${uname}VisitorInfo",
                 "${uname}GrammarInfo"
-            ).collect(Parser(MetaGrammarInfo).parse(str))
-            File("$loc\\src\\gen\\${uname}VisitorInfo.kt").bufferedWriter().use { out ->
-                out.write(s)
-            }
+            ).doAll(Parser(MetaGrammarInfo).parse(str))
+//            File("$loc\\src\\gen\\$name\\${uname}VisitorInfo.kt").bufferedWriter().use { out -> out.write(s) }
             println("[SUCCESS] $name")
         } catch (e: ParseException) {
             println("[FAIL] $name: $e at ${e.errorOffset}")

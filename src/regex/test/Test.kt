@@ -1,7 +1,7 @@
 package regex.test
 
+import gen.regex.RegexGrammarInfo
 import parse.Parser
-import gen.RegexGrammarInfo
 import structure.ASTNode
 import java.text.ParseException
 

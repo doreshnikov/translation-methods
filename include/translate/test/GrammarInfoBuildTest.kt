@@ -14,9 +14,9 @@ fun main() {
         }
         val uname = "${singleUpperCase(name)}GrammarInfo"
         try {
-            val s = GrammarInfoBuilder("gen", uname)
+            val s = GrammarInfoBuilder("gen.$name", uname)
                 .collect(Parser(MetaGrammarInfo).parse(str))
-            File("$loc\\src\\gen\\${uname}.kt").bufferedWriter().use { out ->
+            File("$loc\\src\\gen\\$name\\${uname}.kt").bufferedWriter().use { out ->
                 out.write(s)
             }
             println("[SUCCESS] $name")
