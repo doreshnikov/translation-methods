@@ -81,7 +81,9 @@ ${getVisitMethods()}
     /**
     $token -> ${expansions.first()}
     */
-    fun visit_${token}(node: ${getNodeType(token)}): R"""
+    fun visit_${token}(node: ${getNodeType(token)}): R {
+        throw IllegalStateException("Unexpected expansion ${"$"}{node.getToken()} -> ${"$"}{node.getExpansion()} visited while visiting traversing tree")
+    }"""
         } else {
             """
     fun visit_${token}(node: ${getNodeType(token)}): R {
@@ -95,7 +97,10 @@ ${expansions.joinToString("\n") {
     /**
     $token -> $it
     */
-    fun visit_${token}_${it.getId()}(node: ${getNodeType(token)}): R"""
+    fun visit_${token}_${it.getId()}(node: ${getNodeType(token)}): R {
+        throw IllegalStateException("Unexpected expansion ${"$"}{node.getToken()} -> ${"$"}{node.getExpansion()} visited while visiting traversing tree") 
+    }
+    """
             }}"""
         }
     }

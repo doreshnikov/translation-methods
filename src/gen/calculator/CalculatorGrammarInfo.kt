@@ -54,24 +54,20 @@ object CalculatorGrammarInfo : GrammarInfo {
     object UINT : Token.RegexToken("UINT", "[0-9]*".toRegex())
 
     private val grammar = Grammar(
-        /*
-        synthesis: value: Int
-        inheritance: left: Int
-        */
         expression,
-        
-        expression into Expansion(term, expression /* { left = @1.value  } */) /* { value = @2.value  } */,
-        expressionPlus into Expansion(PLUS, term, expressionPlus /* { left = left + @2.value } */) /* { value = @3.value  } */,
-        expressionPlus into Expansion(MINUS, term, expressionPlus /* { left = left - @2.value } */) /* { value = @3.value  } */,
-        expressionPlus into Expansion(Token.UniqueToken.EPSILON) /* { value = left  } */,
-        term into Expansion(factor, termPlus /* { left = @1.value  } */) /* { value = @2.value  } */,
-        termPlus into Expansion(TIMES, factor, termPlus /* { left = left * @2.value } */) /* { value = @3.value  } */,
-        termPlus into Expansion(DIV, factor, termPlus /* { left = left / @2.value } */) /* { value = @3.value  } */,
-        termPlus into Expansion(Token.UniqueToken.EPSILON) /* { value = left  } */,
-        factor into Expansion(MINUS, factor) /* { value = -@2.value } */,
-        factor into Expansion(atom) /* { value = @1.value  } */,
-        atom into Expansion(LPAREN, expression, RPAREN) /* { value = @2.value  } */,
-        atom into Expansion(UINT) /* { value = @1.INT  } */
+
+        expression into Expansion(term, expression),
+        expressionPlus into Expansion(PLUS, term, expressionPlus),
+        expressionPlus into Expansion(MINUS, term, expressionPlus),
+        expressionPlus into Expansion(Token.UniqueToken.EPSILON),
+        term into Expansion(factor, termPlus),
+        termPlus into Expansion(TIMES, factor, termPlus),
+        termPlus into Expansion(DIV, factor, termPlus),
+        termPlus into Expansion(Token.UniqueToken.EPSILON),
+        factor into Expansion(MINUS, factor),
+        factor into Expansion(atom),
+        atom into Expansion(LPAREN, expression, RPAREN),
+        atom into Expansion(UINT)
     ).order()
 
 }
