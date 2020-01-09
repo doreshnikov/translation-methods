@@ -15,6 +15,8 @@ interface Token {
         throw IllegalArgumentException("Token $this does not support text requests")
     }
 
+    fun getString(): String
+
     companion object TokenStorage {
         private val factory = hashMapOf<String, Token>()
         private val all = mutableListOf<Token>()
@@ -42,7 +44,7 @@ interface Token {
 
         fun isAcceptable(lexerToken: Token, grammarToken: Token): Boolean {
             return lexerToken == grammarToken ||
-                    lexerToken is VariantToken.VariantInstanceToken && lexerToken.origin == grammarToken
+                    lexerToken is VariantToken.VariantInstanceToken<*> && lexerToken.origin == grammarToken
         }
 
         fun isAcceptable(token: Token, tokenSet: Set<Token>): Boolean {
@@ -61,7 +63,7 @@ interface Token {
                 return if (offset == data.length) "" else null
             }
 
-            override fun toString(): String {
+            override fun getString(): String {
                 return "<eof>"
             }
 
@@ -71,7 +73,7 @@ interface Token {
         }
 
         object EPSILON : UniqueToken("EPSILON") {
-            override fun toString(): String {
+            override fun getString(): String {
                 return "<eps>"
             }
 
@@ -79,6 +81,8 @@ interface Token {
                 return ""
             }
         }
+
+        override fun toString() = getString()
     }
 
     interface DataToken : Token {
@@ -87,7 +91,7 @@ interface Token {
             companion object {
                 operator fun invoke(name: String, data: String): NamedDataToken {
                     return object : NamedDataToken(data) {
-                        override fun toString(): String {
+                        override fun getString(): String {
                             return name
                         }
 
@@ -101,6 +105,8 @@ interface Token {
                     }
                 }
             }
+
+            override fun toString() = getString()
         }
 
     }
@@ -108,7 +114,7 @@ interface Token {
     interface VariantToken : Token {
 
         abstract class Instantiable : VariantToken {
-            fun instantiate(value: String): VariantInstanceToken {
+            fun instantiate(value: String): VariantInstanceToken<*> {
                 return VariantInstanceToken(this, value)
             }
         }
@@ -126,7 +132,7 @@ interface Token {
             companion object {
                 operator fun <T : Desriptor<*>> invoke(name: String, desc: T): NamedVariantToken<T> {
                     return object : NamedVariantToken<T>(desc) {
-                        override fun toString(): String {
+                        override fun getString(): String {
                             return name
                         }
 
@@ -136,10 +142,12 @@ interface Token {
                     }
                 }
             }
+
+            override fun toString() = getString()
         }
 
-        class VariantInstanceToken(val origin: VariantToken, val value: String) : Token {
-            override fun toString(): String {
+        class VariantInstanceToken<R : VariantToken>(val origin: R, val value: String) : Token {
+            override fun getString(): String {
                 return "'$value'"
             }
 
@@ -148,7 +156,7 @@ interface Token {
             }
 
             override fun equals(other: Any?): Boolean {
-                return other is VariantInstanceToken && other.origin == origin && other.value == value
+                return other is VariantInstanceToken<*> && other.origin == origin && other.value == value
             }
 
             override fun hashCode(): Int {
@@ -156,6 +164,8 @@ interface Token {
                 result = 31 * result + value.hashCode()
                 return result
             }
+
+            override fun toString() = getString()
         }
 
     }
@@ -164,6 +174,8 @@ interface Token {
         init {
             TokenStorage(name, this)
         }
+
+        override fun toString() = getString()
     }
 
     open class RegexToken(name: String, data: Regex) : VariantToken.Instantiable(),
@@ -182,6 +194,8 @@ interface Token {
         init {
             TokenStorage(name, this)
         }
+
+        override fun toString() = getString()
     }
 
     open class CharRangeToken(name: String, data: CharRange) : VariantToken.Instantiable(),
@@ -199,6 +213,8 @@ interface Token {
         init {
             TokenStorage(name, this)
         }
+
+        override fun toString() = getString()
     }
 
     open class StateToken(private val name: String) : Token {
@@ -218,9 +234,11 @@ interface Token {
             Companion(name, this)
         }
 
-        override fun toString(): String {
+        override fun getString(): String {
             return name
         }
+
+        override fun toString() = getString()
 
         fun derived(): StateToken {
             var newId = name

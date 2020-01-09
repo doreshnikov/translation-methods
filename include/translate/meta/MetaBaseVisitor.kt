@@ -15,48 +15,48 @@ abstract class MetaBaseVisitor<R> : Visitor<R> {
 /*
 Start: all
 all -> m t g
-m -> macro { kfPlus } | <eps>
-kfPlus -> re((\t| {4})fun .* \{(\n|\r\n)(\1.*\2)+\1}) kfPlus | <eps>
-t -> tokens { tComp tFrag tPlus }
-tComp -> companion { tSkip } | <eps>
-tSkip -> skip : tArray ;
-tArray -> [ re([A-Z]+) tArrayPlus ]
-tArrayPlus -> , re([A-Z]+) tArrayPlus | <eps>
-tFrag -> fragments { tFragPlus } | <eps>
+m -> MACRO LPAREN kfPlus RPAREN | <eps>
+kfPlus -> KOTLIN_FUNC kfPlus | <eps>
+t -> TOKENS LPAREN tComp tFrag tPlus RPAREN
+tComp -> COMPANION LPAREN tSkip RPAREN | <eps>
+tSkip -> SKIP DESCRIBE tArray EOLN
+tArray -> LARRAY CAPSNAME tArrayPlus RARRAY
+tArrayPlus -> SEP CAPSNAME tArrayPlus | <eps>
+tFrag -> FRAGMENTS LPAREN tFragPlus RPAREN | <eps>
 tFragPlus -> tFragLine tFragPlus | <eps>
-tFragLine -> re([A-Z]+) : re(\"[^\"]*\") ;
+tFragLine -> CAPSNAME DESCRIBE STRING EOLN
 tPlus -> tLine tPlus | <eps>
-tLine -> re([A-Z]+) : tDef ;
-tDef -> re(\"[^\"]*\") | re(r\"[^\"]*\") | < re('[^']') .. re('[^']') >
-g -> grammar { gComp gPlus }
-gComp -> companion { gSynth gInh gCompv gStart }
-gSynth -> synthesis { attribs } | <eps>
-gInh -> inheritance { attribs } | <eps>
-gCompv -> compute { attribs } | <eps>
-gStart -> start : re([a-z]+([A-Z][a-z]*)*) ;
+tLine -> CAPSNAME DESCRIBE tDef EOLN
+tDef -> STRING | RSTRING | LTRIG CHAR CHARRANGE CHAR RTRIG
+g -> GRAMMAR LPAREN gComp gPlus RPAREN
+gComp -> COMPANION LPAREN gSynth gInh gCompv gStart RPAREN
+gSynth -> SYNTHESIS LPAREN attribs RPAREN | <eps>
+gInh -> INHERITANCE LPAREN attribs RPAREN | <eps>
+gCompv -> COMPUTE LPAREN attribs RPAREN | <eps>
+gStart -> START DESCRIBE CAMELNAME EOLN
 attribs -> attrib attribsPlus
-attrib -> re([a-z]+([A-Z][a-z]*)*) : type setDef ;
-type -> Int | Double | String
-setDef -> :: { default = defValue } | <eps>
+attrib -> CAMELNAME DESCRIBE type setDef EOLN
+type -> INT_TYPE | DOUBLE_TYPE | STRING_TYPE
+setDef -> DEFINE LPAREN DEFAULT ASSIGN defValue RPAREN | <eps>
 attribsPlus -> attrib attribsPlus | <eps>
 gPlus -> gLine gPlus | <eps>
-gLine -> re([a-z]+([A-Z][a-z]*)*) def : rules ;
+gLine -> CAMELNAME def DESCRIBE rules EOLN
 rules -> rule rulesPlus
 rule -> seq def
 seq -> atom seqPlus
-atom -> re([A-Z]+) | re([a-z]+([A-Z][a-z]*)*) pass
-pass -> { defBody } | <eps>
+atom -> CAPSNAME | CAMELNAME pass
+pass -> LPAREN defBody RPAREN | <eps>
 seqPlus -> atom seqPlus | <eps>
-rulesPlus -> | rule rulesPlus | <eps>
-def -> :: { defBody } | <eps>
+rulesPlus -> CHOICE rule rulesPlus | <eps>
+def -> DEFINE LPAREN defBody RPAREN | <eps>
 defBody -> defAtom defPlus
-defAtom -> re([a-z]+([A-Z][a-z]*)*) = defValue
-defValue -> re(\"[^\"]*\") | defTerm defMod | - defTerm
-defTerm -> atName | re((0|[1-9]\d*)) | re((0|[1-9]\d*)\.\d*)
+defAtom -> CAMELNAME ASSIGN defValue
+defValue -> STRING | defTerm defMod | SUB defTerm
+defTerm -> atName | INT | DOUBLE
 defMod -> op defTerm | <eps>
-op -> + | - | * | /
-atName -> re(@(\d*|macro)\.[a-zA-Z()]+) | re([a-z]+([A-Z][a-z]*)*)
-defPlus -> , defAtom defPlus | <eps>
+op -> ADD | SUB | MUL | DIV
+atName -> SPNAME | CAMELNAME
+defPlus -> SEP defAtom defPlus | <eps>
 */
 
     override fun visit(node: ASTNode<out Token>): R {
@@ -92,16 +92,16 @@ defPlus -> , defAtom defPlus | <eps>
 			MetaDescription.INT_TYPE -> visit_INT_TYPE(node as ASTNode.TerminalNode<MetaDescription.INT_TYPE>)
 			MetaDescription.DOUBLE_TYPE -> visit_DOUBLE_TYPE(node as ASTNode.TerminalNode<MetaDescription.DOUBLE_TYPE>)
 			MetaDescription.STRING_TYPE -> visit_STRING_TYPE(node as ASTNode.TerminalNode<MetaDescription.STRING_TYPE>)
-			MetaDescription.KOTLIN_FUNC -> visit_KOTLIN_FUNC(node as ASTNode.TerminalNode<MetaDescription.KOTLIN_FUNC>)
-			MetaDescription.DOUBLE -> visit_DOUBLE(node as ASTNode.TerminalNode<MetaDescription.DOUBLE>)
-			MetaDescription.INT -> visit_INT(node as ASTNode.TerminalNode<MetaDescription.INT>)
-			MetaDescription.CHAR -> visit_CHAR(node as ASTNode.TerminalNode<MetaDescription.CHAR>)
-			MetaDescription.STRING -> visit_STRING(node as ASTNode.TerminalNode<MetaDescription.STRING>)
-			MetaDescription.RSTRING -> visit_RSTRING(node as ASTNode.TerminalNode<MetaDescription.RSTRING>)
-			MetaDescription.SPNAME -> visit_SPNAME(node as ASTNode.TerminalNode<MetaDescription.SPNAME>)
-			MetaDescription.CAMELNAME -> visit_CAMELNAME(node as ASTNode.TerminalNode<MetaDescription.CAMELNAME>)
-			MetaDescription.CAPSNAME -> visit_CAPSNAME(node as ASTNode.TerminalNode<MetaDescription.CAPSNAME>)
-			MetaDescription.WHITESPACE -> visit_WHITESPACE(node as ASTNode.TerminalNode<MetaDescription.WHITESPACE>)
+			MetaDescription.KOTLIN_FUNC -> visit_KOTLIN_FUNC(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.KOTLIN_FUNC>>)
+			MetaDescription.DOUBLE -> visit_DOUBLE(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.DOUBLE>>)
+			MetaDescription.INT -> visit_INT(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.INT>>)
+			MetaDescription.CHAR -> visit_CHAR(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CHAR>>)
+			MetaDescription.STRING -> visit_STRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.STRING>>)
+			MetaDescription.RSTRING -> visit_RSTRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>)
+			MetaDescription.SPNAME -> visit_SPNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.SPNAME>>)
+			MetaDescription.CAMELNAME -> visit_CAMELNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAMELNAME>>)
+			MetaDescription.CAPSNAME -> visit_CAPSNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>)
+			MetaDescription.WHITESPACE -> visit_WHITESPACE(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.WHITESPACE>>)
 			MetaDescription.all -> visit_all(node as ASTNode.InnerNode<MetaDescription.all>)
 			MetaDescription.m -> visit_m(node as ASTNode.InnerNode<MetaDescription.m>)
 			MetaDescription.t -> visit_t(node as ASTNode.InnerNode<MetaDescription.t>)
@@ -244,34 +244,34 @@ defPlus -> , defAtom defPlus | <eps>
 	open fun visit_STRING_TYPE(node: ASTNode.TerminalNode<MetaDescription.STRING_TYPE>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_KOTLIN_FUNC(node: ASTNode.TerminalNode<MetaDescription.KOTLIN_FUNC>): R {
+	open fun visit_KOTLIN_FUNC(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.KOTLIN_FUNC>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_DOUBLE(node: ASTNode.TerminalNode<MetaDescription.DOUBLE>): R {
+	open fun visit_DOUBLE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.DOUBLE>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_INT(node: ASTNode.TerminalNode<MetaDescription.INT>): R {
+	open fun visit_INT(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.INT>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_CHAR(node: ASTNode.TerminalNode<MetaDescription.CHAR>): R {
+	open fun visit_CHAR(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CHAR>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_STRING(node: ASTNode.TerminalNode<MetaDescription.STRING>): R {
+	open fun visit_STRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.STRING>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_RSTRING(node: ASTNode.TerminalNode<MetaDescription.RSTRING>): R {
+	open fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_SPNAME(node: ASTNode.TerminalNode<MetaDescription.SPNAME>): R {
+	open fun visit_SPNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.SPNAME>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_CAMELNAME(node: ASTNode.TerminalNode<MetaDescription.CAMELNAME>): R {
+	open fun visit_CAMELNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAMELNAME>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_CAPSNAME(node: ASTNode.TerminalNode<MetaDescription.CAPSNAME>): R {
+	open fun visit_CAPSNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>): R {
 		return visitTerminal(node.getToken())
 	}
-	open fun visit_WHITESPACE(node: ASTNode.TerminalNode<MetaDescription.WHITESPACE>): R {
+	open fun visit_WHITESPACE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.WHITESPACE>>): R {
 		return visitTerminal(node.getToken())
 	}
 	abstract fun visit_all(node: ASTNode.InnerNode<MetaDescription.all>): R

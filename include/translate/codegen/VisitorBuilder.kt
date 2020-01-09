@@ -47,22 +47,23 @@ ${collectVisitMethods()}
     }
 
     private fun nodeType(token: Token): String {
-        return if (token is Token.StateToken) {
-            "ASTNode.InnerNode"
-        } else {
-            "ASTNode.TerminalNode"
+        return when (token) {
+            is Token.StateToken -> "ASTNode.InnerNode<${fullName(token)}>"
+            is Token.DataToken -> "ASTNode.TerminalNode<${fullName(token)}>"
+            is Token.VariantToken -> "ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<${fullName(token)}>>"
+            else -> throw IllegalArgumentException("Unexpected token $token type")
         }
     }
 
     private fun fullName(token: Token): String {
-        return "$name.${token}"
+        return "$name.$token"
     }
 
     private fun collectChoiceVisit(): String {
         return """
         return when(node.getToken()) {
 ${tokens.joinToString("\n") { token ->
-            "\t\t\t${fullName(token)} -> visit_${token}(node as ${nodeType(token)}<${fullName(token)}>)"
+            "\t\t\t${fullName(token)} -> visit_${token}(node as ${nodeType(token)})"
         }}
             else -> throw IllegalStateException("Unknown token ${"$"}{node.getToken()} met")
         }"""
@@ -70,9 +71,9 @@ ${tokens.joinToString("\n") { token ->
 
     private fun visitMethod(token: Token): String {
         return if (token is Token.StateToken) {
-            "\tabstract fun visit_${token}(node: ${nodeType(token)}<${fullName(token)}>): R\n"
+            "\tabstract fun visit_${token}(node: ${nodeType(token)}): R\n"
         } else {
-            "\topen fun visit_${token}(node: ${nodeType(token)}<${fullName(token)}>): R " +
+            "\topen fun visit_${token}(node: ${nodeType(token)}): R " +
                     "{\n\t\treturn visitTerminal(node.getToken())\n\t}\n"
         }
     }

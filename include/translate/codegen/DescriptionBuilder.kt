@@ -56,12 +56,12 @@ $collected
         return token.getText()
     }
 
-    override fun visit_CAPSNAME(node: ASTNode.TerminalNode<MetaDescription.CAPSNAME>): String {
+    override fun visit_CAPSNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>): String {
         val name = super.visit_CAPSNAME(node)
         return if (name == "EPSILON") "Token.UniqueToken.EPSILON" else name
     }
 
-    override fun visit_RSTRING(node: ASTNode.TerminalNode<MetaDescription.RSTRING>): String {
+    override fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>): String {
         return super.visit_RSTRING(node).substring(1)
     }
 
@@ -152,7 +152,7 @@ ${visit_gPlus(node.getChild(3))}
 
     override fun visit_tDef(node: ASTNode.InnerNode<MetaDescription.tDef>): String {
         return when (val token = node.children[0].getToken()) {
-            is Token.VariantToken.VariantInstanceToken -> {
+            is Token.VariantToken.VariantInstanceToken<*> -> {
                 when (token.origin) {
                     is MetaDescription.STRING -> "Token.StringToken(\"%s\", ${visit_STRING(node.getChild(0))})"
                     is MetaDescription.RSTRING -> "Token.RegexToken(\"%s\", ${visit_RSTRING(node.getChild(0))}.toRegex())"
@@ -245,7 +245,7 @@ ${visit_gPlus(node.getChild(3))}
 
     override fun visit_atom(node: ASTNode.InnerNode<MetaDescription.atom>): String {
         return when (val token = node.children[0].getToken()) {
-            is Token.VariantToken.VariantInstanceToken -> {
+            is Token.VariantToken.VariantInstanceToken<*> -> {
                 when (token.origin) {
                     is MetaDescription.CAPSNAME -> visit_CAPSNAME(node.getChild(0))
                     is MetaDescription.CAMELNAME -> visit_CAMELNAME(node.getChild(0))
