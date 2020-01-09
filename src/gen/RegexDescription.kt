@@ -41,6 +41,9 @@ object RegexDescription : Description {
 	object UINT : Token.RegexToken("UINT", "[1-9][0-9]*".toRegex())
 
     private val grammar = Grammar(
+        /*
+        
+        */
         regex,
         
 		regex into Expansion(sequence, regexPlus),
