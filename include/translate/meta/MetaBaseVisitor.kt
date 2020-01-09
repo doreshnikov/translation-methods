@@ -10,7 +10,7 @@ import grammar.token.Token
 import translate.meta.MetaDescription
 
 @Suppress("UNCHECKED_CAST")
-abstract class MetaBaseVisitor2<R> : Visitor<R> {
+abstract class MetaBaseVisitor<R> : Visitor<R> {
 
 /*
 Start: all

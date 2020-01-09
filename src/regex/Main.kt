@@ -3,6 +3,7 @@ package regex
 import gen.RegexDescription
 import parse.Parser
 import structure.ASTNode
+import structure.GraphvizVisitor
 import java.io.File
 import java.text.ParseException
 

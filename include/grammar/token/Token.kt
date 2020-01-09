@@ -18,27 +18,37 @@ interface Token {
     fun getString(): String
 
     companion object TokenStorage {
-        private val factory = hashMapOf<String, Token>()
-        private val all = mutableListOf<Token>()
+        data class Storage(val factory: MutableMap<String, Token>, val all: MutableList<Token>)
+        private val grammars = hashMapOf<String, Storage>()
+        private var grammarName: String? = null
+
+        val current: Storage?
+            get() {
+                return grammars[grammarName ?: return null] ?: return null
+            }
+
+        fun switchTo(name: String) {
+            grammarName = name.also { if (it !in grammars) grammars[it] = Storage(hashMapOf(), arrayListOf()) }
+        }
 
         val REGISTERED: GetViewer<String, Token>
             get() = object : GetViewer<String, Token> {
                 override fun all(): List<Token> {
-                    return all.toList()
+                    return current!!.all.toList()
                 }
 
                 override fun get(key: String): Token {
-                    return factory[key]!!
+                    return current!!.factory[key]!!
                 }
             }
 
         operator fun invoke(name: String, token: Token): Token {
-            if (name in factory) {
+            if (name in current!!.factory) {
                 throw IllegalArgumentException("Token '$name' already exists")
             }
             return token.also {
-                factory[name] = it
-                all.add(it)
+                current!!.factory[name] = it
+                current!!.all.add(it)
             }
         }
 
@@ -242,7 +252,7 @@ interface Token {
 
         fun derived(): StateToken {
             var newId = name
-            while (newId in factory.keys) {
+            while (newId in current!!.factory.keys) {
                 newId += "Plus"
             }
             return StateToken(newId)

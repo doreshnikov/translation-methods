@@ -7,6 +7,38 @@ import structure.Description
 
 object MetaDescription : Description {
 
+    override fun getAll(): List<Token> {
+        return listOf(
+            LPAREN, RPAREN, EOLN, DEFINE, DESCRIBE, CHOICE,
+            LTRIG, RTRIG, CHARRANGE, ASSIGN, ADD, SUB, MUL, DIV,
+            LARRAY, RARRAY, SEP,
+            MACRO, TOKENS, GRAMMAR, FRAGMENTS, COMPANION,
+            SKIP, SYNTHESIS, INHERITANCE, COMPUTE, START, DEFAULT,
+            INT_TYPE, DOUBLE_TYPE, STRING_TYPE,
+            KOTLIN_FUNC, DOUBLE, INT, CHAR, STRING, RSTRING,
+            SPNAME, CAMELNAME, CAPSNAME, WHITESPACE,
+
+            all,
+            m, kfPlus,
+            t, tComp, tSkip, tArray, tArrayPlus, tFrag, tFragLine, tFragPlus, tLine, tDef, tPlus,
+            g, gComp, gSynth, gInh, gCompv, gStart, gLine, gPlus,
+            attribs, attribsPlus, attrib, type,
+            rule, rules, rulesPlus,
+            def, pass, defBody, defAtom, defValue, defTerm, defMod, setDef, op, defPlus,
+            seq, seqPlus, atom,
+            atName
+        )
+    }
+
+    override fun getName(): String {
+        return "<meta>"
+    }
+
+    init {
+        Token.switchTo(getName())
+        check()
+    }
+
     // @formatter:off
 
     // special symbols
@@ -125,19 +157,6 @@ object MetaDescription : Description {
     object atom         : Token.StateToken("atom")
 
     object atName       : Token.StateToken("atName")
-
-    init {
-        check(
-            LPAREN, RPAREN, EOLN, DEFINE, DESCRIBE, CHOICE,
-            LTRIG, RTRIG, CHARRANGE, ASSIGN, ADD, SUB, MUL, DIV,
-            LARRAY, RARRAY, SEP,
-            MACRO, TOKENS, GRAMMAR, FRAGMENTS, COMPANION,
-            SKIP, SYNTHESIS, INHERITANCE, COMPUTE, START, DEFAULT,
-            INT_TYPE, DOUBLE_TYPE, STRING_TYPE,
-            KOTLIN_FUNC, DOUBLE, INT, CHAR, STRING, RSTRING,
-            SPNAME, CAMELNAME, CAPSNAME, WHITESPACE
-        )
-    }
 
     // grammar
 

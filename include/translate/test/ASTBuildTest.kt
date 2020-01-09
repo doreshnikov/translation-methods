@@ -1,7 +1,7 @@
 package translate.test
 
 import parse.Parser
-import regex.GraphvizVisitor
+import structure.GraphvizVisitor
 import translate.meta.MetaDescription
 import java.io.File
 import java.text.ParseException

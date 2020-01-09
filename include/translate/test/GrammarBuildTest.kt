@@ -1,7 +1,7 @@
 package translate.test
 
 import parse.Parser
-import translate.codegen.DescriptionBuilder2
+import translate.codegen.DescriptionBuilder
 import translate.meta.MetaDescription
 import java.io.File
 import java.text.ParseException
@@ -19,7 +19,7 @@ fun main() {
         }
         val uname = singleUpperCase(name)
         try {
-            val s = DescriptionBuilder2("gen", uname).collect(Parser(MetaDescription).parse(str))
+            val s = DescriptionBuilder("gen", uname).collect(Parser(MetaDescription).parse(str))
             File("$loc\\src\\gen\\${uname}Description.kt").bufferedWriter().use { out ->
                 out.write(s)
             }

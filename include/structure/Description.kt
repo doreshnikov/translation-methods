@@ -9,8 +9,12 @@ interface Description {
 
     fun getSkippedTokens(): Set<Token>
 
-    fun check(vararg tokens: Token) {
-        tokens.forEach { it.toString() }
+    fun getName(): String
+
+    fun getAll(): List<Token>
+
+    fun check() {
+        getAll().forEach { it.getString() }
     }
 
 }

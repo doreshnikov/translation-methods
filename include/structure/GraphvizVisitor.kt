@@ -1,8 +1,6 @@
-package regex
+package structure
 
 import grammar.token.Token
-import structure.ASTNode
-import structure.Visitor
 import utils.Beautifier
 import java.lang.StringBuilder
 
