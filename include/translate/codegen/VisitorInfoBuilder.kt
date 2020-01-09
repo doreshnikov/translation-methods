@@ -20,8 +20,10 @@ class VisitorInfoBuilder(
     private val grammarInfoObjectName: String
 ) : MetaBaseVisitor<String> {
 
+    private val packagePath = packageName.replace(".", "\\")
+
     fun <T : Token> doAll(root: ASTNode<T>) {
-        val path = "$loc\\src\\${packageName.replace(".", "\\")}\\"
+        val path = "$loc\\src\\$packagePath"
         File("$path\\${objectName}Main.kt").bufferedWriter().use { out -> out.write(getMain()) }
         File("$path\\$objectName.kt").bufferedWriter().use { out -> out.write(collect(root)) }
     }
@@ -74,7 +76,7 @@ class ${objectName}InnerNode<T : ${Token::class.simpleName}>(token: T, expansion
 }
 
 fun main() {
-    File("${Beautifier.escape(loc)}\\src\\gen\\${"$"}{$objectName.className}.kt").bufferedWriter().use { out ->
+    File("${Beautifier.escape(loc)}\\src\\${Beautifier.escape(packagePath)}\\${"$"}{$objectName.className}.kt").bufferedWriter().use { out ->
         out.write($objectName.getAll())
     }
 }

@@ -25,7 +25,7 @@ class RegexVisitorInfoInnerNode<T : Token>(token: T, expansion: Expansion) :
 }
 
 fun main() {
-    File("C:\\Users\\jetbrains\\IdeaProjects\\translation-methods\\src\\gen\\${RegexVisitorInfo.className}.kt").bufferedWriter().use { out ->
+    File("C:\\Users\\jetbrains\\IdeaProjects\\translation-methods\\src\\gen\\regex\\${RegexVisitorInfo.className}.kt").bufferedWriter().use { out ->
         out.write(RegexVisitorInfo.getAll())
     }
 }

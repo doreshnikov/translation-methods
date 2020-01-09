@@ -25,7 +25,7 @@ class PrefixVisitorInfoInnerNode<T : Token>(token: T, expansion: Expansion) :
 }
 
 fun main() {
-    File("C:\\Users\\jetbrains\\IdeaProjects\\translation-methods\\src\\gen\\${PrefixVisitorInfo.className}.kt").bufferedWriter().use { out ->
+    File("C:\\Users\\jetbrains\\IdeaProjects\\translation-methods\\src\\gen\\prefix\\${PrefixVisitorInfo.className}.kt").bufferedWriter().use { out ->
         out.write(PrefixVisitorInfo.getAll())
     }
 }

@@ -25,7 +25,7 @@ class CalculatorVisitorInfoInnerNode<T : Token>(token: T, expansion: Expansion) 
 }
 
 fun main() {
-    File("C:\\Users\\jetbrains\\IdeaProjects\\translation-methods\\src\\gen\\${CalculatorVisitorInfo.className}.kt").bufferedWriter().use { out ->
+    File("C:\\Users\\jetbrains\\IdeaProjects\\translation-methods\\src\\gen\\calculator\\${CalculatorVisitorInfo.className}.kt").bufferedWriter().use { out ->
         out.write(CalculatorVisitorInfo.getAll())
     }
 }

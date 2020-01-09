@@ -24,7 +24,7 @@ tokens {
     FORW        : "for" ;
     PASS        : "pass" ;
     BOTH        : "both" ;
-    PRINT       : "print" ;
+    PRINTW      : "print" ;
 
     PLUS        : "+" ;
     MINUS       : "-" ;
@@ -77,7 +77,7 @@ grammar {
     statement :: { view = "$tab${@1.view}" }
                             : print
                             | assignment ;
-    print                   : PRINT expression :: { view = "print(${@2.view})\n" } ;
+    print                   : PRINTW expression :: { view = "print(${@2.view})\n" } ;
     assignment              : ASSIGN VAR expression :: { view = "$@2 = ${@3.view}\n" } ;
 
     ifBlock                 : IFW logicalExpression innerBody{ depth = @.depth + 1 } innerBody{ depth = @.depth + 1 } :: { view = "${tab}if (${@1.view}) {\n${@3.view}${tab}} else {\n${@4.view}${tab}}" } ;

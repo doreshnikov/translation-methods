@@ -23,7 +23,7 @@ object PrefixGrammarInfo : GrammarInfo {
     
     override fun getDefinedTokens(): List<Token> {
         return listOf(
-            WHITESPACE, IFW, FORW, PASS, BOTH, PRINT, PLUS, MINUS, TIMES, DIV, NOT, XOR, AND, OR, GE, GT, LE, LT, EQ, NE, ASSIGN, VAR, UINT,
+            WHITESPACE, IFW, FORW, PASS, BOTH, PRINTW, PLUS, MINUS, TIMES, DIV, NOT, XOR, AND, OR, GE, GT, LE, LT, EQ, NE, ASSIGN, VAR, UINT,
             main, code, codeBlock, statement, print, assignment, ifBlock, forBlock, innerBody, expression, logicalBinop, logicalUnop, logicalExpression, logicalAtom, relation, comparison, arithmeticBinop, arithmeticExpression, arithmeticAtom            
         )
     }
@@ -69,7 +69,7 @@ object PrefixGrammarInfo : GrammarInfo {
     object FORW : Token.StringToken("FORW", "for")
     object PASS : Token.StringToken("PASS", "pass")
     object BOTH : Token.StringToken("BOTH", "both")
-    object PRINT : Token.StringToken("PRINT", "print")
+    object PRINTW : Token.StringToken("PRINTW", "print")
     object PLUS : Token.StringToken("PLUS", "+")
     object MINUS : Token.StringToken("MINUS", "-")
     object TIMES : Token.StringToken("TIMES", "*")
@@ -105,7 +105,7 @@ object PrefixGrammarInfo : GrammarInfo {
         codeBlock into Expansion(PASS) /* { view = "\n" } */,
         statement /* { view = "$tab${@1.view}" } */ into Expansion(print),
         statement /* { view = "$tab${@1.view}" } */ into Expansion(assignment),
-        print into Expansion(PRINT, expression) /* { view = "print(${@2.view})\n" } */,
+        print into Expansion(PRINTW, expression) /* { view = "print(${@2.view})\n" } */,
         assignment into Expansion(ASSIGN, VAR, expression) /* { view = "$@2 = ${@3.view}\n" } */,
         ifBlock into Expansion(IFW, logicalExpression, innerBody /* { depth = @.depth + 1 } */, innerBody /* { depth = @.depth + 1 } */) /* { view = "${tab}if (${@1.view}) {\n${@3.view}${tab}} else {\n${@4.view}${tab}}" } */,
         forBlock into Expansion(FORW, VAR, arithmeticAtom, arithmeticAtom, innerBody /* { depth = @.depth + 1 } */) /* { view = "${tab}for ($@2 in ${@3.view}..${@4.view}) {\n${@5.view}${tab}}" } */,
