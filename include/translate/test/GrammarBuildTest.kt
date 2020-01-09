@@ -19,10 +19,9 @@ fun main() {
         }
         val uname = singleUpperCase(name)
         try {
+            val s = DescriptionBuilder("gen", uname).collect(Parser(MetaDescription).parse(str))
             File("$loc\\src\\gen\\${uname}Description.kt").bufferedWriter().use { out ->
-                out.write(
-                    DescriptionBuilder("gen", uname).collect(Parser(MetaDescription).parse(str))
-                )
+                out.write(s)
             }
             println("[SUCCESS] $name")
         } catch (e: ParseException) {

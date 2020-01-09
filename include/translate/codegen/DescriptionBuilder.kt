@@ -53,7 +53,7 @@ $collected
     }
 
     override fun <T : Token> visitTerminal(token: T): String {
-        return token.toString()
+        return token.getText()
     }
 
     override fun visit_CAPSNAME(node: ASTNode.TerminalNode<MetaDescription.CAPSNAME>): String {
@@ -61,12 +61,21 @@ $collected
         return if (name == "EPSILON") "Token.UniqueToken.EPSILON" else name
     }
 
+    override fun visit_RSTRING(node: ASTNode.TerminalNode<MetaDescription.RSTRING>): String {
+        return super.visit_RSTRING(node).substring(1)
+    }
+
+    private fun visitList(sep: String, vararg elements: String): String {
+        return elements.filter { it.isNotBlank() }.joinToString(sep)
+    }
+
     override fun visit_all(node: ASTNode.InnerNode<MetaDescription.all>): String {
-        return listOf(
+        return visitList(
+            "\n",
             visit_m(node.getChild(0)),
             visit_t(node.getChild(1)),
             visit_g(node.getChild(2))
-        ).filter { it.isNotBlank() }.joinToString("\n")
+        )
     }
 
     override fun visit_m(node: ASTNode.InnerNode<MetaDescription.m>): String {
@@ -74,11 +83,12 @@ $collected
     }
 
     override fun visit_t(node: ASTNode.InnerNode<MetaDescription.t>): String {
-        return listOf(
+        return visitList(
+            "\n",
             visit_tComp(node.getChild(2)),
             visit_tFrag(node.getChild(3)),
             visit_tPlus(node.getChild(4))
-        ).filter { it.isNotBlank() }.joinToString("\n")
+        )
     }
 
     override fun visit_g(node: ASTNode.InnerNode<MetaDescription.g>): String {
@@ -105,8 +115,7 @@ ${visit_gPlus(node.getChild(3))}
 
     override fun visit_tFragPlus(node: ASTNode.InnerNode<MetaDescription.tFragPlus>): String {
         return if (node.children.size == 1) "" else
-            listOf(visit_tFragLine(node.getChild(0)), visit_tFragPlus(node.getChild(1)))
-                .filter { it.isNotBlank() }.joinToString("\n")
+            visitList("\n", visit_tFragLine(node.getChild(0)), visit_tFragPlus(node.getChild(1)))
     }
 
     override fun visit_tFragLine(node: ASTNode.InnerNode<MetaDescription.tFragLine>): String {
@@ -115,8 +124,7 @@ ${visit_gPlus(node.getChild(3))}
 
     override fun visit_tPlus(node: ASTNode.InnerNode<MetaDescription.tPlus>): String {
         return if (node.children.size == 1) "" else
-            listOf(visit_tLine(node.getChild(0)), visit_tPlus(node.getChild(1)))
-                .filter { it.isNotBlank() }.joinToString("\n")
+            visitList("\n", visit_tLine(node.getChild(0)), visit_tPlus(node.getChild(1)))
     }
 
     override fun visit_tSkip(node: ASTNode.InnerNode<MetaDescription.tSkip>): String {
@@ -146,8 +154,8 @@ ${visit_gPlus(node.getChild(3))}
         return when (val token = node.children[0].getToken()) {
             is Token.VariantToken.VariantInstanceToken -> {
                 when (token.origin) {
-                    is MetaDescription.STRING -> "Token.StringToken(\"%s\", $token)"
-                    is MetaDescription.RSTRING -> "Token.RegexToken(\"%s\", ${token.toString().substring(1)}.toRegex())"
+                    is MetaDescription.STRING -> "Token.StringToken(\"%s\", ${visit_STRING(node.getChild(0))})"
+                    is MetaDescription.RSTRING -> "Token.RegexToken(\"%s\", ${visit_RSTRING(node.getChild(0))}.toRegex())"
                     else -> throw IllegalStateException("Invalid origin for instance $token in expansion of tDef")
                 }
             }
@@ -163,8 +171,7 @@ ${visit_gPlus(node.getChild(3))}
 
     override fun visit_gPlus(node: ASTNode.InnerNode<MetaDescription.gPlus>): String {
         return if (node.children.size == 1) "" else
-            listOf(visit_gLine(node.getChild(0)), visit_gPlus(node.getChild(1)))
-                .filter { it.isNotBlank() }.joinToString(",\n")
+            visitList(",\n", visit_gLine(node.getChild(0)), visit_gPlus(node.getChild(1)))
     }
 
     override fun visit_gSynth(node: ASTNode.InnerNode<MetaDescription.gSynth>): String {
@@ -220,8 +227,7 @@ ${visit_gPlus(node.getChild(3))}
     }
 
     override fun visit_rules(node: ASTNode.InnerNode<MetaDescription.rules>): String {
-        return listOf(visit_rule(node.getChild(0)), visit_rulesPlus(node.getChild(1)))
-            .filter { it.isNotBlank() }.joinToString("|")
+        return visitList("|", visit_rule(node.getChild(0)), visit_rulesPlus(node.getChild(1)))
     }
 
     override fun visit_rule(node: ASTNode.InnerNode<MetaDescription.rule>): String {
@@ -230,13 +236,11 @@ ${visit_gPlus(node.getChild(3))}
 
     override fun visit_rulesPlus(node: ASTNode.InnerNode<MetaDescription.rulesPlus>): String {
         return if (node.children.size == 1) "" else
-            listOf(visit_rule(node.getChild(1)), visit_rulesPlus(node.getChild(2)))
-                .filter { it.isNotBlank() }.joinToString("|")
+            visitList("|", visit_rule(node.getChild(1)), visit_rulesPlus(node.getChild(2)))
     }
 
     override fun visit_seq(node: ASTNode.InnerNode<MetaDescription.seq>): String {
-        return listOf(visit_atom(node.getChild(0)), visit_seqPlus(node.getChild(1)))
-            .filter { it.isNotBlank() }.joinToString(", ")
+        return visitList(", ", visit_atom(node.getChild(0)), visit_seqPlus(node.getChild(1)))
     }
 
     override fun visit_atom(node: ASTNode.InnerNode<MetaDescription.atom>): String {
@@ -254,8 +258,7 @@ ${visit_gPlus(node.getChild(3))}
 
     override fun visit_seqPlus(node: ASTNode.InnerNode<MetaDescription.seqPlus>): String {
         return if (node.children.size == 1) "" else
-            listOf(visit_atom(node.getChild(0)), visit_seqPlus(node.getChild(1)))
-                .filter { it.isNotBlank() }.joinToString(", ")
+            visitList(", ", visit_atom(node.getChild(0)), visit_seqPlus(node.getChild(1)))
     }
 
     override fun visit_pass(node: ASTNode.InnerNode<MetaDescription.pass>): String {

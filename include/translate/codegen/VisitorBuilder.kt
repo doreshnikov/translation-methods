@@ -55,14 +55,14 @@ ${collectVisitMethods()}
     }
 
     private fun fullName(token: Token): String {
-        return "$name.${token.getName()}"
+        return "$name.${token}"
     }
 
     private fun collectChoiceVisit(): String {
         return """
         return when(node.getToken()) {
 ${tokens.joinToString("\n") { token ->
-            "\t\t\t${fullName(token)} -> visit_${token.getName()}(node as ${nodeType(token)}<${fullName(token)}>)"
+            "\t\t\t${fullName(token)} -> visit_${token}(node as ${nodeType(token)}<${fullName(token)}>)"
         }}
             else -> throw IllegalStateException("Unknown token ${"$"}{node.getToken()} met")
         }"""
@@ -70,9 +70,9 @@ ${tokens.joinToString("\n") { token ->
 
     private fun visitMethod(token: Token): String {
         return if (token is Token.StateToken) {
-            "\tabstract fun visit_${token.getName()}(node: ${nodeType(token)}<${fullName(token)}>): R\n"
+            "\tabstract fun visit_${token}(node: ${nodeType(token)}<${fullName(token)}>): R\n"
         } else {
-            "\topen fun visit_${token.getName()}(node: ${nodeType(token)}<${fullName(token)}>): R " +
+            "\topen fun visit_${token}(node: ${nodeType(token)}<${fullName(token)}>): R " +
                     "{\n\t\treturn visitTerminal(node.getToken())\n\t}\n"
         }
     }

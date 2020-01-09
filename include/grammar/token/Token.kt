@@ -11,7 +11,9 @@ interface Token {
         return null
     }
 
-    fun getName(): String
+    fun getText(): String {
+        throw IllegalArgumentException("Token $this does not support text requests")
+    }
 
     companion object TokenStorage {
         private val factory = hashMapOf<String, Token>()
@@ -54,10 +56,6 @@ interface Token {
             TokenStorage(name, this)
         }
 
-        override fun getName(): String {
-            return name
-        }
-
         object EOF : UniqueToken("EOF") {
             override fun consume(data: String, offset: Int): String? {
                 return if (offset == data.length) "" else null
@@ -66,11 +64,19 @@ interface Token {
             override fun toString(): String {
                 return "<eof>"
             }
+
+            override fun getText(): String {
+                return "$"
+            }
         }
 
         object EPSILON : UniqueToken("EPSILON") {
             override fun toString(): String {
                 return "<eps>"
+            }
+
+            override fun getText(): String {
+                return ""
             }
         }
     }
@@ -81,8 +87,12 @@ interface Token {
             companion object {
                 operator fun invoke(name: String, data: String): NamedDataToken {
                     return object : NamedDataToken(data) {
-                        override fun getName(): String {
+                        override fun toString(): String {
                             return name
+                        }
+
+                        override fun getText(): String {
+                            return data
                         }
 
                         override fun consume(data: String, offset: Int): String? {
@@ -91,11 +101,7 @@ interface Token {
                     }
                 }
             }
-
-            override fun toString() = data
         }
-
-        override fun toString(): String
 
     }
 
@@ -120,7 +126,7 @@ interface Token {
             companion object {
                 operator fun <T : Desriptor<*>> invoke(name: String, desc: T): NamedVariantToken<T> {
                     return object : NamedVariantToken<T>(desc) {
-                        override fun getName(): String {
+                        override fun toString(): String {
                             return name
                         }
 
@@ -130,22 +136,15 @@ interface Token {
                     }
                 }
             }
-
-            abstract override fun getName(): String
-
-            override fun toString(): String {
-                return descriptor.toString()
-            }
-
         }
 
         class VariantInstanceToken(val origin: VariantToken, val value: String) : Token {
             override fun toString(): String {
-                return value
+                return "'$value'"
             }
 
-            override fun getName(): String {
-                return origin.getName()
+            override fun getText(): String {
+                return value
             }
 
             override fun equals(other: Any?): Boolean {
@@ -158,8 +157,6 @@ interface Token {
                 return result
             }
         }
-
-        override fun toString(): String
 
     }
 
@@ -221,7 +218,7 @@ interface Token {
             Companion(name, this)
         }
 
-        override fun getName(): String {
+        override fun toString(): String {
             return name
         }
 
@@ -235,10 +232,6 @@ interface Token {
 
         infix fun into(expansion: Expansion): Grammar.Rule {
             return Grammar.Rule(this, listOf(Expansion(this, expansion)))
-        }
-
-        override fun toString(): String {
-            return name
         }
     }
 
