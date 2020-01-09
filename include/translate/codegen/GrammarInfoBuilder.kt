@@ -40,7 +40,7 @@ object $objectName : GrammarInfo {
         return grammar
     }
     
-    override fun getAll(): List<Token> {
+    override fun getDefinedTokens(): List<Token> {
         return listOf(
             ${lexerTokens.joinToString(", ")},
             ${stateTokens.joinToString(", ")}            
@@ -56,14 +56,11 @@ object $objectName : GrammarInfo {
         check()
     }
     
-${stateTokens.joinToString("\n") { token ->
-                "\tobject $token : Token.StateToken(\"$token\")"
-            }}
+${stateTokens.joinToString("\n") { "\tobject $it : Token.StateToken(\"$it\")" }}
 
 $collected
 
-}
-"""
+}"""
         )
     }
 

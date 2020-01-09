@@ -152,126 +152,167 @@ defPlus -> SEP defAtom defPlus | <eps>
     
     fun <T : Token> visitTerminal(token: T): R
     
+
     fun visit_LPAREN(node: ASTNode.TerminalNode<MetaGrammarInfo.LPAREN>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_RPAREN(node: ASTNode.TerminalNode<MetaGrammarInfo.RPAREN>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_EOLN(node: ASTNode.TerminalNode<MetaGrammarInfo.EOLN>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_DEFINE(node: ASTNode.TerminalNode<MetaGrammarInfo.DEFINE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_DESCRIBE(node: ASTNode.TerminalNode<MetaGrammarInfo.DESCRIBE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_CHOICE(node: ASTNode.TerminalNode<MetaGrammarInfo.CHOICE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_LTRIG(node: ASTNode.TerminalNode<MetaGrammarInfo.LTRIG>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_RTRIG(node: ASTNode.TerminalNode<MetaGrammarInfo.RTRIG>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_CHARRANGE(node: ASTNode.TerminalNode<MetaGrammarInfo.CHARRANGE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_ASSIGN(node: ASTNode.TerminalNode<MetaGrammarInfo.ASSIGN>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_ADD(node: ASTNode.TerminalNode<MetaGrammarInfo.ADD>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_SUB(node: ASTNode.TerminalNode<MetaGrammarInfo.SUB>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_MUL(node: ASTNode.TerminalNode<MetaGrammarInfo.MUL>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_DIV(node: ASTNode.TerminalNode<MetaGrammarInfo.DIV>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_LARRAY(node: ASTNode.TerminalNode<MetaGrammarInfo.LARRAY>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_RARRAY(node: ASTNode.TerminalNode<MetaGrammarInfo.RARRAY>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_SEP(node: ASTNode.TerminalNode<MetaGrammarInfo.SEP>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_MACRO(node: ASTNode.TerminalNode<MetaGrammarInfo.MACRO>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_TOKENS(node: ASTNode.TerminalNode<MetaGrammarInfo.TOKENS>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_GRAMMAR(node: ASTNode.TerminalNode<MetaGrammarInfo.GRAMMAR>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_FRAGMENTS(node: ASTNode.TerminalNode<MetaGrammarInfo.FRAGMENTS>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_COMPANION(node: ASTNode.TerminalNode<MetaGrammarInfo.COMPANION>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_SKIP(node: ASTNode.TerminalNode<MetaGrammarInfo.SKIP>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_SYNTHESIS(node: ASTNode.TerminalNode<MetaGrammarInfo.SYNTHESIS>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_INHERITANCE(node: ASTNode.TerminalNode<MetaGrammarInfo.INHERITANCE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_COMPUTE(node: ASTNode.TerminalNode<MetaGrammarInfo.COMPUTE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_START(node: ASTNode.TerminalNode<MetaGrammarInfo.START>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_DEFAULT(node: ASTNode.TerminalNode<MetaGrammarInfo.DEFAULT>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_INT_TYPE(node: ASTNode.TerminalNode<MetaGrammarInfo.INT_TYPE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_DOUBLE_TYPE(node: ASTNode.TerminalNode<MetaGrammarInfo.DOUBLE_TYPE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_STRING_TYPE(node: ASTNode.TerminalNode<MetaGrammarInfo.STRING_TYPE>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_KOTLIN_FUNC(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.KOTLIN_FUNC>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_DOUBLE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.DOUBLE>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_INT(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.INT>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_CHAR(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CHAR>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_STRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.STRING>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.RSTRING>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_SPNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.SPNAME>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_CAMELNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CAMELNAME>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_CAPSNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CAPSNAME>>): R {
         return visitTerminal(node.getToken())
     }
+
     fun visit_WHITESPACE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.WHITESPACE>>): R {
         return visitTerminal(node.getToken())
     }
@@ -280,7 +321,6 @@ defPlus -> SEP defAtom defPlus | <eps>
     all -> m t g
     */
     fun visit_all(node: ASTNode.InnerNode<MetaGrammarInfo.all>): R
-
 
     fun visit_m(node: ASTNode.InnerNode<MetaGrammarInfo.m>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -323,7 +363,6 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_t(node: ASTNode.InnerNode<MetaGrammarInfo.t>): R
 
-
     fun visit_tComp(node: ASTNode.InnerNode<MetaGrammarInfo.tComp>): R {
         return when (val id = node.getExpansion().getId()) {
             0 -> visit_tComp_0(node)
@@ -347,12 +386,10 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_tSkip(node: ASTNode.InnerNode<MetaGrammarInfo.tSkip>): R
 
-
     /**
     tArray -> LARRAY CAPSNAME tArrayPlus RARRAY
     */
     fun visit_tArray(node: ASTNode.InnerNode<MetaGrammarInfo.tArray>): R
-
 
     fun visit_tArrayPlus(node: ASTNode.InnerNode<MetaGrammarInfo.tArrayPlus>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -395,7 +432,6 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_tFragLine(node: ASTNode.InnerNode<MetaGrammarInfo.tFragLine>): R
 
-
     fun visit_tFragPlus(node: ASTNode.InnerNode<MetaGrammarInfo.tFragPlus>): R {
         return when (val id = node.getExpansion().getId()) {
             0 -> visit_tFragPlus_0(node)
@@ -418,7 +454,6 @@ defPlus -> SEP defAtom defPlus | <eps>
     tLine -> CAPSNAME DESCRIBE tDef EOLN
     */
     fun visit_tLine(node: ASTNode.InnerNode<MetaGrammarInfo.tLine>): R
-
 
     fun visit_tDef(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -467,12 +502,10 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_g(node: ASTNode.InnerNode<MetaGrammarInfo.g>): R
 
-
     /**
     gComp -> COMPANION LPAREN gSynth gInh gCompv gStart RPAREN
     */
     fun visit_gComp(node: ASTNode.InnerNode<MetaGrammarInfo.gComp>): R
-
 
     fun visit_gSynth(node: ASTNode.InnerNode<MetaGrammarInfo.gSynth>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -533,12 +566,10 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_gStart(node: ASTNode.InnerNode<MetaGrammarInfo.gStart>): R
 
-
     /**
     gLine -> CAMELNAME def DESCRIBE rules EOLN
     */
     fun visit_gLine(node: ASTNode.InnerNode<MetaGrammarInfo.gLine>): R
-
 
     fun visit_gPlus(node: ASTNode.InnerNode<MetaGrammarInfo.gPlus>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -563,7 +594,6 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_attribs(node: ASTNode.InnerNode<MetaGrammarInfo.attribs>): R
 
-
     fun visit_attribsPlus(node: ASTNode.InnerNode<MetaGrammarInfo.attribsPlus>): R {
         return when (val id = node.getExpansion().getId()) {
             0 -> visit_attribsPlus_0(node)
@@ -586,7 +616,6 @@ defPlus -> SEP defAtom defPlus | <eps>
     attrib -> CAMELNAME DESCRIBE type setDef EOLN
     */
     fun visit_attrib(node: ASTNode.InnerNode<MetaGrammarInfo.attrib>): R
-
 
     fun visit_type(node: ASTNode.InnerNode<MetaGrammarInfo.type>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -617,12 +646,10 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_rule(node: ASTNode.InnerNode<MetaGrammarInfo.rule>): R
 
-
     /**
     rules -> rule rulesPlus
     */
     fun visit_rules(node: ASTNode.InnerNode<MetaGrammarInfo.rules>): R
-
 
     fun visit_rulesPlus(node: ASTNode.InnerNode<MetaGrammarInfo.rulesPlus>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -683,12 +710,10 @@ defPlus -> SEP defAtom defPlus | <eps>
     */
     fun visit_defBody(node: ASTNode.InnerNode<MetaGrammarInfo.defBody>): R
 
-
     /**
     defAtom -> CAMELNAME ASSIGN defValue
     */
     fun visit_defAtom(node: ASTNode.InnerNode<MetaGrammarInfo.defAtom>): R
-
 
     fun visit_defValue(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): R {
         return when (val id = node.getExpansion().getId()) {
@@ -826,7 +851,6 @@ defPlus -> SEP defAtom defPlus | <eps>
     seq -> atom seqPlus
     */
     fun visit_seq(node: ASTNode.InnerNode<MetaGrammarInfo.seq>): R
-
 
     fun visit_seqPlus(node: ASTNode.InnerNode<MetaGrammarInfo.seqPlus>): R {
         return when (val id = node.getExpansion().getId()) {

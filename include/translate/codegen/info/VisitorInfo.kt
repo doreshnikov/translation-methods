@@ -1,7 +1,6 @@
 package translate.codegen.info
 
 import grammar.token.Token
-import utils.Beautifier
 
 interface VisitorInfo {
 

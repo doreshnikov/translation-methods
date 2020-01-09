@@ -70,14 +70,13 @@ ${getVisitMethods()}
     /**
     $token -> ${expansions.first()}
     */
-    fun visit_${token}(node: ${getNodeType(token)}): R
-"""
+    fun visit_${token}(node: ${getNodeType(token)}): R"""
         } else {
             """
     fun visit_${token}(node: ${getNodeType(token)}): R {
         return when (val id = node.getExpansion().getId()) {
 ${expansions.joinToString("\n") { "\t\t\t${it.getId()} -> visit_${token}_${it.getId()}(node)" }}
-            else -> throw IllegalStateException("Unexpected expansion id ${"$"}id in expansion of ${token}")
+            else -> throw IllegalStateException("Unexpected expansion id ${"$"}id in expansion of $token")
         }
     }
 ${expansions.joinToString("\n") {
@@ -91,8 +90,10 @@ ${expansions.joinToString("\n") {
     }
 
     private fun getTerminalVisitMethods(token: Token): String {
-        return "\tfun visit_${token}(node: ${getNodeType(token)}): R " +
-                "{\n\t\treturn visitTerminal(node.getToken())\n\t}"
+        return """
+    fun visit_${token}(node: ${getNodeType(token)}): R {
+        return visitTerminal(node.getToken())
+    }"""
     }
 
 }

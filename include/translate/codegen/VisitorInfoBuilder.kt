@@ -6,7 +6,7 @@ import translate.meta.MetaBaseVisitor
 import translate.meta.MetaGrammarInfo
 import utils.Beautifier
 
-class AttributeVisitorBuilder(
+class VisitorInfoBuilder(
     private val packageName: String,
     private val className: String
 ) : MetaBaseVisitor<String> {
