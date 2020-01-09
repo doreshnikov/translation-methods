@@ -96,6 +96,7 @@ class Parser(private val description: Description) {
     }
 
     fun parse(line: String): ASTNode<Token.StateToken> {
+        Token.switchTo(description.getName())
         val lexer = Lexer(line, description)
         return parse(description.getGrammar().getStart(), lexer).also {
             if (lexer.getToken() != Token.UniqueToken.EOF) {
