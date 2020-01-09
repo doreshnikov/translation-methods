@@ -5,7 +5,7 @@ import structure.Description
 import utils.Beautifier.Companion.detabify
 import java.io.File
 
-class VisitorBuilder(
+class AbstractVisitorBuilder(
     private val description: Description,
     private val name: String,
     private val packageName: String,

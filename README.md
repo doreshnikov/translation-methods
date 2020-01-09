@@ -11,7 +11,7 @@
 
 1. Основы:
     - [meta.MetaDescription](include/translate/meta/MetaDescription.kt) описывает грамматику языка описания грамматик .my
-    - [codegen.VisitorBuilder](include/translate/codegen/VisitorBuilder.kt) использует файлы в формате [Description](include/structure/Description.kt)
+    - [codegen.AbstractVisitorBuilder](include/translate/codegen/AbstractVisitorBuilder.kt) использует файлы в формате [Description](include/structure/Description.kt)
     для построения абстрактного базового визитора AST заданной грамматики
 2. Мета-генерация
     - [meta.Myself](include/translate/meta/Myself.kt) генерирует <span style="color:red !important">[meta.MetaBaseVisitor2](include/translate/meta/MetaBaseVisitor.kt)</span>

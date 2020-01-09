@@ -34,12 +34,12 @@ class Parser(private val description: Description) {
             return lexer.getToken()
         }
 
-        val node = ASTNode.InnerNode(state, expansion)
+        val node = ASTNode.BaseInnerNode(state, expansion)
         for (token in expansion) {
             node.addChild(
                 when (token) {
                     is Token.StateToken -> parse(token, lexer)
-                    else -> ASTNode.TerminalNode(checked(token)).also { lexer.nextToken() }
+                    else -> ASTNode.BaseTerminalNode(checked(token)).also { lexer.nextToken() }
                 }
             )
         }
@@ -47,7 +47,7 @@ class Parser(private val description: Description) {
     }
 
     private fun parseNullable(state: Token.StateToken, expansion: Expansion): ASTNode<Token.StateToken> {
-        val node = ASTNode.InnerNode(state, expansion)
+        val node = ASTNode.BaseInnerNode(state, expansion)
         for (token in expansion) {
             node.addChild(
                 when (token) {
@@ -57,7 +57,7 @@ class Parser(private val description: Description) {
                             Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST(it))
                         }
                     )
-                    is Token.UniqueToken.EPSILON -> ASTNode.TerminalNode(token)
+                    is Token.UniqueToken.EPSILON -> ASTNode.BaseTerminalNode(token)
                     else -> throw IllegalArgumentException(
                         "Unexpected token $token in expansion of $state ->* " +
                                 "${Token.UniqueToken.EPSILON}"

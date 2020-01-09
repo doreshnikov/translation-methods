@@ -7,176 +7,178 @@ import structure.ASTNode
 @Suppress("DuplicatedCode")
 fun main() {
 
+    // @formatter:off
     Test.CorrectnessTest(
         "CorrectnessTreeLetter", "a",
-        ASTNode.InnerNode(
+        ASTNode.BaseInnerNode(
             RegexDescription.regex,
-            ASTNode.InnerNode(
+            ASTNode.BaseInnerNode(
                 RegexDescription.sequence,
-                ASTNode.InnerNode(
+                ASTNode.BaseInnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(
-                        RegexDescription.atom, ASTNode.TerminalNode(
+                    ASTNode.BaseInnerNode(
+                        RegexDescription.atom, ASTNode.BaseTerminalNode(
                             RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                    ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                    ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
             ),
-            ASTNode.InnerNode(RegexDescription.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+            ASTNode.BaseInnerNode(RegexDescription.regexPlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeChoice", "a|b",
-        ASTNode.InnerNode(
+        ASTNode.BaseInnerNode(
             RegexDescription.regex,
-            ASTNode.InnerNode(
+            ASTNode.BaseInnerNode(
                 RegexDescription.sequence,
-                ASTNode.InnerNode(
+                ASTNode.BaseInnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(
-                        RegexDescription.atom, ASTNode.TerminalNode(
+                    ASTNode.BaseInnerNode(
+                        RegexDescription.atom, ASTNode.BaseTerminalNode(
                             RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                    ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                    ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
             ),
-            ASTNode.InnerNode(
+            ASTNode.BaseInnerNode(
                 RegexDescription.regexPlus,
-                ASTNode.TerminalNode(RegexDescription.CHOICE),
-                ASTNode.InnerNode(
+                ASTNode.BaseTerminalNode(RegexDescription.CHOICE),
+                ASTNode.BaseInnerNode(
                     RegexDescription.regex,
-                    ASTNode.InnerNode(
+                    ASTNode.BaseInnerNode(
                         RegexDescription.sequence,
-                        ASTNode.InnerNode(
+                        ASTNode.BaseInnerNode(
                             RegexDescription.term,
-                            ASTNode.InnerNode(
-                                RegexDescription.atom, ASTNode.TerminalNode(
+                            ASTNode.BaseInnerNode(
+                                RegexDescription.atom, ASTNode.BaseTerminalNode(
                                     RegexDescription.ALPHA.instantiate("b"))),
-                            ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                            ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                            ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                            ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                         ),
-                        ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                        ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                     ),
-                    ASTNode.InnerNode(RegexDescription.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                    ASTNode.BaseInnerNode(RegexDescription.regexPlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                 )
             )
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeNumber", "a5",
-        ASTNode.InnerNode(
+        ASTNode.BaseInnerNode(
             RegexDescription.regex,
-            ASTNode.InnerNode(
+            ASTNode.BaseInnerNode(
                 RegexDescription.sequence,
-                ASTNode.InnerNode(
+                ASTNode.BaseInnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(
-                        RegexDescription.atom, ASTNode.TerminalNode(
+                    ASTNode.BaseInnerNode(
+                        RegexDescription.atom, ASTNode.BaseTerminalNode(
                             RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(
-                        RegexDescription.number, ASTNode.TerminalNode(
+                    ASTNode.BaseInnerNode(
+                        RegexDescription.number, ASTNode.BaseTerminalNode(
                             RegexDescription.UINT.instantiate("5"))),
-                    ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                    ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
             ),
-            ASTNode.InnerNode(RegexDescription.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+            ASTNode.BaseInnerNode(RegexDescription.regexPlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeKleene", "a*",
-        ASTNode.InnerNode(
+        ASTNode.BaseInnerNode(
             RegexDescription.regex,
-            ASTNode.InnerNode(
+            ASTNode.BaseInnerNode(
                 RegexDescription.sequence,
-                ASTNode.InnerNode(
+                ASTNode.BaseInnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(
-                        RegexDescription.atom, ASTNode.TerminalNode(
+                    ASTNode.BaseInnerNode(
+                        RegexDescription.atom, ASTNode.BaseTerminalNode(
                             RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                    ASTNode.InnerNode(
+                    ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.BaseInnerNode(
                         RegexDescription.closure,
-                        ASTNode.TerminalNode(RegexDescription.KLEENE),
-                        ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                        ASTNode.BaseTerminalNode(RegexDescription.KLEENE),
+                        ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                     )
                 ),
-                ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
             ),
-            ASTNode.InnerNode(RegexDescription.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+            ASTNode.BaseInnerNode(RegexDescription.regexPlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
         "CorrectnessTreeConcatenate", "ab",
-        ASTNode.InnerNode(
+        ASTNode.BaseInnerNode(
             RegexDescription.regex,
-            ASTNode.InnerNode(
+            ASTNode.BaseInnerNode(
                 RegexDescription.sequence,
-                ASTNode.InnerNode(
+                ASTNode.BaseInnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(
-                        RegexDescription.atom, ASTNode.TerminalNode(
+                    ASTNode.BaseInnerNode(
+                        RegexDescription.atom, ASTNode.BaseTerminalNode(
                             RegexDescription.ALPHA.instantiate("a"))),
-                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                    ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                    ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                ASTNode.InnerNode(
+                ASTNode.BaseInnerNode(
                     RegexDescription.sequencePlus,
-                    ASTNode.InnerNode(
+                    ASTNode.BaseInnerNode(
                         RegexDescription.sequence,
-                        ASTNode.InnerNode(
+                        ASTNode.BaseInnerNode(
                             RegexDescription.term,
-                            ASTNode.InnerNode(
-                                RegexDescription.atom, ASTNode.TerminalNode(
+                            ASTNode.BaseInnerNode(
+                                RegexDescription.atom, ASTNode.BaseTerminalNode(
                                     RegexDescription.ALPHA.instantiate("b"))),
-                            ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                            ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                            ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                            ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                         ),
-                        ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                        ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                     )
                 )
             ),
-            ASTNode.InnerNode(RegexDescription.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+            ASTNode.BaseInnerNode(RegexDescription.regexPlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
         )
     )
     Test.CorrectnessTest(
-        "CorrectnessTreeParenthesis", "(a)", ASTNode.InnerNode(
+        "CorrectnessTreeParenthesis", "(a)", ASTNode.BaseInnerNode(
             RegexDescription.regex,
-            ASTNode.InnerNode(
+            ASTNode.BaseInnerNode(
                 RegexDescription.sequence,
-                ASTNode.InnerNode(
+                ASTNode.BaseInnerNode(
                     RegexDescription.term,
-                    ASTNode.InnerNode(
+                    ASTNode.BaseInnerNode(
                         RegexDescription.atom,
-                        ASTNode.TerminalNode(RegexDescription.LPAREN),
-                        ASTNode.InnerNode(
+                        ASTNode.BaseTerminalNode(RegexDescription.LPAREN),
+                        ASTNode.BaseInnerNode(
                             RegexDescription.regex,
-                            ASTNode.InnerNode(
+                            ASTNode.BaseInnerNode(
                                 RegexDescription.sequence,
-                                ASTNode.InnerNode(
+                                ASTNode.BaseInnerNode(
                                     RegexDescription.term,
-                                    ASTNode.InnerNode(
-                                        RegexDescription.atom, ASTNode.TerminalNode(
+                                    ASTNode.BaseInnerNode(
+                                        RegexDescription.atom, ASTNode.BaseTerminalNode(
                                             RegexDescription.ALPHA.instantiate("a"))),
-                                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                                    ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                                    ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                                    ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                                 ),
-                                ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                                ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                             ),
-                            ASTNode.InnerNode(RegexDescription.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                            ASTNode.BaseInnerNode(RegexDescription.regexPlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                         ),
-                        ASTNode.TerminalNode(RegexDescription.RPAREN)
+                        ASTNode.BaseTerminalNode(RegexDescription.RPAREN)
                     ),
-                    ASTNode.InnerNode(RegexDescription.number, ASTNode.TerminalNode(Token.UniqueToken.EPSILON)),
-                    ASTNode.InnerNode(RegexDescription.closure, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                    ASTNode.BaseInnerNode(RegexDescription.number, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON)),
+                    ASTNode.BaseInnerNode(RegexDescription.closure, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
                 ),
-                ASTNode.InnerNode(RegexDescription.sequencePlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+                ASTNode.BaseInnerNode(RegexDescription.sequencePlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
             ),
-            ASTNode.InnerNode(RegexDescription.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
+            ASTNode.BaseInnerNode(RegexDescription.regexPlus, ASTNode.BaseTerminalNode(Token.UniqueToken.EPSILON))
         )
     )
+    // @formatter:on
 
     Test.CorrectnessTest("ParsesLongConcatenation", "abcdef")
     Test.CorrectnessTest("ParsesLongChoice", "a|b|c|d|e|f")
