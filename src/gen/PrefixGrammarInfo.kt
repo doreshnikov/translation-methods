@@ -20,7 +20,7 @@ object PrefixGrammarInfo : GrammarInfo {
         return grammar
     }
     
-    override fun getAll(): List<Token> {
+    override fun getDefinedTokens(): List<Token> {
         return listOf(
             WHITESPACE, IF, FOR, PASS, BOTH, PRINT, PLUS, MINUS, TIMES, DIV, NOT, XOR, AND, OR, GE, GT, LE, LT, EQ, NE, ASSIGN, VAR, UINT,
             main, code, codeBlock, statement, print, assignment, ifBlock, forBlock, innerBody, expression, logicalBinop, logicalUnop, logicalExpression, logicalAtom, relation, comparison, arithmeticBinop, arithmeticExpression, arithmeticAtom            

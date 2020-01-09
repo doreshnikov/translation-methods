@@ -11,10 +11,10 @@ interface GrammarInfo {
 
     fun getName(): String
 
-    fun getAll(): List<Token>
+    fun getDefinedTokens(): List<Token>
 
     fun check() {
-        getAll().forEach { it.getString() }
+        getDefinedTokens().forEach { it.getString() }
     }
 
 }

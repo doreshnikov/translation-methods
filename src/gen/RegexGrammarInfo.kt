@@ -20,7 +20,7 @@ object RegexGrammarInfo : GrammarInfo {
         return grammar
     }
     
-    override fun getAll(): List<Token> {
+    override fun getDefinedTokens(): List<Token> {
         return listOf(
             LPAREN, RPAREN, KLEENE, CHOICE, ALPHA, UINT,
             regex, regexPlus, sequence, sequencePlus, term, number, closure, atom            

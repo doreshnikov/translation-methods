@@ -2,59 +2,79 @@ package translate.meta
 
 import grammar.token.Token
 import translate.codegen.info.VisitorInfo
+import utils.Beautifier
 
 object MetaVisitorInfo : VisitorInfo {
 
     private val grammarInfo = MetaGrammarInfo
+    private val packageName = "translate.meta"
+    private val className = "MetaBaseVisitor"
 
-    private fun nodeType(token: Token): String {
+    override fun getDefinedTokens(): List<Token> {
+        return grammarInfo.getDefinedTokens()
+    }
+
+    override fun getFullName(token: Token): String {
+        return "${grammarInfo.getName()}.$token"
+    }
+
+    override fun getNodeType(token: Token): String {
         return when (token) {
-            is Token.StateToken -> "ASTNode.InnerNode<${fullName(token)}>"
-            is Token.DataToken -> "ASTNode.TerminalNode<${fullName(token)}>"
-            is Token.VariantToken -> "ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<${fullName(token)}>>"
+            is Token.StateToken -> "ASTNode.InnerNode<${getFullName(token)}>"
+            is Token.DataToken -> "ASTNode.TerminalNode<${getFullName(token)}>"
+            is Token.VariantToken -> "ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<${getFullName(token)}>>"
             else -> throw IllegalArgumentException("Unexpected token $token type")
         }
     }
 
-    private fun fullName(token: Token): String {
-        return "${grammarInfo.getName()}.$token"
+    override fun getVisitMethods(token: Token): String {
+        return when (token) {
+            is Token.StateToken -> getStateVisitMethods(token)
+            else -> getTerminalVisitMethods(token)
+        }
     }
 
-    val tokens = grammarInfo.getAll().filter { it !is Token.UniqueToken }
+    override fun getAll(): String {
+        return Beautifier.detabify(
+            """${getPrefix()}
 
-    private val choiceVisit = collectChoiceVisit()
-    private val visitMethods = collectVisitMethods()
+package $packageName
 
-    override fun getChoiceVisit(): String {
-        return choiceVisit
+import structure.Visitor
+import structure.ASTNode
+import grammar.token.Token
+import $packageName.${grammarInfo.getName()}
+
+@Suppress("UNCHECKED_CAST")
+interface $className<R> : Visitor<R> {
+
+/*
+${grammarInfo.getGrammar()}
+*/
+
+    override fun visit(node: ASTNode<out Token>): R {${getChoiceVisit()}
+    }
+    
+    fun <T : Token> visitTerminal(token: T): R
+    
+${getVisitMethods()}
+
+}"""
+        )
     }
 
-    override fun getVisitMethods(): String {
-        return visitMethods
-    }
-
-    private fun collectChoiceVisit(): String {
-        return """
-        return when(node.getToken()) {
-${tokens.joinToString("\n") { token ->
-            "\t\t\t${fullName(token)} -> visit_${token}(node as ${nodeType(token)})"
-        }}
-            else -> throw IllegalStateException("Unknown token ${"$"}{node.getToken()} met")
-        }"""
-    }
-
-    private fun visitStateMethod(token: Token.StateToken): String {
+    private fun getStateVisitMethods(token: Token.StateToken): String {
         val expansions = grammarInfo.getGrammar().RULES[token].expansions
         return if (expansions.size == 1) {
             """
     /**
     $token -> ${expansions.first()}
     */
-    fun visit_${token}(node: ${nodeType(token)}): R
+    fun visit_${token}(node: ${getNodeType(token)}): R
 """
         } else {
             """
-    fun visit_${token}(node: ${nodeType(token)}): R {
+    fun visit_${token}(node: ${getNodeType(token)}): R {
         return when (val id = node.getExpansion().getId()) {
 ${expansions.joinToString("\n") { "\t\t\t${it.getId()} -> visit_${token}_${it.getId()}(node)" }}
             else -> throw IllegalStateException("Unexpected expansion id ${"$"}id in expansion of ${token}")
@@ -65,23 +85,14 @@ ${expansions.joinToString("\n") {
     /**
     $token -> $it
     */
-    fun visit_${token}_${it.getId()}(node: ${nodeType(token)}): R"""
+    fun visit_${token}_${it.getId()}(node: ${getNodeType(token)}): R"""
             }}"""
         }
     }
 
-    private fun visitTerminalMethod(token: Token): String {
-        return "\tfun visit_${token}(node: ${nodeType(token)}): R " +
+    private fun getTerminalVisitMethods(token: Token): String {
+        return "\tfun visit_${token}(node: ${getNodeType(token)}): R " +
                 "{\n\t\treturn visitTerminal(node.getToken())\n\t}"
-    }
-
-    private fun collectVisitMethods(): String {
-        return tokens.joinToString("\n") { token ->
-            when (token) {
-                is Token.StateToken -> visitStateMethod(token)
-                else -> visitTerminalMethod(token)
-            }
-        }
     }
 
 }

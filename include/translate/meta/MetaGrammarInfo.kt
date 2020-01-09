@@ -7,7 +7,7 @@ import translate.codegen.info.GrammarInfo
 
 object MetaGrammarInfo : GrammarInfo {
 
-    override fun getAll(): List<Token> {
+    override fun getDefinedTokens(): List<Token> {
         return listOf(
             LPAREN, RPAREN, EOLN, DEFINE, DESCRIBE, CHOICE,
             LTRIG, RTRIG, CHARRANGE, ASSIGN, ADD, SUB, MUL, DIV,

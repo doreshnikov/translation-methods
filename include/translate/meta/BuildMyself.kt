@@ -1,18 +1,13 @@
 package translate.meta
 
-import translate.codegen.AbstractVisitorBuilder
 import java.io.File
 
 fun main() {
 
     val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
-    AbstractVisitorBuilder(
-        MetaGrammarInfo,
-        MetaVisitorInfo,
-        "translate.meta",
-        "MetaBaseVisitor"
-    ).buildVisitor(
-        File("$loc\\include\\translate\\meta\\MetaBaseVisitor.kt")
-    )
+
+    File("$loc\\include\\translate\\meta\\MetaBaseVisitor.kt").bufferedWriter().use { out ->
+        out.write(MetaVisitorInfo.getAll())
+    }
 
 }

@@ -20,7 +20,7 @@ object CalculatorGrammarInfo : GrammarInfo {
         return grammar
     }
     
-    override fun getAll(): List<Token> {
+    override fun getDefinedTokens(): List<Token> {
         return listOf(
             WHITESPACE, LPAREN, RPAREN, PLUS, MINUS, TIMES, DIV, UINT,
             expression, expressionPlus, term, termPlus, factor, atom            
