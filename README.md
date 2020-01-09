@@ -1,22 +1,21 @@
-# Задания
+## Генератор атрибутно-транслирующих парсеров
 
-## Лабораторная 2
+**Класс грамматик:** LL-1
 
-**Описание:** [LAB-2.md](src/regex/LAB-2.md)
+**Типы атрибутов:** 
+* синтезируемые (вычисляются на основе значений детей)
+* наследуемые (вычисляются на основе значений родителя и братьев)
+* трансформирующие (вычисляются на основе других атрибутов в вершине)
 
-Код:
-* [include/](include): содержит описание общего вида токенов, грамматики, парсера и лексера
-* [regex/](src/regex): содержит 
-    * [Regex](src/gen/RegexDescription.kt): реализацию грамматики для регулярных выражений
-    * [Tests](src/regex/test/Tests.kt): тесты для этой грамматики и ее парсинга
-    
-## Лабораторная 3
+### Сборка
 
-**Описание:** [LAB-3.md](src/antlr/LAB-3.md)
-
-Код:
-* [lib/](lib): содержит _antlr-4.7.2-complete.jar_ в качестве библиотеки
-* [antlr/](src/antlr): содержит 
-    * [antlr.g4](src/antlr/Prefix.g4): грамматику _antlr_, описывающую примитивные префиксные программы
-    * [make.bat](src/antlr/make.bat): скрипт для сборки парсера
-    * сгенерированные файлы _antlr_, в том числе [prefixBaseListener](src/antlr/prefixBaseListener.java), использующийся для трансляции
+1. Основы:
+    - [meta.MetaDescription](include/translate/meta/MetaDescription.kt) описывает грамматику языка описания грамматик .my
+    - [codegen.VisitorBuilder](include/translate/codegen/VisitorBuilder.kt) использует файлы в формате [Description](include/structure/Description.kt)
+    для построения абстрактного базового визитора AST заданной грамматики
+2. Мета-генерация
+    - [meta.Myself](include/translate/meta/Myself.kt) генерирует <span style="color:red !important">[meta.MetaBaseVisitor](include/translate/meta/MetaBaseVisitor.kt)</span>
+    - его наследует [codegen.DescriptionBuilder](include/translate/codegen/DescriptionBuilder.kt)
+3. Генерация
+    - он, в свою очередь, используется для трансляции .my-файла в .kt-файл формата Description
+    - *поддержка атрибутов: work in progress* 

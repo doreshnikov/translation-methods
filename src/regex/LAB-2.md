@@ -5,7 +5,7 @@ _Вариант 2_
 
 ---
 
-## Построим грамматику
+## Базовая грамматика
 
 ```
 Start: R
@@ -28,9 +28,9 @@ A -> ['a'..'z'] | '(' R ')'
 1. заметить, что операции выбора и конкатенации не имеют строгой ассоциативности (их можно применять в любом порядке)
 2. воспользоваться стандартным алгоритмом избавления от непосредственной левой рекурсии
 
-## Переделаем грамматику
+## Измененная грамматику
 
-1. если менять порядок выбора и конкатенации, а так же разбить терм на атом и последовательность '*', получим:
+1. если менять порядок выбора и конкатенации, а также разбить терм на атом и последовательность '*', получается:
 ```
 R  -> S R'
 R' -> eps | '|' R
@@ -42,7 +42,7 @@ A  -> ['a'..'z'] | '(' R ')'
 ```
 
 2. если применить алгоритм устранения непосредственной левой рекурсии [Grammar::directLeftRecursionElimination](../../include/grammar/Grammar.kt), 
-получим:
+получается:
 ```
 R  -> S R' | S
 R' -> '|' S | '|' S R'
@@ -55,7 +55,7 @@ A  -> ['a'..'z'] | '(' R ')'
 
 Заметим, что в полученной грамматике теперь есть правое ветвление. 
 Воспользовавшись алгоритмом устранения правого ветвления, [Grammar::rightBranchingElimination](../../include/grammar/Grammar.kt),
-мы получим огромную грамматику, c которой работать явно менее удобно, чем с первой
+мы получим огромную грамматику, c которой работать явно менее удобно, чем с первой:
 ```
 R    -> S R'
 R'   -> R'' | eps
@@ -97,11 +97,7 @@ A  -> ['a'..'z'] | '(' R ')'
 ## FIRST и FOLLOW
 
 Построим множества FIRST и FOLLOW для описанной грамматики. 
-Для этого воспользуемся алгоритмом их построения, описанным в [Helper](../../include/parse/Helper.kt)
-
-* для предоставления внешним классам доступа к `FIRST[state]` и `FIRST(expansion)` используется [ConsistentViewer](../../include/utils/viewer/ConsistentViewer.kt)
-* для предоставления внешним классам доступа к `FOLLOW[state]` используется [GetViewer](../../include/utils/viewer/GetViewer.kt)
-* для аккуратного вывода алфавитных терминалов используется [Beautifier::tokenFold](../../include/utils/Beautifier.kt)
+Для этого воспользуемся алгоритмом их построения, описанным в [Helper](../../include/parse/Helper.kt):
 
 ### FIRST
 ```
@@ -129,68 +125,64 @@ A  : $, '(', ')', '|', '*', ['a'..'z']
 
 ### Фиксированная грамматика
 
-В [Regex](../gen/RegexDescription.kt)
-1. задаем алфавит языка
+В [RegexDescriptionы](../gen/RegexDescription.kt)
+* задаем алфавит языка
 ```kotlin
-init {
-    Token.AlphaToken.allow('a'..'z')
-}
+object regex        : Token.StateToken("regex")
+object regexPlus    : Token.StateToken("regexPlus")
+object sequence     : Token.StateToken("sequence")
+object sequencePlus : Token.StateToken("sequencePlus")
+object term         : Token.StateToken("term")
+object closure      : Token.StateToken("closure")
+object atom         : Token.StateToken("atom")
 
-val LPAREN = PD('(')
-val RPAREN = PD(')')
-val KLEENE = PD('*')
-val CHOICE = PD('|')
+object LPAREN       : Token.StringToken("LPAREN", "(")
+object RPAREN       : Token.StringToken("RPAREN", ")")
+object KLEENE       : Token.StringToken("KLEENE", "*")
+object CHOICE       : Token.StringToken("CHOICE", "|")
 
-val R0 = ST("R")
-val R1 = ST("R`")
-val S0 = ST("S")
-val S1 = ST("S`")
-val T  = ST("T")
-val C  = ST("C")
-val A  = ST("A")
+object ALPHA        : Token.CharRangeToken("ALPHA", 'a'..'z')
 ```
-1. задаем грамматику, с которой работаем
+* задаем грамматику, с которой работаем
 ```kotlin
-val grammar = Grammar(
-    R0,
-
-    R0 into E(S0, R1),
-    R1 into E(EPSILON),
-    R1 into E(CHOICE, R0),
-    S0 into E(T, S1),
-    S1 into E(EPSILON),
-    S1 into E(S0),
-    T  into E(A, C),
-    C  into E(EPSILON),
-    C  into E(KLEENE, C),
-    A  into E(LPAREN, R0, RPAREN)
-).also {
-    ('a'..'z').map { c -> A into E(AT(c)) }.forEach { r ->
-        it.add(r)
-    }
-}.order()
+private val grammar = Grammar(
+    regex,
+    
+    regex           into Expansion(sequence, regexPlus),
+    regexPlus       into Expansion(CHOICE, regex),
+    regexPlus       into Expansion(Token.UniqueToken.EPSILON),
+    sequence        into Expansion(term, sequencePlus),
+    sequencePlus    into Expansion(sequence),
+    sequencePlus    into Expansion(Token.UniqueToken.EPSILON),
+    term            into Expansion(atom, closure),
+    closure         into Expansion(KLEENE, closure),
+    closure         into Expansion(Token.UniqueToken.EPSILON),
+    atom            into Expansion(LPAREN, regex, RPAREN),
+    atom            into Expansion(ALPHA)
+).order()
 ```
 
 ### Helper и Lexer
 
-1. В [Helper](../../include/parse/Helper.kt) считаем `FIRST` и `FOLLOW` по описанной грамматике
-2. В [Lexer](../../include/parse/Lexer.kt) описываем правила получения следующего [Token](../../include/grammar/token/Token.kt). 
-Для ограничения типа токена, получаемого из лексера, используем [TokenRestricted](../../include/grammar/token/Restricted.kt)
+1. [Helper](../../include/parse/Helper.kt) считает `FIRST` и `FOLLOW` по описанной грамматике
+2. [Lexer](../../include/parse/Lexer.kt) использует описания токенов и выдает следующий [Token](../../include/grammar/token/Token.kt). 
+Для ограничения типа токена, получаемого из лексера, есть интерфейс [Restricted](../../include/grammar/token/Restricted.kt)
     ```kotlin
-    class Lexer : TR by TRUniversal + TRFollow
+    class Lexer : Restricted by Restricted.Symbolic + Restricted.Eof
     ```
 
 ### Parser
 
-В [Parser](../../include/parse/Parser.kt) используем Lexer и Helper заданной грамматики, 
-чтобы по построенным `FIRST` и `FOLLOW` для текущего состояния найти в какое правило его раскрыть.
+[Parser](../../include/parse/Parser.kt) использует Lexer и Helper заданной грамматики, 
+чтобы по построенным `FIRST` и `FOLLOW` для текущего состояния найти в какое правило его раскрыть:
 ```kotlin
-private fun parse(state: Token.State, lexer: Lexer): Tree {
-    val rule = grammar.RULES[state]
+private fun parse(state: Token.StateToken, lexer: Lexer): ASTNode<Token.StateToken> {
+    val rule = description.getGrammar().RULES[state]
 
-    val byFirst = rule.expansions.filter { lexer.getToken() in helper.FIRST(it) }
-    val byFollow = rule.expansions.filter { Token.EPSILON in helper.FIRST(it) }
-    val isNullable = Token.EPSILON in helper.FIRST[state] && lexer.getToken() in helper.FOLLOW[state]
+    val byFirst = rule.expansions.filter { Token.isAcceptable(lexer.getToken(), helper.FIRST(it)) }
+    val byFollow = rule.expansions.filter { Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST(it)) }
+    val isNullable = Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST[state]) &&
+            Token.isAcceptable(lexer.getToken(), helper.FOLLOW[state])
 
     return when (val options = byFirst.size + (if (isNullable) byFollow.size else 0)) {
         0 -> throw ParseException(
@@ -239,59 +231,50 @@ private fun parse(state: Token.State, lexer: Lexer): Tree {
 
 ### Новая модификация
 
-Поскольку чисел бесконечно много, мы не можем для каждого из них добавить правило в грамматику. Для этого:
-* в [Grammar](../../include/grammar/Grammar.kt) выводим токен для описания числа [AnyNumber](../../include/grammar/token/Token.kt)
-* в [Lexer](../../include/parse/Lexer.kt) возвращаем настоящее число
-
-Для проверки соответствия токена ожидаемому используется следующая проверка:
-```kotlin
-private fun isAcceptable(token: Token, originalToken: Token) : Boolean {
-    return token == originalToken || token is RepresentedBy<*> && token.getRepresentation() == originalToken
-}
-```
-
-Аналогично поступаем с символами алфавита для упрощения.
+Как для `atom -> ALPHA` для отличия получаемых из [Lexer](../../include/parse/Lexer.kt) токенов со значениями 
+от токена, использующегося в грамматике, был использован [CharRangeToken](../../include/grammar/token/Token.kt), так и здесь
+* [Grammar](../../include/grammar/Grammar.kt) использует [RegexToken](../../include/grammar/token/Token.kt)
+* [Lexer](../../include/parse/Lexer.kt) возвращает instance [RegexToken -> VariantInstanceToken](../../include/grammar/token/Token.kt)
 
 ### Новая грамматика
 
 ```kotlin
-val LPAREN = PD('(')
-val RPAREN = PD(')')
-val KLEENE = PD('*')
-val CHOICE = PD('|')
+object regex        : Token.StateToken("regex")
+object regexPlus    : Token.StateToken("regexPlus")
+object sequence     : Token.StateToken("sequence")
+object sequencePlus : Token.StateToken("sequencePlus")
+object term         : Token.StateToken("term")
+object number       : Token.StateToken("number")
+object closure      : Token.StateToken("closure")
+object atom         : Token.StateToken("atom")
 
-val R0 = ST("R")
-val R1 = ST("R`")
-val S0 = ST("S")
-val S1 = ST("S`")
-val T  = ST("T")
-val M  = ST("M")
-val N  = ST("N")
-val C  = ST("C")
-val A  = ST("A")
+object LPAREN       : Token.StringToken("LPAREN", "(")
+object RPAREN       : Token.StringToken("RPAREN", ")")
+object KLEENE       : Token.StringToken("KLEENE", "*")
+object CHOICE       : Token.StringToken("CHOICE", "|")
+object ALPHA        : Token.CharRangeToken("ALPHA", 'a'..'z')
+object UINT         : Token.RegexToken("UINT", "[1-9][0-9]*".toRegex())
 
-val grammar = Grammar(
-    R0,
-
-    R0 into E(S0, R1),
-    R1 into E(EPSILON),
-    R1 into E(CHOICE, R0),
-    S0 into E(T, S1),
-    S1 into E(EPSILON),
-    S1 into E(S0),
-    T  into E(A, M),
-    M  into E(N, C),
-    N  into E(EPSILON),
-    N  into E(Token.RepresentationToken.AnyNumber),
-    C  into E(EPSILON),
-    C  into E(KLEENE, C),
-    A  into E(LPAREN, R0, RPAREN),
-    A  into E(Token.RepresentationToken.AnyAlpha)
+private val grammar = Grammar(
+    regex,
+    
+    regex           into Expansion(sequence, regexPlus),
+    regexPlus       into Expansion(CHOICE, regex),
+    regexPlus       into Expansion(Token.UniqueToken.EPSILON),
+    sequence        into Expansion(term, sequencePlus),
+    sequencePlus    into Expansion(sequence),
+    sequencePlus    into Expansion(Token.UniqueToken.EPSILON),
+    term            into Expansion(atom, number, closure),
+    number          into Expansion(UINT),
+    number          into Expansion(Token.UniqueToken.EPSILON),
+    closure         into Expansion(KLEENE, closure),
+    closure         into Expansion(Token.UniqueToken.EPSILON),
+    atom            into Expansion(LPAREN, regex, RPAREN),
+    atom            into Expansion(ALPHA)
 ).order()
 ```
 где
 
 | Nonterminal | Описание |
 | ----------- | -------- |
-| `M (modification)` | любой суффикс-модификация атома |
 | `N (number)` | число-множитель атома |
