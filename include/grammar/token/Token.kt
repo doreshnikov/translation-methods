@@ -73,9 +73,13 @@ interface Token {
     }
 
     @Suppress("LeakingThis")
-    sealed class UniqueToken(name: String) : Token {
+    sealed class UniqueToken(private val name: String) : Token {
         companion object {
             val all = mutableListOf<UniqueToken>()
+        }
+
+        fun getName(): String {
+            return name
         }
 
         init {

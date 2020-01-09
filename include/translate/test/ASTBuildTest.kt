@@ -6,9 +6,14 @@ import translate.meta.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException
 
+fun singleUpperCase(string: String): String {
+    return string[0].toUpperCase() + string.substring(1)
+}
+
+val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
+
 fun main() {
 
-    val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
     listOf("regex", "calculator", "prefix").forEach { name ->
         val str = File("include/translate/examples/$name.my").bufferedReader().use {
             return@use it.readText()

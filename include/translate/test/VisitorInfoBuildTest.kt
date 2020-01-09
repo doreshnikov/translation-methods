@@ -1,7 +1,7 @@
 package translate.test
 
 import parse.Parser
-import translate.codegen.GrammarInfoBuilder
+import translate.codegen.VisitorInfoBuilder
 import translate.meta.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException
@@ -12,11 +12,14 @@ fun main() {
         val str = File("$loc\\include\\translate\\examples\\$name.my").bufferedReader().use {
             return@use it.readText()
         }
-        val uname = "${singleUpperCase(name)}GrammarInfo"
+        val uname = singleUpperCase(name)
         try {
-            val s = GrammarInfoBuilder("gen", uname)
-                .collect(Parser(MetaGrammarInfo).parse(str))
-            File("$loc\\src\\gen\\${uname}.kt").bufferedWriter().use { out ->
+            val s = VisitorInfoBuilder(
+                "gen",
+                "${uname}VisitorInfo",
+                "${uname}GrammarInfo"
+            ).collect(Parser(MetaGrammarInfo).parse(str))
+            File("$loc\\src\\gen\\${uname}VisitorInfo.kt").bufferedWriter().use { out ->
                 out.write(s)
             }
             println("[SUCCESS] $name")

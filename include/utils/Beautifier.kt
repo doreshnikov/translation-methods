@@ -11,6 +11,7 @@ class Beautifier {
 
         fun escape(value: String): String {
             var s = value
+            s = s.replace("\\", "\\\\")
             s = s.replace("\"", "\\\"")
             s = s.replace("\n", "\\n")
             s = s.replace("\t", "\\t")
