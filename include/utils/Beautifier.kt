@@ -17,6 +17,10 @@ class Beautifier {
             s = s.replace("\r", "\\r")
             return s
         }
+
+        fun detabify(value: String): String {
+            return value.replace("\t", " ".repeat(4))
+        }
     }
 
 }

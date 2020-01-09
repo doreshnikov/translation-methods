@@ -24,41 +24,41 @@ object CalculatorDescription : Description {
         check(WHITESPACE, LPAREN, RPAREN, PLUS, MINUS, TIMES, DIV, UINT)
     }
     
-	object expression : Token.StateToken("expression")
-	object expressionPlus : Token.StateToken("expressionPlus")
-	object term : Token.StateToken("term")
-	object termPlus : Token.StateToken("termPlus")
-	object factor : Token.StateToken("factor")
-	object atom : Token.StateToken("atom")
+    object expression : Token.StateToken("expression")
+    object expressionPlus : Token.StateToken("expressionPlus")
+    object term : Token.StateToken("term")
+    object termPlus : Token.StateToken("termPlus")
+    object factor : Token.StateToken("factor")
+    object atom : Token.StateToken("atom")
 
-	object WHITESPACE : Token.RegexToken("WHITESPACE", "[ \r\n\t]".toRegex())
-	object LPAREN : Token.StringToken("LPAREN", "(")
-	object RPAREN : Token.StringToken("RPAREN", ")")
-	object PLUS : Token.StringToken("PLUS", "+")
-	object MINUS : Token.StringToken("MINUS", "-")
-	object TIMES : Token.StringToken("TIMES", "*")
-	object DIV : Token.StringToken("DIV", "/")
-	object UINT : Token.RegexToken("UINT", "[0-9]*".toRegex())
+    object WHITESPACE : Token.RegexToken("WHITESPACE", "[ \r\n\t]".toRegex())
+    object LPAREN : Token.StringToken("LPAREN", "(")
+    object RPAREN : Token.StringToken("RPAREN", ")")
+    object PLUS : Token.StringToken("PLUS", "+")
+    object MINUS : Token.StringToken("MINUS", "-")
+    object TIMES : Token.StringToken("TIMES", "*")
+    object DIV : Token.StringToken("DIV", "/")
+    object UINT : Token.RegexToken("UINT", "[0-9]*".toRegex())
 
     private val grammar = Grammar(
         /*
         synthesis: value: Int
-		inheritance: left: Int
+        inheritance: left: Int
         */
         expression,
         
-		expression into Expansion(term, expression /* { left = @1.value  } */) /* { value = @2.value  } */,
-		expressionPlus into Expansion(PLUS, term, expressionPlus /* { left = left + @2.value } */) /* { value = @3.value  } */,
-		expressionPlus into Expansion(MINUS, term, expressionPlus /* { left = left - @2.value } */) /* { value = @3.value  } */,
-		expressionPlus into Expansion(Token.UniqueToken.EPSILON) /* { value = left  } */,
-		term into Expansion(factor, termPlus /* { left = @1.value  } */) /* { value = @2.value  } */,
-		termPlus into Expansion(TIMES, factor, termPlus /* { left = left * @2.value } */) /* { value = @3.value  } */,
-		termPlus into Expansion(DIV, factor, termPlus /* { left = left / @2.value } */) /* { value = @3.value  } */,
-		termPlus into Expansion(Token.UniqueToken.EPSILON) /* { value = left  } */,
-		factor into Expansion(MINUS, factor) /* { value = -@2.value } */,
-		factor into Expansion(atom) /* { value = @1.value  } */,
-		atom into Expansion(LPAREN, expression, RPAREN) /* { value = @2.value  } */,
-		atom into Expansion(UINT) /* { value = @1.INT  } */
+        expression into Expansion(term, expression /* { left = @1.value  } */) /* { value = @2.value  } */,
+        expressionPlus into Expansion(PLUS, term, expressionPlus /* { left = left + @2.value } */) /* { value = @3.value  } */,
+        expressionPlus into Expansion(MINUS, term, expressionPlus /* { left = left - @2.value } */) /* { value = @3.value  } */,
+        expressionPlus into Expansion(Token.UniqueToken.EPSILON) /* { value = left  } */,
+        term into Expansion(factor, termPlus /* { left = @1.value  } */) /* { value = @2.value  } */,
+        termPlus into Expansion(TIMES, factor, termPlus /* { left = left * @2.value } */) /* { value = @3.value  } */,
+        termPlus into Expansion(DIV, factor, termPlus /* { left = left / @2.value } */) /* { value = @3.value  } */,
+        termPlus into Expansion(Token.UniqueToken.EPSILON) /* { value = left  } */,
+        factor into Expansion(MINUS, factor) /* { value = -@2.value } */,
+        factor into Expansion(atom) /* { value = @1.value  } */,
+        atom into Expansion(LPAREN, expression, RPAREN) /* { value = @2.value  } */,
+        atom into Expansion(UINT) /* { value = @1.INT  } */
     ).order()
 
 }

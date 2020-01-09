@@ -1,7 +1,6 @@
 package translate.test
 
 import parse.Parser
-import translate.codegen.DescriptionBuilder
 import translate.codegen.DescriptionBuilder2
 import translate.meta.MetaDescription
 import java.io.File

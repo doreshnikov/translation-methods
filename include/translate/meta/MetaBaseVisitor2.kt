@@ -61,219 +61,219 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     override fun visit(node: ASTNode<out Token>): R {
         return when(node.getToken()) {
-			MetaDescription.LPAREN -> visit_LPAREN(node as ASTNode.TerminalNode<MetaDescription.LPAREN>)
-			MetaDescription.RPAREN -> visit_RPAREN(node as ASTNode.TerminalNode<MetaDescription.RPAREN>)
-			MetaDescription.EOLN -> visit_EOLN(node as ASTNode.TerminalNode<MetaDescription.EOLN>)
-			MetaDescription.DEFINE -> visit_DEFINE(node as ASTNode.TerminalNode<MetaDescription.DEFINE>)
-			MetaDescription.DESCRIBE -> visit_DESCRIBE(node as ASTNode.TerminalNode<MetaDescription.DESCRIBE>)
-			MetaDescription.CHOICE -> visit_CHOICE(node as ASTNode.TerminalNode<MetaDescription.CHOICE>)
-			MetaDescription.LTRIG -> visit_LTRIG(node as ASTNode.TerminalNode<MetaDescription.LTRIG>)
-			MetaDescription.RTRIG -> visit_RTRIG(node as ASTNode.TerminalNode<MetaDescription.RTRIG>)
-			MetaDescription.CHARRANGE -> visit_CHARRANGE(node as ASTNode.TerminalNode<MetaDescription.CHARRANGE>)
-			MetaDescription.ASSIGN -> visit_ASSIGN(node as ASTNode.TerminalNode<MetaDescription.ASSIGN>)
-			MetaDescription.ADD -> visit_ADD(node as ASTNode.TerminalNode<MetaDescription.ADD>)
-			MetaDescription.SUB -> visit_SUB(node as ASTNode.TerminalNode<MetaDescription.SUB>)
-			MetaDescription.MUL -> visit_MUL(node as ASTNode.TerminalNode<MetaDescription.MUL>)
-			MetaDescription.DIV -> visit_DIV(node as ASTNode.TerminalNode<MetaDescription.DIV>)
-			MetaDescription.LARRAY -> visit_LARRAY(node as ASTNode.TerminalNode<MetaDescription.LARRAY>)
-			MetaDescription.RARRAY -> visit_RARRAY(node as ASTNode.TerminalNode<MetaDescription.RARRAY>)
-			MetaDescription.SEP -> visit_SEP(node as ASTNode.TerminalNode<MetaDescription.SEP>)
-			MetaDescription.MACRO -> visit_MACRO(node as ASTNode.TerminalNode<MetaDescription.MACRO>)
-			MetaDescription.TOKENS -> visit_TOKENS(node as ASTNode.TerminalNode<MetaDescription.TOKENS>)
-			MetaDescription.GRAMMAR -> visit_GRAMMAR(node as ASTNode.TerminalNode<MetaDescription.GRAMMAR>)
-			MetaDescription.FRAGMENTS -> visit_FRAGMENTS(node as ASTNode.TerminalNode<MetaDescription.FRAGMENTS>)
-			MetaDescription.COMPANION -> visit_COMPANION(node as ASTNode.TerminalNode<MetaDescription.COMPANION>)
-			MetaDescription.SKIP -> visit_SKIP(node as ASTNode.TerminalNode<MetaDescription.SKIP>)
-			MetaDescription.SYNTHESIS -> visit_SYNTHESIS(node as ASTNode.TerminalNode<MetaDescription.SYNTHESIS>)
-			MetaDescription.INHERITANCE -> visit_INHERITANCE(node as ASTNode.TerminalNode<MetaDescription.INHERITANCE>)
-			MetaDescription.COMPUTE -> visit_COMPUTE(node as ASTNode.TerminalNode<MetaDescription.COMPUTE>)
-			MetaDescription.START -> visit_START(node as ASTNode.TerminalNode<MetaDescription.START>)
-			MetaDescription.DEFAULT -> visit_DEFAULT(node as ASTNode.TerminalNode<MetaDescription.DEFAULT>)
-			MetaDescription.INT_TYPE -> visit_INT_TYPE(node as ASTNode.TerminalNode<MetaDescription.INT_TYPE>)
-			MetaDescription.DOUBLE_TYPE -> visit_DOUBLE_TYPE(node as ASTNode.TerminalNode<MetaDescription.DOUBLE_TYPE>)
-			MetaDescription.STRING_TYPE -> visit_STRING_TYPE(node as ASTNode.TerminalNode<MetaDescription.STRING_TYPE>)
-			MetaDescription.KOTLIN_FUNC -> visit_KOTLIN_FUNC(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.KOTLIN_FUNC>>)
-			MetaDescription.DOUBLE -> visit_DOUBLE(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.DOUBLE>>)
-			MetaDescription.INT -> visit_INT(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.INT>>)
-			MetaDescription.CHAR -> visit_CHAR(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CHAR>>)
-			MetaDescription.STRING -> visit_STRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.STRING>>)
-			MetaDescription.RSTRING -> visit_RSTRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>)
-			MetaDescription.SPNAME -> visit_SPNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.SPNAME>>)
-			MetaDescription.CAMELNAME -> visit_CAMELNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAMELNAME>>)
-			MetaDescription.CAPSNAME -> visit_CAPSNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>)
-			MetaDescription.WHITESPACE -> visit_WHITESPACE(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.WHITESPACE>>)
-			MetaDescription.all -> visit_all(node as ASTNode.InnerNode<MetaDescription.all>)
-			MetaDescription.m -> visit_m(node as ASTNode.InnerNode<MetaDescription.m>)
-			MetaDescription.t -> visit_t(node as ASTNode.InnerNode<MetaDescription.t>)
-			MetaDescription.g -> visit_g(node as ASTNode.InnerNode<MetaDescription.g>)
-			MetaDescription.kfPlus -> visit_kfPlus(node as ASTNode.InnerNode<MetaDescription.kfPlus>)
-			MetaDescription.tComp -> visit_tComp(node as ASTNode.InnerNode<MetaDescription.tComp>)
-			MetaDescription.tFrag -> visit_tFrag(node as ASTNode.InnerNode<MetaDescription.tFrag>)
-			MetaDescription.tPlus -> visit_tPlus(node as ASTNode.InnerNode<MetaDescription.tPlus>)
-			MetaDescription.tSkip -> visit_tSkip(node as ASTNode.InnerNode<MetaDescription.tSkip>)
-			MetaDescription.tArray -> visit_tArray(node as ASTNode.InnerNode<MetaDescription.tArray>)
-			MetaDescription.tArrayPlus -> visit_tArrayPlus(node as ASTNode.InnerNode<MetaDescription.tArrayPlus>)
-			MetaDescription.tFragPlus -> visit_tFragPlus(node as ASTNode.InnerNode<MetaDescription.tFragPlus>)
-			MetaDescription.tFragLine -> visit_tFragLine(node as ASTNode.InnerNode<MetaDescription.tFragLine>)
-			MetaDescription.tLine -> visit_tLine(node as ASTNode.InnerNode<MetaDescription.tLine>)
-			MetaDescription.tDef -> visit_tDef(node as ASTNode.InnerNode<MetaDescription.tDef>)
-			MetaDescription.gComp -> visit_gComp(node as ASTNode.InnerNode<MetaDescription.gComp>)
-			MetaDescription.gPlus -> visit_gPlus(node as ASTNode.InnerNode<MetaDescription.gPlus>)
-			MetaDescription.gSynth -> visit_gSynth(node as ASTNode.InnerNode<MetaDescription.gSynth>)
-			MetaDescription.gInh -> visit_gInh(node as ASTNode.InnerNode<MetaDescription.gInh>)
-			MetaDescription.gCompv -> visit_gCompv(node as ASTNode.InnerNode<MetaDescription.gCompv>)
-			MetaDescription.gStart -> visit_gStart(node as ASTNode.InnerNode<MetaDescription.gStart>)
-			MetaDescription.attribs -> visit_attribs(node as ASTNode.InnerNode<MetaDescription.attribs>)
-			MetaDescription.attrib -> visit_attrib(node as ASTNode.InnerNode<MetaDescription.attrib>)
-			MetaDescription.attribsPlus -> visit_attribsPlus(node as ASTNode.InnerNode<MetaDescription.attribsPlus>)
-			MetaDescription.type -> visit_type(node as ASTNode.InnerNode<MetaDescription.type>)
-			MetaDescription.setDef -> visit_setDef(node as ASTNode.InnerNode<MetaDescription.setDef>)
-			MetaDescription.defValue -> visit_defValue(node as ASTNode.InnerNode<MetaDescription.defValue>)
-			MetaDescription.gLine -> visit_gLine(node as ASTNode.InnerNode<MetaDescription.gLine>)
-			MetaDescription.def -> visit_def(node as ASTNode.InnerNode<MetaDescription.def>)
-			MetaDescription.rules -> visit_rules(node as ASTNode.InnerNode<MetaDescription.rules>)
-			MetaDescription.rule -> visit_rule(node as ASTNode.InnerNode<MetaDescription.rule>)
-			MetaDescription.rulesPlus -> visit_rulesPlus(node as ASTNode.InnerNode<MetaDescription.rulesPlus>)
-			MetaDescription.seq -> visit_seq(node as ASTNode.InnerNode<MetaDescription.seq>)
-			MetaDescription.atom -> visit_atom(node as ASTNode.InnerNode<MetaDescription.atom>)
-			MetaDescription.seqPlus -> visit_seqPlus(node as ASTNode.InnerNode<MetaDescription.seqPlus>)
-			MetaDescription.pass -> visit_pass(node as ASTNode.InnerNode<MetaDescription.pass>)
-			MetaDescription.defBody -> visit_defBody(node as ASTNode.InnerNode<MetaDescription.defBody>)
-			MetaDescription.defAtom -> visit_defAtom(node as ASTNode.InnerNode<MetaDescription.defAtom>)
-			MetaDescription.defPlus -> visit_defPlus(node as ASTNode.InnerNode<MetaDescription.defPlus>)
-			MetaDescription.defTerm -> visit_defTerm(node as ASTNode.InnerNode<MetaDescription.defTerm>)
-			MetaDescription.defMod -> visit_defMod(node as ASTNode.InnerNode<MetaDescription.defMod>)
-			MetaDescription.atName -> visit_atName(node as ASTNode.InnerNode<MetaDescription.atName>)
-			MetaDescription.op -> visit_op(node as ASTNode.InnerNode<MetaDescription.op>)
+            MetaDescription.LPAREN -> visit_LPAREN(node as ASTNode.TerminalNode<MetaDescription.LPAREN>)
+            MetaDescription.RPAREN -> visit_RPAREN(node as ASTNode.TerminalNode<MetaDescription.RPAREN>)
+            MetaDescription.EOLN -> visit_EOLN(node as ASTNode.TerminalNode<MetaDescription.EOLN>)
+            MetaDescription.DEFINE -> visit_DEFINE(node as ASTNode.TerminalNode<MetaDescription.DEFINE>)
+            MetaDescription.DESCRIBE -> visit_DESCRIBE(node as ASTNode.TerminalNode<MetaDescription.DESCRIBE>)
+            MetaDescription.CHOICE -> visit_CHOICE(node as ASTNode.TerminalNode<MetaDescription.CHOICE>)
+            MetaDescription.LTRIG -> visit_LTRIG(node as ASTNode.TerminalNode<MetaDescription.LTRIG>)
+            MetaDescription.RTRIG -> visit_RTRIG(node as ASTNode.TerminalNode<MetaDescription.RTRIG>)
+            MetaDescription.CHARRANGE -> visit_CHARRANGE(node as ASTNode.TerminalNode<MetaDescription.CHARRANGE>)
+            MetaDescription.ASSIGN -> visit_ASSIGN(node as ASTNode.TerminalNode<MetaDescription.ASSIGN>)
+            MetaDescription.ADD -> visit_ADD(node as ASTNode.TerminalNode<MetaDescription.ADD>)
+            MetaDescription.SUB -> visit_SUB(node as ASTNode.TerminalNode<MetaDescription.SUB>)
+            MetaDescription.MUL -> visit_MUL(node as ASTNode.TerminalNode<MetaDescription.MUL>)
+            MetaDescription.DIV -> visit_DIV(node as ASTNode.TerminalNode<MetaDescription.DIV>)
+            MetaDescription.LARRAY -> visit_LARRAY(node as ASTNode.TerminalNode<MetaDescription.LARRAY>)
+            MetaDescription.RARRAY -> visit_RARRAY(node as ASTNode.TerminalNode<MetaDescription.RARRAY>)
+            MetaDescription.SEP -> visit_SEP(node as ASTNode.TerminalNode<MetaDescription.SEP>)
+            MetaDescription.MACRO -> visit_MACRO(node as ASTNode.TerminalNode<MetaDescription.MACRO>)
+            MetaDescription.TOKENS -> visit_TOKENS(node as ASTNode.TerminalNode<MetaDescription.TOKENS>)
+            MetaDescription.GRAMMAR -> visit_GRAMMAR(node as ASTNode.TerminalNode<MetaDescription.GRAMMAR>)
+            MetaDescription.FRAGMENTS -> visit_FRAGMENTS(node as ASTNode.TerminalNode<MetaDescription.FRAGMENTS>)
+            MetaDescription.COMPANION -> visit_COMPANION(node as ASTNode.TerminalNode<MetaDescription.COMPANION>)
+            MetaDescription.SKIP -> visit_SKIP(node as ASTNode.TerminalNode<MetaDescription.SKIP>)
+            MetaDescription.SYNTHESIS -> visit_SYNTHESIS(node as ASTNode.TerminalNode<MetaDescription.SYNTHESIS>)
+            MetaDescription.INHERITANCE -> visit_INHERITANCE(node as ASTNode.TerminalNode<MetaDescription.INHERITANCE>)
+            MetaDescription.COMPUTE -> visit_COMPUTE(node as ASTNode.TerminalNode<MetaDescription.COMPUTE>)
+            MetaDescription.START -> visit_START(node as ASTNode.TerminalNode<MetaDescription.START>)
+            MetaDescription.DEFAULT -> visit_DEFAULT(node as ASTNode.TerminalNode<MetaDescription.DEFAULT>)
+            MetaDescription.INT_TYPE -> visit_INT_TYPE(node as ASTNode.TerminalNode<MetaDescription.INT_TYPE>)
+            MetaDescription.DOUBLE_TYPE -> visit_DOUBLE_TYPE(node as ASTNode.TerminalNode<MetaDescription.DOUBLE_TYPE>)
+            MetaDescription.STRING_TYPE -> visit_STRING_TYPE(node as ASTNode.TerminalNode<MetaDescription.STRING_TYPE>)
+            MetaDescription.KOTLIN_FUNC -> visit_KOTLIN_FUNC(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.KOTLIN_FUNC>>)
+            MetaDescription.DOUBLE -> visit_DOUBLE(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.DOUBLE>>)
+            MetaDescription.INT -> visit_INT(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.INT>>)
+            MetaDescription.CHAR -> visit_CHAR(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CHAR>>)
+            MetaDescription.STRING -> visit_STRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.STRING>>)
+            MetaDescription.RSTRING -> visit_RSTRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>)
+            MetaDescription.SPNAME -> visit_SPNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.SPNAME>>)
+            MetaDescription.CAMELNAME -> visit_CAMELNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAMELNAME>>)
+            MetaDescription.CAPSNAME -> visit_CAPSNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>)
+            MetaDescription.WHITESPACE -> visit_WHITESPACE(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.WHITESPACE>>)
+            MetaDescription.all -> visit_all(node as ASTNode.InnerNode<MetaDescription.all>)
+            MetaDescription.m -> visit_m(node as ASTNode.InnerNode<MetaDescription.m>)
+            MetaDescription.t -> visit_t(node as ASTNode.InnerNode<MetaDescription.t>)
+            MetaDescription.g -> visit_g(node as ASTNode.InnerNode<MetaDescription.g>)
+            MetaDescription.kfPlus -> visit_kfPlus(node as ASTNode.InnerNode<MetaDescription.kfPlus>)
+            MetaDescription.tComp -> visit_tComp(node as ASTNode.InnerNode<MetaDescription.tComp>)
+            MetaDescription.tFrag -> visit_tFrag(node as ASTNode.InnerNode<MetaDescription.tFrag>)
+            MetaDescription.tPlus -> visit_tPlus(node as ASTNode.InnerNode<MetaDescription.tPlus>)
+            MetaDescription.tSkip -> visit_tSkip(node as ASTNode.InnerNode<MetaDescription.tSkip>)
+            MetaDescription.tArray -> visit_tArray(node as ASTNode.InnerNode<MetaDescription.tArray>)
+            MetaDescription.tArrayPlus -> visit_tArrayPlus(node as ASTNode.InnerNode<MetaDescription.tArrayPlus>)
+            MetaDescription.tFragPlus -> visit_tFragPlus(node as ASTNode.InnerNode<MetaDescription.tFragPlus>)
+            MetaDescription.tFragLine -> visit_tFragLine(node as ASTNode.InnerNode<MetaDescription.tFragLine>)
+            MetaDescription.tLine -> visit_tLine(node as ASTNode.InnerNode<MetaDescription.tLine>)
+            MetaDescription.tDef -> visit_tDef(node as ASTNode.InnerNode<MetaDescription.tDef>)
+            MetaDescription.gComp -> visit_gComp(node as ASTNode.InnerNode<MetaDescription.gComp>)
+            MetaDescription.gPlus -> visit_gPlus(node as ASTNode.InnerNode<MetaDescription.gPlus>)
+            MetaDescription.gSynth -> visit_gSynth(node as ASTNode.InnerNode<MetaDescription.gSynth>)
+            MetaDescription.gInh -> visit_gInh(node as ASTNode.InnerNode<MetaDescription.gInh>)
+            MetaDescription.gCompv -> visit_gCompv(node as ASTNode.InnerNode<MetaDescription.gCompv>)
+            MetaDescription.gStart -> visit_gStart(node as ASTNode.InnerNode<MetaDescription.gStart>)
+            MetaDescription.attribs -> visit_attribs(node as ASTNode.InnerNode<MetaDescription.attribs>)
+            MetaDescription.attrib -> visit_attrib(node as ASTNode.InnerNode<MetaDescription.attrib>)
+            MetaDescription.attribsPlus -> visit_attribsPlus(node as ASTNode.InnerNode<MetaDescription.attribsPlus>)
+            MetaDescription.type -> visit_type(node as ASTNode.InnerNode<MetaDescription.type>)
+            MetaDescription.setDef -> visit_setDef(node as ASTNode.InnerNode<MetaDescription.setDef>)
+            MetaDescription.defValue -> visit_defValue(node as ASTNode.InnerNode<MetaDescription.defValue>)
+            MetaDescription.gLine -> visit_gLine(node as ASTNode.InnerNode<MetaDescription.gLine>)
+            MetaDescription.def -> visit_def(node as ASTNode.InnerNode<MetaDescription.def>)
+            MetaDescription.rules -> visit_rules(node as ASTNode.InnerNode<MetaDescription.rules>)
+            MetaDescription.rule -> visit_rule(node as ASTNode.InnerNode<MetaDescription.rule>)
+            MetaDescription.rulesPlus -> visit_rulesPlus(node as ASTNode.InnerNode<MetaDescription.rulesPlus>)
+            MetaDescription.seq -> visit_seq(node as ASTNode.InnerNode<MetaDescription.seq>)
+            MetaDescription.atom -> visit_atom(node as ASTNode.InnerNode<MetaDescription.atom>)
+            MetaDescription.seqPlus -> visit_seqPlus(node as ASTNode.InnerNode<MetaDescription.seqPlus>)
+            MetaDescription.pass -> visit_pass(node as ASTNode.InnerNode<MetaDescription.pass>)
+            MetaDescription.defBody -> visit_defBody(node as ASTNode.InnerNode<MetaDescription.defBody>)
+            MetaDescription.defAtom -> visit_defAtom(node as ASTNode.InnerNode<MetaDescription.defAtom>)
+            MetaDescription.defPlus -> visit_defPlus(node as ASTNode.InnerNode<MetaDescription.defPlus>)
+            MetaDescription.defTerm -> visit_defTerm(node as ASTNode.InnerNode<MetaDescription.defTerm>)
+            MetaDescription.defMod -> visit_defMod(node as ASTNode.InnerNode<MetaDescription.defMod>)
+            MetaDescription.atName -> visit_atName(node as ASTNode.InnerNode<MetaDescription.atName>)
+            MetaDescription.op -> visit_op(node as ASTNode.InnerNode<MetaDescription.op>)
             else -> throw IllegalStateException("Unknown token ${node.getToken()} met")
         }
     }
     
     abstract fun <T : Token> visitTerminal(token: T): R
     
-	open fun visit_LPAREN(node: ASTNode.TerminalNode<MetaDescription.LPAREN>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_RPAREN(node: ASTNode.TerminalNode<MetaDescription.RPAREN>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_EOLN(node: ASTNode.TerminalNode<MetaDescription.EOLN>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_DEFINE(node: ASTNode.TerminalNode<MetaDescription.DEFINE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_DESCRIBE(node: ASTNode.TerminalNode<MetaDescription.DESCRIBE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_CHOICE(node: ASTNode.TerminalNode<MetaDescription.CHOICE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_LTRIG(node: ASTNode.TerminalNode<MetaDescription.LTRIG>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_RTRIG(node: ASTNode.TerminalNode<MetaDescription.RTRIG>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_CHARRANGE(node: ASTNode.TerminalNode<MetaDescription.CHARRANGE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_ASSIGN(node: ASTNode.TerminalNode<MetaDescription.ASSIGN>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_ADD(node: ASTNode.TerminalNode<MetaDescription.ADD>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_SUB(node: ASTNode.TerminalNode<MetaDescription.SUB>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_MUL(node: ASTNode.TerminalNode<MetaDescription.MUL>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_DIV(node: ASTNode.TerminalNode<MetaDescription.DIV>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_LARRAY(node: ASTNode.TerminalNode<MetaDescription.LARRAY>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_RARRAY(node: ASTNode.TerminalNode<MetaDescription.RARRAY>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_SEP(node: ASTNode.TerminalNode<MetaDescription.SEP>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_MACRO(node: ASTNode.TerminalNode<MetaDescription.MACRO>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_TOKENS(node: ASTNode.TerminalNode<MetaDescription.TOKENS>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_GRAMMAR(node: ASTNode.TerminalNode<MetaDescription.GRAMMAR>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_FRAGMENTS(node: ASTNode.TerminalNode<MetaDescription.FRAGMENTS>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_COMPANION(node: ASTNode.TerminalNode<MetaDescription.COMPANION>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_SKIP(node: ASTNode.TerminalNode<MetaDescription.SKIP>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_SYNTHESIS(node: ASTNode.TerminalNode<MetaDescription.SYNTHESIS>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_INHERITANCE(node: ASTNode.TerminalNode<MetaDescription.INHERITANCE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_COMPUTE(node: ASTNode.TerminalNode<MetaDescription.COMPUTE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_START(node: ASTNode.TerminalNode<MetaDescription.START>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_DEFAULT(node: ASTNode.TerminalNode<MetaDescription.DEFAULT>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_INT_TYPE(node: ASTNode.TerminalNode<MetaDescription.INT_TYPE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_DOUBLE_TYPE(node: ASTNode.TerminalNode<MetaDescription.DOUBLE_TYPE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_STRING_TYPE(node: ASTNode.TerminalNode<MetaDescription.STRING_TYPE>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_KOTLIN_FUNC(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.KOTLIN_FUNC>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_DOUBLE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.DOUBLE>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_INT(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.INT>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_CHAR(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CHAR>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_STRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.STRING>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_SPNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.SPNAME>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_CAMELNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAMELNAME>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_CAPSNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>): R {
-		return visitTerminal(node.getToken())
-	}
-	open fun visit_WHITESPACE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.WHITESPACE>>): R {
-		return visitTerminal(node.getToken())
-	}
+    open fun visit_LPAREN(node: ASTNode.TerminalNode<MetaDescription.LPAREN>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_RPAREN(node: ASTNode.TerminalNode<MetaDescription.RPAREN>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_EOLN(node: ASTNode.TerminalNode<MetaDescription.EOLN>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_DEFINE(node: ASTNode.TerminalNode<MetaDescription.DEFINE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_DESCRIBE(node: ASTNode.TerminalNode<MetaDescription.DESCRIBE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_CHOICE(node: ASTNode.TerminalNode<MetaDescription.CHOICE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_LTRIG(node: ASTNode.TerminalNode<MetaDescription.LTRIG>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_RTRIG(node: ASTNode.TerminalNode<MetaDescription.RTRIG>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_CHARRANGE(node: ASTNode.TerminalNode<MetaDescription.CHARRANGE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_ASSIGN(node: ASTNode.TerminalNode<MetaDescription.ASSIGN>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_ADD(node: ASTNode.TerminalNode<MetaDescription.ADD>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_SUB(node: ASTNode.TerminalNode<MetaDescription.SUB>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_MUL(node: ASTNode.TerminalNode<MetaDescription.MUL>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_DIV(node: ASTNode.TerminalNode<MetaDescription.DIV>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_LARRAY(node: ASTNode.TerminalNode<MetaDescription.LARRAY>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_RARRAY(node: ASTNode.TerminalNode<MetaDescription.RARRAY>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_SEP(node: ASTNode.TerminalNode<MetaDescription.SEP>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_MACRO(node: ASTNode.TerminalNode<MetaDescription.MACRO>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_TOKENS(node: ASTNode.TerminalNode<MetaDescription.TOKENS>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_GRAMMAR(node: ASTNode.TerminalNode<MetaDescription.GRAMMAR>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_FRAGMENTS(node: ASTNode.TerminalNode<MetaDescription.FRAGMENTS>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_COMPANION(node: ASTNode.TerminalNode<MetaDescription.COMPANION>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_SKIP(node: ASTNode.TerminalNode<MetaDescription.SKIP>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_SYNTHESIS(node: ASTNode.TerminalNode<MetaDescription.SYNTHESIS>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_INHERITANCE(node: ASTNode.TerminalNode<MetaDescription.INHERITANCE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_COMPUTE(node: ASTNode.TerminalNode<MetaDescription.COMPUTE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_START(node: ASTNode.TerminalNode<MetaDescription.START>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_DEFAULT(node: ASTNode.TerminalNode<MetaDescription.DEFAULT>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_INT_TYPE(node: ASTNode.TerminalNode<MetaDescription.INT_TYPE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_DOUBLE_TYPE(node: ASTNode.TerminalNode<MetaDescription.DOUBLE_TYPE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_STRING_TYPE(node: ASTNode.TerminalNode<MetaDescription.STRING_TYPE>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_KOTLIN_FUNC(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.KOTLIN_FUNC>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_DOUBLE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.DOUBLE>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_INT(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.INT>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_CHAR(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CHAR>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_STRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.STRING>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.RSTRING>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_SPNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.SPNAME>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_CAMELNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAMELNAME>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_CAPSNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.CAPSNAME>>): R {
+        return visitTerminal(node.getToken())
+    }
+    open fun visit_WHITESPACE(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaDescription.WHITESPACE>>): R {
+        return visitTerminal(node.getToken())
+    }
 
     /**
     all -> m t g
@@ -283,8 +283,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_m(node: ASTNode.InnerNode<MetaDescription.m>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_m_0(node)
-			1 -> visit_m_1(node)
+            0 -> visit_m_0(node)
+            1 -> visit_m_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of m")
         }
     }
@@ -313,8 +313,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_kfPlus(node: ASTNode.InnerNode<MetaDescription.kfPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_kfPlus_0(node)
-			1 -> visit_kfPlus_1(node)
+            0 -> visit_kfPlus_0(node)
+            1 -> visit_kfPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of kfPlus")
         }
     }
@@ -331,8 +331,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_tComp(node: ASTNode.InnerNode<MetaDescription.tComp>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_tComp_0(node)
-			1 -> visit_tComp_1(node)
+            0 -> visit_tComp_0(node)
+            1 -> visit_tComp_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of tComp")
         }
     }
@@ -349,8 +349,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_tFrag(node: ASTNode.InnerNode<MetaDescription.tFrag>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_tFrag_0(node)
-			1 -> visit_tFrag_1(node)
+            0 -> visit_tFrag_0(node)
+            1 -> visit_tFrag_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of tFrag")
         }
     }
@@ -367,8 +367,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_tPlus(node: ASTNode.InnerNode<MetaDescription.tPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_tPlus_0(node)
-			1 -> visit_tPlus_1(node)
+            0 -> visit_tPlus_0(node)
+            1 -> visit_tPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of tPlus")
         }
     }
@@ -397,8 +397,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_tArrayPlus(node: ASTNode.InnerNode<MetaDescription.tArrayPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_tArrayPlus_0(node)
-			1 -> visit_tArrayPlus_1(node)
+            0 -> visit_tArrayPlus_0(node)
+            1 -> visit_tArrayPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of tArrayPlus")
         }
     }
@@ -415,8 +415,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_tFragPlus(node: ASTNode.InnerNode<MetaDescription.tFragPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_tFragPlus_0(node)
-			1 -> visit_tFragPlus_1(node)
+            0 -> visit_tFragPlus_0(node)
+            1 -> visit_tFragPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of tFragPlus")
         }
     }
@@ -445,9 +445,9 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_tDef(node: ASTNode.InnerNode<MetaDescription.tDef>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_tDef_0(node)
-			1 -> visit_tDef_1(node)
-			2 -> visit_tDef_2(node)
+            0 -> visit_tDef_0(node)
+            1 -> visit_tDef_1(node)
+            2 -> visit_tDef_2(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of tDef")
         }
     }
@@ -475,8 +475,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_gPlus(node: ASTNode.InnerNode<MetaDescription.gPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_gPlus_0(node)
-			1 -> visit_gPlus_1(node)
+            0 -> visit_gPlus_0(node)
+            1 -> visit_gPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of gPlus")
         }
     }
@@ -493,8 +493,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_gSynth(node: ASTNode.InnerNode<MetaDescription.gSynth>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_gSynth_0(node)
-			1 -> visit_gSynth_1(node)
+            0 -> visit_gSynth_0(node)
+            1 -> visit_gSynth_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of gSynth")
         }
     }
@@ -511,8 +511,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_gInh(node: ASTNode.InnerNode<MetaDescription.gInh>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_gInh_0(node)
-			1 -> visit_gInh_1(node)
+            0 -> visit_gInh_0(node)
+            1 -> visit_gInh_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of gInh")
         }
     }
@@ -529,8 +529,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_gCompv(node: ASTNode.InnerNode<MetaDescription.gCompv>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_gCompv_0(node)
-			1 -> visit_gCompv_1(node)
+            0 -> visit_gCompv_0(node)
+            1 -> visit_gCompv_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of gCompv")
         }
     }
@@ -565,8 +565,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_attribsPlus(node: ASTNode.InnerNode<MetaDescription.attribsPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_attribsPlus_0(node)
-			1 -> visit_attribsPlus_1(node)
+            0 -> visit_attribsPlus_0(node)
+            1 -> visit_attribsPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of attribsPlus")
         }
     }
@@ -583,9 +583,9 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_type(node: ASTNode.InnerNode<MetaDescription.type>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_type_0(node)
-			1 -> visit_type_1(node)
-			2 -> visit_type_2(node)
+            0 -> visit_type_0(node)
+            1 -> visit_type_1(node)
+            2 -> visit_type_2(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of type")
         }
     }
@@ -607,8 +607,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_setDef(node: ASTNode.InnerNode<MetaDescription.setDef>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_setDef_0(node)
-			1 -> visit_setDef_1(node)
+            0 -> visit_setDef_0(node)
+            1 -> visit_setDef_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of setDef")
         }
     }
@@ -625,9 +625,9 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_defValue(node: ASTNode.InnerNode<MetaDescription.defValue>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_defValue_0(node)
-			1 -> visit_defValue_1(node)
-			2 -> visit_defValue_2(node)
+            0 -> visit_defValue_0(node)
+            1 -> visit_defValue_1(node)
+            2 -> visit_defValue_2(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of defValue")
         }
     }
@@ -655,8 +655,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_def(node: ASTNode.InnerNode<MetaDescription.def>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_def_0(node)
-			1 -> visit_def_1(node)
+            0 -> visit_def_0(node)
+            1 -> visit_def_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of def")
         }
     }
@@ -685,8 +685,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_rulesPlus(node: ASTNode.InnerNode<MetaDescription.rulesPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_rulesPlus_0(node)
-			1 -> visit_rulesPlus_1(node)
+            0 -> visit_rulesPlus_0(node)
+            1 -> visit_rulesPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of rulesPlus")
         }
     }
@@ -709,8 +709,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_atom(node: ASTNode.InnerNode<MetaDescription.atom>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_atom_0(node)
-			1 -> visit_atom_1(node)
+            0 -> visit_atom_0(node)
+            1 -> visit_atom_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of atom")
         }
     }
@@ -727,8 +727,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_seqPlus(node: ASTNode.InnerNode<MetaDescription.seqPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_seqPlus_0(node)
-			1 -> visit_seqPlus_1(node)
+            0 -> visit_seqPlus_0(node)
+            1 -> visit_seqPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of seqPlus")
         }
     }
@@ -745,8 +745,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_pass(node: ASTNode.InnerNode<MetaDescription.pass>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_pass_0(node)
-			1 -> visit_pass_1(node)
+            0 -> visit_pass_0(node)
+            1 -> visit_pass_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of pass")
         }
     }
@@ -775,8 +775,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_defPlus(node: ASTNode.InnerNode<MetaDescription.defPlus>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_defPlus_0(node)
-			1 -> visit_defPlus_1(node)
+            0 -> visit_defPlus_0(node)
+            1 -> visit_defPlus_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of defPlus")
         }
     }
@@ -793,9 +793,9 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_defTerm(node: ASTNode.InnerNode<MetaDescription.defTerm>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_defTerm_0(node)
-			1 -> visit_defTerm_1(node)
-			2 -> visit_defTerm_2(node)
+            0 -> visit_defTerm_0(node)
+            1 -> visit_defTerm_1(node)
+            2 -> visit_defTerm_2(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of defTerm")
         }
     }
@@ -817,8 +817,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_defMod(node: ASTNode.InnerNode<MetaDescription.defMod>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_defMod_0(node)
-			1 -> visit_defMod_1(node)
+            0 -> visit_defMod_0(node)
+            1 -> visit_defMod_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of defMod")
         }
     }
@@ -835,8 +835,8 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_atName(node: ASTNode.InnerNode<MetaDescription.atName>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_atName_0(node)
-			1 -> visit_atName_1(node)
+            0 -> visit_atName_0(node)
+            1 -> visit_atName_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of atName")
         }
     }
@@ -853,10 +853,10 @@ defPlus -> SEP defAtom defPlus | <eps>
 
     fun visit_op(node: ASTNode.InnerNode<MetaDescription.op>): R {
         return when (val id = node.getExpansion().getId()) {
-			0 -> visit_op_0(node)
-			1 -> visit_op_1(node)
-			2 -> visit_op_2(node)
-			3 -> visit_op_3(node)
+            0 -> visit_op_0(node)
+            1 -> visit_op_1(node)
+            2 -> visit_op_2(node)
+            3 -> visit_op_3(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of op")
         }
     }
@@ -880,4 +880,5 @@ defPlus -> SEP defAtom defPlus | <eps>
     op -> DIV
     */
     abstract fun visit_op_3(node: ASTNode.InnerNode<MetaDescription.op>): R
+
 }
