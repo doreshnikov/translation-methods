@@ -5,6 +5,7 @@ import structure.ASTNode
 import translate.meta.MetaBaseVisitor
 import translate.meta.MetaDescription
 
+@Deprecated("Use DescriptionBuilder2 instead")
 class DescriptionBuilder(
     private val packageName: String,
     private val objectName: String

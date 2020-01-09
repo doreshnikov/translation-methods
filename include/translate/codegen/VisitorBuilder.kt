@@ -1,5 +1,6 @@
 package translate.codegen
 
+import grammar.Expansion
 import grammar.token.Token
 import structure.Description
 import java.io.File
@@ -69,17 +70,45 @@ ${tokens.joinToString("\n") { token ->
         }"""
     }
 
-    private fun visitMethod(token: Token): String {
-        return if (token is Token.StateToken) {
-            "\tabstract fun visit_${token}(node: ${nodeType(token)}): R\n"
+    private fun visitStateMethod(token: Token.StateToken): String {
+        val expansions = description.getGrammar().RULES[token].expansions
+        return if (expansions.size == 1) {
+            """
+    /**
+    $token -> ${expansions.first()}
+    */
+    abstract fun visit_${token}(node: ${nodeType(token)}): R
+"""
         } else {
-            "\topen fun visit_${token}(node: ${nodeType(token)}): R " +
-                    "{\n\t\treturn visitTerminal(node.getToken())\n\t}\n"
+            """
+    fun visit_${token}(node: ${nodeType(token)}): R {
+        return when (val id = node.getExpansion().getId()) {
+${expansions.joinToString("\n") { "\t\t\t${it.getId()} -> visit_${token}_${it.getId()}(node)" }}
+            else -> throw IllegalStateException("Unexpected expansion id ${"$"}id in expansion of ${token}")
+        }
+    }
+${expansions.joinToString("\n") {
+                """
+    /**
+    $token -> $it
+    */
+    abstract fun visit_${token}_${it.getId()}(node: ${nodeType(token)}): R"""
+            }}"""
         }
     }
 
+    private fun visitTerminalMethod(token: Token): String {
+        return "\topen fun visit_${token}(node: ${nodeType(token)}): R " +
+                "{\n\t\treturn visitTerminal(node.getToken())\n\t}"
+    }
+
     private fun collectVisitMethods(): String {
-        return tokens.joinToString("") { token -> visitMethod(token) }
+        return tokens.joinToString("\n") { token ->
+            when (token) {
+                is Token.StateToken -> visitStateMethod(token)
+                else -> visitTerminalMethod(token)
+            }
+        }
     }
 
 }

@@ -10,6 +10,7 @@ import grammar.token.Token
 import translate.meta.MetaDescription
 
 @Suppress("UNCHECKED_CAST")
+@Deprecated("Use MetaBaseVisitor2 instead")
 abstract class MetaBaseVisitor<R> : Visitor<R> {
 
 /*

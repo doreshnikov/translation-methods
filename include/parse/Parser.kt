@@ -34,7 +34,7 @@ class Parser(private val description: Description) {
             return lexer.getToken()
         }
 
-        val node = ASTNode.InnerNode(state)
+        val node = ASTNode.InnerNode(state, expansion)
         for (token in expansion) {
             node.addChild(
                 when (token) {
@@ -47,7 +47,7 @@ class Parser(private val description: Description) {
     }
 
     private fun parseNullable(state: Token.StateToken, expansion: Expansion): ASTNode<Token.StateToken> {
-        val node = ASTNode.InnerNode(state)
+        val node = ASTNode.InnerNode(state, expansion)
         for (token in expansion) {
             node.addChild(
                 when (token) {

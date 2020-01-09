@@ -1,5 +1,6 @@
 package structure
 
+import grammar.Expansion
 import grammar.token.Restricted
 import grammar.token.Token
 
@@ -29,13 +30,21 @@ abstract class ASTNode<T : Token> private constructor(private val id: Int) {
 
     }
 
-    open class InnerNode<T : Token>(private val token: T, vararg children_: ASTNode<out Token>) : ASTNode<T>(lastId),
+    open class InnerNode<T : Token>(private val token: T, private val expansion: Expansion) : ASTNode<T>(lastId),
         Restricted by Restricted.State {
 
-        val children = mutableListOf<ASTNode<out Token>>().also { it.addAll(children_) }
+        val children = mutableListOf<ASTNode<out Token>>()
+
+        constructor(token: T, vararg children_: ASTNode<out Token>) : this(token, Expansion()) {
+            children.addAll(children_)
+        }
 
         override fun getToken(): T {
             return token.also { pass(it) }
+        }
+
+        fun getExpansion(): Expansion {
+            return expansion
         }
 
         fun <R : Token> addChild(node: ASTNode<R>) {

@@ -19,6 +19,10 @@ class Expansion(vararg lexemes: Token) : ArrayList<Token>(),
 
     private var id = 0
 
+    fun getId(): Int {
+        return id
+    }
+
     init {
         addAll(lexemes.map { pass(it) })
     }

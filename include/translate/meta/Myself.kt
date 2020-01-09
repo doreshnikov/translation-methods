@@ -10,9 +10,9 @@ fun main() {
         MetaDescription,
         "MetaDescription",
         "translate.meta",
-        "MetaBaseVisitor"
+        "MetaBaseVisitor2"
     ).buildVisitor(
-        File("$loc\\include\\translate\\meta\\MetaBaseVisitor.kt")
+        File("$loc\\include\\translate\\meta\\MetaBaseVisitor2.kt")
     )
 
 }
