@@ -17,10 +17,6 @@ abstract class ASTNode<T : Token> private constructor(private val id: Int, inter
         return id.toString()
     }
 
-    fun <R> visit(visitor: Walker<R>): R {
-        return visitor.visit(this)
-    }
-
     abstract class TerminalNodeBase<T : Token>(token: T) : ASTNode<T>(lastId, token),
         Restricted by Restricted.Symbolic + Restricted.Epsilon {
         override fun getToken(): T {

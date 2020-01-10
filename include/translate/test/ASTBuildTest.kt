@@ -10,7 +10,7 @@ fun singleUpperCase(string: String): String {
     return string[0].toUpperCase() + string.substring(1)
 }
 
-val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
+const val loc = "C:\\Users\\jetbrains\\IdeaProjects\\translation-methods"
 
 fun main() {
 

@@ -32,8 +32,8 @@ object MetaGrammarInfo : GrammarInfo {
         )
     }
 
-    override fun getName(): String {
-        return "MetaGrammarInfo"
+    override fun getSimpleName(): String {
+        return "Meta"
     }
 
     init {

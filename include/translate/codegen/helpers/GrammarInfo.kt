@@ -9,7 +9,11 @@ interface GrammarInfo {
 
     fun getSkippedTokens(): Set<Token>
 
-    fun getName(): String
+    fun getName(): String {
+        return "${getSimpleName()}GrammarInfo"
+    }
+
+    fun getSimpleName(): String
 
     fun getDefinedTokens(): List<Token>
 
