@@ -17,18 +17,18 @@ abstract class ASTNode<T : Token> private constructor(private val id: Int, inter
         return id.toString()
     }
 
-    fun <R> visit(visitor: Visitor<R>): R {
+    fun <R> visit(visitor: Walker<R>): R {
         return visitor.visit(this)
     }
 
-    abstract class TerminalNode<T : Token>(token: T) : ASTNode<T>(lastId, token),
+    abstract class TerminalNodeBase<T : Token>(token: T) : ASTNode<T>(lastId, token),
         Restricted by Restricted.Symbolic + Restricted.Epsilon {
         override fun getToken(): T {
             return token
         }
     }
 
-    abstract class InnerNode<T : Token>(token: T, private val expansion: Expansion) : ASTNode<T>(lastId, token),
+    abstract class InnerNodeBase<T : Token>(token: T, private val expansion: Expansion) : ASTNode<T>(lastId, token),
         Restricted by Restricted.State {
         val children = mutableListOf<ASTNode<out Token>>()
 
@@ -50,13 +50,13 @@ abstract class ASTNode<T : Token> private constructor(private val id: Int, inter
         }
     }
 
-    class BaseTerminalNode<T : Token>(token: T) : TerminalNode<T>(token) {
+    class TerminalNode<T : Token>(token: T) : TerminalNodeBase<T>(token) {
         init {
             pass(token)
         }
     }
 
-    class BaseInnerNode<T : Token>(token: T, expansion: Expansion) : InnerNode<T>(token, expansion) {
+    class InnerNode<T : Token>(token: T, expansion: Expansion) : InnerNodeBase<T>(token, expansion) {
         init {
             pass(token)
         }

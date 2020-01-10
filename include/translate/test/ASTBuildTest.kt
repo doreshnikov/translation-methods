@@ -1,8 +1,8 @@
 package translate.test
 
 import parse.Parser
-import utils.GraphvizVisitor
-import translate.meta.grammar.MetaGrammarInfo
+import utils.GraphvizWalker
+import translate.meta.helpers.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException
 
@@ -20,7 +20,7 @@ fun main() {
         }
         File("$loc\\data\\$name.gv").bufferedWriter().use { out ->
             try {
-                out.write(GraphvizVisitor().collect(Parser(MetaGrammarInfo).parse(str)))
+                out.write(GraphvizWalker().collect(Parser(MetaGrammarInfo).parse(str)))
                 println("[SUCCESS] $name")
                 Runtime.getRuntime().exec(
                     "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe" +

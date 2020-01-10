@@ -1,4 +1,4 @@
-package translate.codegen.info
+package translate.codegen.helpers
 
 import grammar.Grammar
 import grammar.token.Token

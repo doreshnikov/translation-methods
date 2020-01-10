@@ -1,10 +1,10 @@
 package translate.test
 
 import parse.Parser
-import translate.codegen.AttributedVisitorInfoBuilder
+import translate.codegen.VisitorBuilder
 import translate.codegen.GrammarInfoBuilder
-import translate.codegen.VisitorInfoBuilder
-import translate.meta.grammar.MetaGrammarInfo
+import translate.codegen.WalkerBuilder
+import translate.meta.helpers.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException
 
@@ -22,12 +22,12 @@ fun main() {
                 "${uname}GrammarInfo"
             ).collect(root)
             File("$loc\\src\\gen\\$name\\${uname}GrammarInfo.kt").bufferedWriter().use { out -> out.write(s) }
-            VisitorInfoBuilder(
+            WalkerBuilder(
                 "gen.$name",
                 "${uname}VisitorInfo",
                 "${uname}GrammarInfo"
             ).doAll(root)
-            AttributedVisitorInfoBuilder(
+            VisitorBuilder(
                 "gen.$name",
                 "${uname}AttributedVisitorInfo",
                 "${uname}GrammarInfo"

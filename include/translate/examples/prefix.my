@@ -1,7 +1,7 @@
 macro {
 
-    fun tab(depth : Int): String {
-        return "\t".repeat(depth)
+    fun tab(depth : Int?): String? {
+        return "\t".repeat(depth ?: return null)
     }
 
 }

@@ -2,7 +2,7 @@ package parse
 
 import grammar.Expansion
 import grammar.token.Token
-import translate.codegen.info.GrammarInfo
+import translate.codegen.helpers.GrammarInfo
 import structure.ASTNode
 import utils.Beautifier
 import java.text.ParseException
@@ -34,12 +34,12 @@ class Parser(private val grammarInfo: GrammarInfo) {
             return lexer.getToken()
         }
 
-        val node = ASTNode.BaseInnerNode(state, expansion)
+        val node = ASTNode.InnerNode(state, expansion)
         for (token in expansion) {
             node.addChild(
                 when (token) {
                     is Token.StateToken -> parse(token, lexer)
-                    else -> ASTNode.BaseTerminalNode(checked(token)).also { lexer.nextToken() }
+                    else -> ASTNode.TerminalNode(checked(token)).also { lexer.nextToken() }
                 }
             )
         }
@@ -47,7 +47,7 @@ class Parser(private val grammarInfo: GrammarInfo) {
     }
 
     private fun parseNullable(state: Token.StateToken, expansion: Expansion): ASTNode<Token.StateToken> {
-        val node = ASTNode.BaseInnerNode(state, expansion)
+        val node = ASTNode.InnerNode(state, expansion)
         for (token in expansion) {
             node.addChild(
                 when (token) {
@@ -57,7 +57,7 @@ class Parser(private val grammarInfo: GrammarInfo) {
                             Token.isAcceptable(Token.UniqueToken.EPSILON, helper.FIRST(it))
                         }
                     )
-                    is Token.UniqueToken.EPSILON -> ASTNode.BaseTerminalNode(token)
+                    is Token.UniqueToken.EPSILON -> ASTNode.TerminalNode(token)
                     else -> throw IllegalArgumentException(
                         "Unexpected token $token in expansion of $state ->* " +
                                 "${Token.UniqueToken.EPSILON}"

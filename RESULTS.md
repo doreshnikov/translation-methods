@@ -6,13 +6,13 @@
 
 Код:
 * [include/](include): описание токенов и грамматики, а также парсер и лексер
-    * помимо описания в формате [Description](include/translate/codegen/info/GrammarInfo.kt), дополнительная генерация кода не требуется
+    * помимо описания в формате [Description](include/translate/codegen/helpers/GrammarInfo.kt), дополнительная генерация кода не требуется
 * [src/regex/](src/regex):
     * [Tests](src/regex/test/Tests.kt): тесты для этой грамматики и ее парсинга
     * [Main](src/regex/Main.kt): утилита для построения и компиляции AST в .pdf
 * [src/gen/](src/gen):
     * [RegexDescription](src/gen/RegexGrammarInfo.kt): реализация грамматики для регулярных выражений
-    (которая на данный момент генерируется с помощью парсера на [MetaDescription](include/translate/meta/grammar/MetaGrammarInfo.kt))
+    (которая на данный момент генерируется с помощью парсера на [MetaDescription](include/translate/meta/helpers/MetaGrammarInfo.kt))
     
 ## Лабораторная 3
 

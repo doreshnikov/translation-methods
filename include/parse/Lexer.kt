@@ -2,7 +2,7 @@ package parse
 
 import grammar.token.Restricted
 import grammar.token.Token
-import translate.codegen.info.GrammarInfo
+import translate.codegen.helpers.GrammarInfo
 import java.text.ParseException
 
 class Lexer(private val input: String, private val grammarInfo: GrammarInfo) :
