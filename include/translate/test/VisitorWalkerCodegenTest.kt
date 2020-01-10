@@ -17,14 +17,11 @@ fun main() {
         val uname = singleUpperCase(name)
         try {
             val root = Parser(MetaGrammarInfo).parse(str)
-            File("$loc\\src\\gen\\$name\\${uname}GrammarInfo.kt").bufferedWriter().use { out ->
-                out.write(GrammarInfoBuilder("gen.$name", uname).collect(root))
-            }
-            File("$loc\\src\\gen\\$name\\${uname}WalkerBase.kt").bufferedWriter().use { out ->
+            File("$loc\\gen\\$name\\${uname}WalkerBase.kt").bufferedWriter().use { out ->
                 out.write(
                     WalkerBuilder(
-                        "gen.$name",
-                        Class.forName("gen.$name.${uname}GrammarInfo").kotlin.objectInstance as GrammarInfo
+                        name,
+                        Class.forName("$name.${uname}GrammarInfo").kotlin.objectInstance as GrammarInfo
                     ).getAll()
                 )
             }
@@ -38,6 +35,8 @@ fun main() {
             println("[FAIL] $name: $e at ${e.errorOffset}")
         } catch (e: IllegalStateException) {
             println("[FAIL] $name: $e")
+        } catch (e: ClassNotFoundException) {
+            println("[INVALID] $name: $e")
         }
     }
 

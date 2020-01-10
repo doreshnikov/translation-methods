@@ -1,6 +1,6 @@
 package regex.test
 
-import gen.regex.RegexGrammarInfo
+import regex.RegexGrammarInfo
 import grammar.token.Token
 import structure.ASTNode
 

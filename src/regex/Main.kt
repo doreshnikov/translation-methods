@@ -1,6 +1,6 @@
 package regex
 
-import gen.regex.RegexGrammarInfo
+import regex.RegexGrammarInfo
 import parse.Parser
 import structure.ASTNode
 import utils.GraphvizWalker
