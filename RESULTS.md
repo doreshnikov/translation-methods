@@ -12,7 +12,7 @@
     * [Main](src/regex/Main.kt): утилита для построения и компиляции AST в .pdf
 * [src/gen/](src/gen):
     * [RegexDescription](src/gen/RegexGrammarInfo.kt): реализация грамматики для регулярных выражений
-    (которая на данный момент генерируется с помощью парсера на [MetaDescription](include/translate/meta/MetaGrammarInfo.kt))
+    (которая на данный момент генерируется с помощью парсера на [MetaDescription](include/translate/meta/grammar/MetaGrammarInfo.kt))
     
 ## Лабораторная 3
 

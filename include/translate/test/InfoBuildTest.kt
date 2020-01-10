@@ -3,7 +3,7 @@ package translate.test
 import parse.Parser
 import translate.codegen.GrammarInfoBuilder
 import translate.codegen.VisitorInfoBuilder
-import translate.meta.MetaGrammarInfo
+import translate.meta.grammar.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException
 

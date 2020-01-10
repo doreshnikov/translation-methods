@@ -2,7 +2,7 @@ package translate.test
 
 import parse.Parser
 import utils.GraphvizVisitor
-import translate.meta.MetaGrammarInfo
+import translate.meta.grammar.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException
 
