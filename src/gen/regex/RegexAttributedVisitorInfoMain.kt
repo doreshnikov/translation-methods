@@ -10,11 +10,11 @@ import java.io.File
 import grammar.token.Token
 import grammar.Expansion
 import utils.Beautifier
+import kotlin.properties.Delegates
 
 import structure.ASTNode
 
 class RegexAttributedVisitorInfoData() {
-
 
 }
     

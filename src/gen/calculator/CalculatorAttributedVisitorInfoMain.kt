@@ -10,11 +10,12 @@ import java.io.File
 import grammar.token.Token
 import grammar.Expansion
 import utils.Beautifier
+import kotlin.properties.Delegates
 
 import structure.ASTNode
 
 class CalculatorAttributedVisitorInfoData(val left: Int) {
-//	var value: Int
+	var value by Delegates.notNull<Int>()
 }
     
 class CalculatorAttributedVisitorInfoTerminalNode<T : Token>(token: T, left: Int) : 

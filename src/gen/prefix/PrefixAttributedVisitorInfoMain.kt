@@ -10,13 +10,14 @@ import java.io.File
 import grammar.token.Token
 import grammar.Expansion
 import utils.Beautifier
+import kotlin.properties.Delegates
 
 import structure.ASTNode
 
 class PrefixAttributedVisitorInfoData(val depth: Int) {
-//	var view: String
-//	val tab: String
-//		get() = @macro.tab(depth)
+	var view by Delegates.notNull<String>()
+	val tab: String
+		get() = PrefixAttributedVisitorInfo.tab(depth)
 }
     
 class PrefixAttributedVisitorInfoTerminalNode<T : Token>(token: T, depth: Int) : 
