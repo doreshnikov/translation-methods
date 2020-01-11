@@ -96,7 +96,7 @@ atom -> LPAREN expression RPAREN | UINT
     fun visit_expression(node: ASTNode.InnerNode<CalculatorGrammarInfo.expression>, value: CalculatorData): CalculatorData {
         val children = mutableListOf<CalculatorData>()
         children.add(visit_term(node.getChild(0), CalculatorData()))
-        children.add(visit_expressionPlus(node.getChild(1), CalculatorData()))
+        children.add(visit_expressionPlus(node.getChild(1), CalculatorData(left = children[0].value)))
         value.value = children[1].value
         return value
     }
@@ -117,7 +117,7 @@ atom -> LPAREN expression RPAREN | UINT
         val children = mutableListOf<CalculatorData>()
         children.add(visit_PLUS(node.getChild(0), CalculatorData()))
         children.add(visit_term(node.getChild(1), CalculatorData()))
-        children.add(visit_expressionPlus(node.getChild(2), CalculatorData()))
+        children.add(visit_expressionPlus(node.getChild(2), CalculatorData(left = value.left + children[1].value)))
         value.value = children[2].value
         return value
     }
@@ -129,7 +129,7 @@ atom -> LPAREN expression RPAREN | UINT
         val children = mutableListOf<CalculatorData>()
         children.add(visit_MINUS(node.getChild(0), CalculatorData()))
         children.add(visit_term(node.getChild(1), CalculatorData()))
-        children.add(visit_expressionPlus(node.getChild(2), CalculatorData()))
+        children.add(visit_expressionPlus(node.getChild(2), CalculatorData(left = value.left - children[1].value)))
         value.value = children[2].value
         return value
     }
@@ -140,7 +140,7 @@ atom -> LPAREN expression RPAREN | UINT
     fun visit_expressionPlus_2(node: ASTNode.InnerNode<CalculatorGrammarInfo.expressionPlus>, value: CalculatorData): CalculatorData {
         val children = mutableListOf<CalculatorData>()
 
-
+        value.value = value.left
         return value
     }
 
@@ -150,7 +150,7 @@ atom -> LPAREN expression RPAREN | UINT
     fun visit_term(node: ASTNode.InnerNode<CalculatorGrammarInfo.term>, value: CalculatorData): CalculatorData {
         val children = mutableListOf<CalculatorData>()
         children.add(visit_factor(node.getChild(0), CalculatorData()))
-        children.add(visit_termPlus(node.getChild(1), CalculatorData()))
+        children.add(visit_termPlus(node.getChild(1), CalculatorData(left = children[0].value)))
         value.value = children[1].value
         return value
     }
@@ -171,7 +171,7 @@ atom -> LPAREN expression RPAREN | UINT
         val children = mutableListOf<CalculatorData>()
         children.add(visit_TIMES(node.getChild(0), CalculatorData()))
         children.add(visit_factor(node.getChild(1), CalculatorData()))
-        children.add(visit_termPlus(node.getChild(2), CalculatorData()))
+        children.add(visit_termPlus(node.getChild(2), CalculatorData(left = value.left * children[1].value)))
         value.value = children[2].value
         return value
     }
@@ -183,7 +183,7 @@ atom -> LPAREN expression RPAREN | UINT
         val children = mutableListOf<CalculatorData>()
         children.add(visit_DIV(node.getChild(0), CalculatorData()))
         children.add(visit_factor(node.getChild(1), CalculatorData()))
-        children.add(visit_termPlus(node.getChild(2), CalculatorData()))
+        children.add(visit_termPlus(node.getChild(2), CalculatorData(left = value.left / children[1].value)))
         value.value = children[2].value
         return value
     }
@@ -194,7 +194,7 @@ atom -> LPAREN expression RPAREN | UINT
     fun visit_termPlus_2(node: ASTNode.InnerNode<CalculatorGrammarInfo.termPlus>, value: CalculatorData): CalculatorData {
         val children = mutableListOf<CalculatorData>()
 
-
+        value.value = value.left
         return value
     }
 

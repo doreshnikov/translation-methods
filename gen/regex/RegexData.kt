@@ -23,8 +23,3 @@ open class RegexData() {
     }
     
 }
-
-fun main() {
-    val s = "" // put your input here
-    println(RegexVisitor.collect(Parser(RegexGrammarInfo).parse(s)))
-}

@@ -1,7 +1,6 @@
 package translate.test
 
 import parse.Parser
-import translate.codegen.GrammarInfoBuilder
 import translate.codegen.VisitorBuilder
 import translate.codegen.WalkerBuilder
 import translate.codegen.helpers.GrammarInfo
@@ -25,8 +24,8 @@ fun main() {
             File("$loc\\gen\\$name\\${uname}Visitor.kt").bufferedWriter().use { out ->
                 out.write(visitorBuilder.getAll())
             }
-            File("$loc\\gen\\$name\\${uname}VisitorMain.kt").bufferedWriter().use { out ->
-                out.write(visitorBuilder.getMain())
+            File("$loc\\gen\\$name\\${uname}Data.kt").bufferedWriter().use { out ->
+                out.write(visitorBuilder.getDataClass())
             }
             println("[SUCCESS] $name")
         } catch (e: ParseException) {

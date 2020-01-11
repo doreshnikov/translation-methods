@@ -24,7 +24,7 @@ object PrefixGrammarInfo : GrammarInfo {
     
     override fun getDefinedTokens(): List<Token> {
         return listOf(
-            WHITESPACE, IFW, FORW, PASS, BOTH, PRINTW, PLUS, MINUS, TIMES, DIV, NOT, XOR, AND, OR, GE, GT, LE, LT, EQ, NE, ASSIGN, VAR, UINT,
+            WHITESPACE, IFW, FORW, PASS, BOTH, PRINTW, PLUS, MINUS, TIMES, DIV, GE, GT, LE, LT, EQ, NE, NOT, XOR, AND, OR, ASSIGN, VAR, UINT,
             main, code, codeBlock, statement, print, assignment, ifBlock, forBlock, innerBody, expression, logicalBinop, logicalUnop, logicalExpression, logicalAtom, relation, comparison, arithmeticBinop, arithmeticExpression, arithmeticAtom            
         )
     }
@@ -71,16 +71,16 @@ object PrefixGrammarInfo : GrammarInfo {
     object MINUS : Token.StringToken("MINUS", "-")
     object TIMES : Token.StringToken("TIMES", "*")
     object DIV : Token.StringToken("DIV", "/")
-    object NOT : Token.StringToken("NOT", "!")
-    object XOR : Token.StringToken("XOR", "^")
-    object AND : Token.StringToken("AND", "&")
-    object OR : Token.StringToken("OR", "|")
     object GE : Token.StringToken("GE", ">=")
     object GT : Token.StringToken("GT", ">")
     object LE : Token.StringToken("LE", "<=")
     object LT : Token.StringToken("LT", "<")
     object EQ : Token.StringToken("EQ", "==")
     object NE : Token.StringToken("NE", "!=")
+    object NOT : Token.StringToken("NOT", "!")
+    object XOR : Token.StringToken("XOR", "^")
+    object AND : Token.StringToken("AND", "&")
+    object OR : Token.StringToken("OR", "|")
     object ASSIGN : Token.StringToken("ASSIGN", "=")
     object VAR : Token.RegexToken("VAR", "$FIRST($FIRST|$DIGIT)*".toRegex())
     object UINT : Token.RegexToken("UINT", "$DIGIT*".toRegex())
@@ -97,7 +97,7 @@ object PrefixGrammarInfo : GrammarInfo {
         codeBlock into Expansion(PASS),
         statement into Expansion(print),
         statement into Expansion(assignment),
-        print into Expansion(PRINTW, expression),
+        print into Expansion(PRINTW, arithmeticExpression),
         assignment into Expansion(ASSIGN, VAR, expression),
         ifBlock into Expansion(IFW, logicalExpression, innerBody, innerBody),
         forBlock into Expansion(FORW, VAR, arithmeticAtom, arithmeticAtom, innerBody),

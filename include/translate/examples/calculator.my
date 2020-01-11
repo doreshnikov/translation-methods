@@ -39,14 +39,14 @@ grammar {
     }
 
     expression      : term expressionPlus{ left = @0.value } :: { value = @1.value } ;
-    expressionPlus  : PLUS  term expressionPlus{ left = left + @1.value } :: { value = @2.value }
-                    | MINUS term expressionPlus{ left = left - @1.value } :: { value = @2.value }
-                    | EPSILON :: { value = left } ;
+    expressionPlus  : PLUS  term expressionPlus{ left = @.left + @1.value } :: { value = @2.value }
+                    | MINUS term expressionPlus{ left = @.left - @1.value } :: { value = @2.value }
+                    | EPSILON :: { value = @.left } ;
 
     term            : factor termPlus{ left = @0.value } :: { value = @1.value } ;
-    termPlus        : TIMES factor termPlus{ left = left * @1.value } :: { value = @2.value }
-                    | DIV   factor termPlus{ left = left / @1.value } :: { value = @2.value }
-                    | EPSILON :: { value = left } ;
+    termPlus        : TIMES factor termPlus{ left = @.left * @1.value } :: { value = @2.value }
+                    | DIV   factor termPlus{ left = @.left / @1.value } :: { value = @2.value }
+                    | EPSILON :: { value = @.left } ;
 
     factor          : MINUS factor :: { value = -@1.value }
                     | atom :: { value = @0.value } ;

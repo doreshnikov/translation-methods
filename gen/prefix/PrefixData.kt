@@ -25,12 +25,7 @@ open class PrefixData(val depth: Int = 0) {
 		get() = PrefixData.Macro.tab(depth)
 
     override fun toString(): String {
-        return "depth: ${depth}\nview: ${view}"
+        return "depth:\n${depth}\nview:\n${view}"
     }
     
-}
-
-fun main() {
-    val s = "" // put your input here
-    println(PrefixVisitor.collect(Parser(PrefixGrammarInfo).parse(s)))
 }

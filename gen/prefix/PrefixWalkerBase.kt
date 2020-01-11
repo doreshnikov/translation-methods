@@ -24,7 +24,7 @@ main -> code
 code -> codeBlock code | <eps>
 codeBlock -> statement | ifBlock | forBlock | PASS
 statement -> print | assignment
-print -> PRINTW expression
+print -> PRINTW arithmeticExpression
 assignment -> ASSIGN VAR expression
 ifBlock -> IFW logicalExpression innerBody innerBody
 forBlock -> FORW VAR arithmeticAtom arithmeticAtom innerBody
@@ -55,16 +55,16 @@ arithmeticAtom -> VAR | UINT
             PrefixGrammarInfo.MINUS -> visit_MINUS(node as ASTNode.TerminalNode<PrefixGrammarInfo.MINUS>)
             PrefixGrammarInfo.TIMES -> visit_TIMES(node as ASTNode.TerminalNode<PrefixGrammarInfo.TIMES>)
             PrefixGrammarInfo.DIV -> visit_DIV(node as ASTNode.TerminalNode<PrefixGrammarInfo.DIV>)
-            PrefixGrammarInfo.NOT -> visit_NOT(node as ASTNode.TerminalNode<PrefixGrammarInfo.NOT>)
-            PrefixGrammarInfo.XOR -> visit_XOR(node as ASTNode.TerminalNode<PrefixGrammarInfo.XOR>)
-            PrefixGrammarInfo.AND -> visit_AND(node as ASTNode.TerminalNode<PrefixGrammarInfo.AND>)
-            PrefixGrammarInfo.OR -> visit_OR(node as ASTNode.TerminalNode<PrefixGrammarInfo.OR>)
             PrefixGrammarInfo.GE -> visit_GE(node as ASTNode.TerminalNode<PrefixGrammarInfo.GE>)
             PrefixGrammarInfo.GT -> visit_GT(node as ASTNode.TerminalNode<PrefixGrammarInfo.GT>)
             PrefixGrammarInfo.LE -> visit_LE(node as ASTNode.TerminalNode<PrefixGrammarInfo.LE>)
             PrefixGrammarInfo.LT -> visit_LT(node as ASTNode.TerminalNode<PrefixGrammarInfo.LT>)
             PrefixGrammarInfo.EQ -> visit_EQ(node as ASTNode.TerminalNode<PrefixGrammarInfo.EQ>)
             PrefixGrammarInfo.NE -> visit_NE(node as ASTNode.TerminalNode<PrefixGrammarInfo.NE>)
+            PrefixGrammarInfo.NOT -> visit_NOT(node as ASTNode.TerminalNode<PrefixGrammarInfo.NOT>)
+            PrefixGrammarInfo.XOR -> visit_XOR(node as ASTNode.TerminalNode<PrefixGrammarInfo.XOR>)
+            PrefixGrammarInfo.AND -> visit_AND(node as ASTNode.TerminalNode<PrefixGrammarInfo.AND>)
+            PrefixGrammarInfo.OR -> visit_OR(node as ASTNode.TerminalNode<PrefixGrammarInfo.OR>)
             PrefixGrammarInfo.ASSIGN -> visit_ASSIGN(node as ASTNode.TerminalNode<PrefixGrammarInfo.ASSIGN>)
             PrefixGrammarInfo.VAR -> visit_VAR(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<PrefixGrammarInfo.VAR>>)
             PrefixGrammarInfo.UINT -> visit_UINT(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<PrefixGrammarInfo.UINT>>)
@@ -131,22 +131,6 @@ arithmeticAtom -> VAR | UINT
         return visitTerminal(node.getToken())
     }
 
-    fun visit_NOT(node: ASTNode.TerminalNode<PrefixGrammarInfo.NOT>): R {
-        return visitTerminal(node.getToken())
-    }
-
-    fun visit_XOR(node: ASTNode.TerminalNode<PrefixGrammarInfo.XOR>): R {
-        return visitTerminal(node.getToken())
-    }
-
-    fun visit_AND(node: ASTNode.TerminalNode<PrefixGrammarInfo.AND>): R {
-        return visitTerminal(node.getToken())
-    }
-
-    fun visit_OR(node: ASTNode.TerminalNode<PrefixGrammarInfo.OR>): R {
-        return visitTerminal(node.getToken())
-    }
-
     fun visit_GE(node: ASTNode.TerminalNode<PrefixGrammarInfo.GE>): R {
         return visitTerminal(node.getToken())
     }
@@ -168,6 +152,22 @@ arithmeticAtom -> VAR | UINT
     }
 
     fun visit_NE(node: ASTNode.TerminalNode<PrefixGrammarInfo.NE>): R {
+        return visitTerminal(node.getToken())
+    }
+
+    fun visit_NOT(node: ASTNode.TerminalNode<PrefixGrammarInfo.NOT>): R {
+        return visitTerminal(node.getToken())
+    }
+
+    fun visit_XOR(node: ASTNode.TerminalNode<PrefixGrammarInfo.XOR>): R {
+        return visitTerminal(node.getToken())
+    }
+
+    fun visit_AND(node: ASTNode.TerminalNode<PrefixGrammarInfo.AND>): R {
+        return visitTerminal(node.getToken())
+    }
+
+    fun visit_OR(node: ASTNode.TerminalNode<PrefixGrammarInfo.OR>): R {
         return visitTerminal(node.getToken())
     }
 
@@ -273,7 +273,7 @@ arithmeticAtom -> VAR | UINT
     }
 
     /**
-    print -> PRINTW expression
+    print -> PRINTW arithmeticExpression
     */
     fun visit_print(node: ASTNode.InnerNode<PrefixGrammarInfo.print>): R {
         throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")

@@ -48,7 +48,7 @@ interface Token {
                 }
 
                 override fun get(key: String): Token {
-                    return common.factory[key]!! ?: current!!.factory[key]!!
+                    return common.factory[key] ?: current!!.factory[key]!!
                 }
             }
 
@@ -115,6 +115,7 @@ interface Token {
         }
 
         override fun toString() = getString()
+
     }
 
     interface DataToken : Token {

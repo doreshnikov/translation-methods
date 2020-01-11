@@ -31,17 +31,17 @@ tokens {
     TIMES       : "*" ;
     DIV         : "/" ;
 
-    NOT         : "!" ;
-    XOR         : "^" ;
-    AND         : "&" ;
-    OR          : "|" ;
-
     GE          : ">=" ;
     GT          : ">" ;
     LE          : "<=" ;
     LT          : "<" ;
     EQ          : "==" ;
     NE          : "!=" ;
+
+    NOT         : "!" ;
+    XOR         : "^" ;
+    AND         : "&" ;
+    OR          : "|" ;
 
     ASSIGN      : "=" ;
 
@@ -65,23 +65,23 @@ grammar {
         start : main ;
     }
 
-    main                    : code :: { view = "fun main() {\n${@0.view}}\n" } ;
+    main                    : code :: { view = "fun main() {\n${@0.view}\n}" } ;
 
     code                    : codeBlock{ depth = 1 } code :: { view = "${@0.view}${@1.view}" }
                             | EPSILON :: { view = "" } ;
     codeBlock               : statement
                             | ifBlock
                             | forBlock
-                            | PASS :: { view = "\n" } ;
+                            | PASS :: { view = "" } ;
 
     statement :: { view = "${value.tab}${@0.view}" }
                             : print
                             | assignment ;
-    print                   : PRINTW expression :: { view = "print(${@1.view})\n" } ;
-    assignment              : ASSIGN VAR expression :: { view = "${@1} = ${@2.view}\n" } ;
+    print                   : PRINTW arithmeticExpression :: { view = "print(${@1.view})\n" } ;
+    assignment              : ASSIGN VAR expression :: { view = "var ${@1.text} = ${@2.view}\n" } ;
 
-    ifBlock                 : IFW logicalExpression innerBody{ depth = @.depth + 1 } innerBody{ depth = @.depth + 1 } :: { view = "${value.tab}if (${@0.view}) {\n${@2.view}${value.tab}} else {\n${@3.view}${value.tab}}" } ;
-    forBlock                : FORW VAR arithmeticAtom arithmeticAtom innerBody{ depth = @.depth + 1 } :: { view = "${value.tab}for (${@1} in ${@2.view}..${@3.view}) {\n${@4.view}${value.tab}}" } ;
+    ifBlock                 : IFW logicalExpression innerBody{ depth = @.depth + 1 } innerBody{ depth = @.depth + 1 } :: { view = "${value.tab}if (${@1.view}) {\n${@2.view}${value.tab}} else {\n${@3.view}\n${value.tab}}" } ;
+    forBlock                : FORW VAR arithmeticAtom arithmeticAtom innerBody{ depth = @.depth + 1 } :: { view = "${value.tab}for (${@1.text} in ${@2.view}..${@3.view}) {\n${@4.view}\n${value.tab}}" } ;
     innerBody               : codeBlock
                             | BOTH codeBlock innerBody :: { view = "${@1.view}${@2.view}" } ;
 

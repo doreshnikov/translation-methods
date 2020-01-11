@@ -25,7 +25,7 @@ main -> code
 code -> codeBlock code | <eps>
 codeBlock -> statement | ifBlock | forBlock | PASS
 statement -> print | assignment
-print -> PRINTW expression
+print -> PRINTW arithmeticExpression
 assignment -> ASSIGN VAR expression
 ifBlock -> IFW logicalExpression innerBody innerBody
 forBlock -> FORW VAR arithmeticAtom arithmeticAtom innerBody
@@ -63,16 +63,16 @@ arithmeticAtom -> VAR | UINT
             PrefixGrammarInfo.MINUS -> visit_MINUS(node as ASTNode.TerminalNode<PrefixGrammarInfo.MINUS>, value)
             PrefixGrammarInfo.TIMES -> visit_TIMES(node as ASTNode.TerminalNode<PrefixGrammarInfo.TIMES>, value)
             PrefixGrammarInfo.DIV -> visit_DIV(node as ASTNode.TerminalNode<PrefixGrammarInfo.DIV>, value)
-            PrefixGrammarInfo.NOT -> visit_NOT(node as ASTNode.TerminalNode<PrefixGrammarInfo.NOT>, value)
-            PrefixGrammarInfo.XOR -> visit_XOR(node as ASTNode.TerminalNode<PrefixGrammarInfo.XOR>, value)
-            PrefixGrammarInfo.AND -> visit_AND(node as ASTNode.TerminalNode<PrefixGrammarInfo.AND>, value)
-            PrefixGrammarInfo.OR -> visit_OR(node as ASTNode.TerminalNode<PrefixGrammarInfo.OR>, value)
             PrefixGrammarInfo.GE -> visit_GE(node as ASTNode.TerminalNode<PrefixGrammarInfo.GE>, value)
             PrefixGrammarInfo.GT -> visit_GT(node as ASTNode.TerminalNode<PrefixGrammarInfo.GT>, value)
             PrefixGrammarInfo.LE -> visit_LE(node as ASTNode.TerminalNode<PrefixGrammarInfo.LE>, value)
             PrefixGrammarInfo.LT -> visit_LT(node as ASTNode.TerminalNode<PrefixGrammarInfo.LT>, value)
             PrefixGrammarInfo.EQ -> visit_EQ(node as ASTNode.TerminalNode<PrefixGrammarInfo.EQ>, value)
             PrefixGrammarInfo.NE -> visit_NE(node as ASTNode.TerminalNode<PrefixGrammarInfo.NE>, value)
+            PrefixGrammarInfo.NOT -> visit_NOT(node as ASTNode.TerminalNode<PrefixGrammarInfo.NOT>, value)
+            PrefixGrammarInfo.XOR -> visit_XOR(node as ASTNode.TerminalNode<PrefixGrammarInfo.XOR>, value)
+            PrefixGrammarInfo.AND -> visit_AND(node as ASTNode.TerminalNode<PrefixGrammarInfo.AND>, value)
+            PrefixGrammarInfo.OR -> visit_OR(node as ASTNode.TerminalNode<PrefixGrammarInfo.OR>, value)
             PrefixGrammarInfo.ASSIGN -> visit_ASSIGN(node as ASTNode.TerminalNode<PrefixGrammarInfo.ASSIGN>, value)
             PrefixGrammarInfo.VAR -> visit_VAR(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<PrefixGrammarInfo.VAR>>, value)
             PrefixGrammarInfo.UINT -> visit_UINT(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<PrefixGrammarInfo.UINT>>, value)
@@ -139,22 +139,6 @@ arithmeticAtom -> VAR | UINT
         return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
     }
 
-    fun visit_NOT(node: ASTNode.TerminalNode<PrefixGrammarInfo.NOT>, value: PrefixData): PrefixData {
-        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
-    }
-
-    fun visit_XOR(node: ASTNode.TerminalNode<PrefixGrammarInfo.XOR>, value: PrefixData): PrefixData {
-        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
-    }
-
-    fun visit_AND(node: ASTNode.TerminalNode<PrefixGrammarInfo.AND>, value: PrefixData): PrefixData {
-        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
-    }
-
-    fun visit_OR(node: ASTNode.TerminalNode<PrefixGrammarInfo.OR>, value: PrefixData): PrefixData {
-        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
-    }
-
     fun visit_GE(node: ASTNode.TerminalNode<PrefixGrammarInfo.GE>, value: PrefixData): PrefixData {
         return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
     }
@@ -179,6 +163,22 @@ arithmeticAtom -> VAR | UINT
         return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
     }
 
+    fun visit_NOT(node: ASTNode.TerminalNode<PrefixGrammarInfo.NOT>, value: PrefixData): PrefixData {
+        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
+    }
+
+    fun visit_XOR(node: ASTNode.TerminalNode<PrefixGrammarInfo.XOR>, value: PrefixData): PrefixData {
+        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
+    }
+
+    fun visit_AND(node: ASTNode.TerminalNode<PrefixGrammarInfo.AND>, value: PrefixData): PrefixData {
+        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
+    }
+
+    fun visit_OR(node: ASTNode.TerminalNode<PrefixGrammarInfo.OR>, value: PrefixData): PrefixData {
+        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
+    }
+
     fun visit_ASSIGN(node: ASTNode.TerminalNode<PrefixGrammarInfo.ASSIGN>, value: PrefixData): PrefixData {
         return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
     }
@@ -196,8 +196,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_main(node: ASTNode.InnerNode<PrefixGrammarInfo.main>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_code(node.getChild(0), PrefixData()))
-        value.view = "fun main() {\n${children[0].view}}\n"
+        children.add(visit_code(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = "fun main() {\n${children[0].view}\n}"
         return value
     }
 
@@ -214,8 +214,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_code_0(node: ASTNode.InnerNode<PrefixGrammarInfo.code>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_codeBlock(node.getChild(0), PrefixData()))
-        children.add(visit_code(node.getChild(1), PrefixData()))
+        children.add(visit_codeBlock(node.getChild(0), PrefixData(depth = 1)))
+        children.add(visit_code(node.getChild(1), PrefixData(depth = value.depth)))
         value.view = "${children[0].view}${children[1].view}"
         return value
     }
@@ -226,7 +226,7 @@ arithmeticAtom -> VAR | UINT
     fun visit_code_1(node: ASTNode.InnerNode<PrefixGrammarInfo.code>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
 
-
+        value.view = ""
         return value
     }
 
@@ -245,8 +245,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_codeBlock_0(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_statement(node.getChild(0), PrefixData()))
-
+        children.add(visit_statement(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -255,8 +255,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_codeBlock_1(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_ifBlock(node.getChild(0), PrefixData()))
-
+        children.add(visit_ifBlock(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -265,8 +265,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_codeBlock_2(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_forBlock(node.getChild(0), PrefixData()))
-
+        children.add(visit_forBlock(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -275,8 +275,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_codeBlock_3(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_PASS(node.getChild(0), PrefixData()))
-        value.view = "\n"
+        children.add(visit_PASS(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = ""
         return value
     }
 
@@ -293,7 +293,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_statement_0(node: ASTNode.InnerNode<PrefixGrammarInfo.statement>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_print(node.getChild(0), PrefixData()))
+        children.add(visit_print(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = "${value.tab}${children[0].view}"
         return value
     }
@@ -303,18 +303,18 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_statement_1(node: ASTNode.InnerNode<PrefixGrammarInfo.statement>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_assignment(node.getChild(0), PrefixData()))
+        children.add(visit_assignment(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = "${value.tab}${children[0].view}"
         return value
     }
 
     /**
-    print -> PRINTW expression
+    print -> PRINTW arithmeticExpression
     */
     fun visit_print(node: ASTNode.InnerNode<PrefixGrammarInfo.print>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_PRINTW(node.getChild(0), PrefixData()))
-        children.add(visit_expression(node.getChild(1), PrefixData()))
+        children.add(visit_PRINTW(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_arithmeticExpression(node.getChild(1), PrefixData(depth = value.depth)))
         value.view = "print(${children[1].view})\n"
         return value
     }
@@ -324,10 +324,10 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_assignment(node: ASTNode.InnerNode<PrefixGrammarInfo.assignment>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_ASSIGN(node.getChild(0), PrefixData()))
-        children.add(visit_VAR(node.getChild(1), PrefixData()))
-        children.add(visit_expression(node.getChild(2), PrefixData()))
-        value.view = "${children[1]} = ${children[2].view}\n"
+        children.add(visit_ASSIGN(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_VAR(node.getChild(1), PrefixData(depth = value.depth)))
+        children.add(visit_expression(node.getChild(2), PrefixData(depth = value.depth)))
+        value.view = "var ${children[1].text} = ${children[2].view}\n"
         return value
     }
 
@@ -336,11 +336,11 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_ifBlock(node: ASTNode.InnerNode<PrefixGrammarInfo.ifBlock>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_IFW(node.getChild(0), PrefixData()))
-        children.add(visit_logicalExpression(node.getChild(1), PrefixData()))
-        children.add(visit_innerBody(node.getChild(2), PrefixData()))
-        children.add(visit_innerBody(node.getChild(3), PrefixData()))
-        value.view = "${value.tab}if (${children[0].view}) {\n${children[2].view}${value.tab}} else {\n${children[3].view}${value.tab}}"
+        children.add(visit_IFW(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_logicalExpression(node.getChild(1), PrefixData(depth = value.depth)))
+        children.add(visit_innerBody(node.getChild(2), PrefixData(depth = value.depth + 1)))
+        children.add(visit_innerBody(node.getChild(3), PrefixData(depth = value.depth + 1)))
+        value.view = "${value.tab}if (${children[1].view}) {\n${children[2].view}${value.tab}} else {\n${children[3].view}\n${value.tab}}"
         return value
     }
 
@@ -349,12 +349,12 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_forBlock(node: ASTNode.InnerNode<PrefixGrammarInfo.forBlock>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_FORW(node.getChild(0), PrefixData()))
-        children.add(visit_VAR(node.getChild(1), PrefixData()))
-        children.add(visit_arithmeticAtom(node.getChild(2), PrefixData()))
-        children.add(visit_arithmeticAtom(node.getChild(3), PrefixData()))
-        children.add(visit_innerBody(node.getChild(4), PrefixData()))
-        value.view = "${value.tab}for (${children[1]} in ${children[2].view}..${children[3].view}) {\n${children[4].view}${value.tab}}"
+        children.add(visit_FORW(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_VAR(node.getChild(1), PrefixData(depth = value.depth)))
+        children.add(visit_arithmeticAtom(node.getChild(2), PrefixData(depth = value.depth)))
+        children.add(visit_arithmeticAtom(node.getChild(3), PrefixData(depth = value.depth)))
+        children.add(visit_innerBody(node.getChild(4), PrefixData(depth = value.depth + 1)))
+        value.view = "${value.tab}for (${children[1].text} in ${children[2].view}..${children[3].view}) {\n${children[4].view}\n${value.tab}}"
         return value
     }
 
@@ -371,8 +371,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_innerBody_0(node: ASTNode.InnerNode<PrefixGrammarInfo.innerBody>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_codeBlock(node.getChild(0), PrefixData()))
-
+        children.add(visit_codeBlock(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -381,9 +381,9 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_innerBody_1(node: ASTNode.InnerNode<PrefixGrammarInfo.innerBody>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_BOTH(node.getChild(0), PrefixData()))
-        children.add(visit_codeBlock(node.getChild(1), PrefixData()))
-        children.add(visit_innerBody(node.getChild(2), PrefixData()))
+        children.add(visit_BOTH(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_codeBlock(node.getChild(1), PrefixData(depth = value.depth)))
+        children.add(visit_innerBody(node.getChild(2), PrefixData(depth = value.depth)))
         value.view = "${children[1].view}${children[2].view}"
         return value
     }
@@ -401,8 +401,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_expression_0(node: ASTNode.InnerNode<PrefixGrammarInfo.expression>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_logicalExpression(node.getChild(0), PrefixData()))
-
+        children.add(visit_logicalExpression(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -411,8 +411,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_expression_1(node: ASTNode.InnerNode<PrefixGrammarInfo.expression>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_arithmeticExpression(node.getChild(0), PrefixData()))
-
+        children.add(visit_arithmeticExpression(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -430,7 +430,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalBinop_0(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalBinop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_AND(node.getChild(0), PrefixData()))
+        children.add(visit_AND(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -440,7 +440,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalBinop_1(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalBinop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_OR(node.getChild(0), PrefixData()))
+        children.add(visit_OR(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -450,7 +450,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalBinop_2(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalBinop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_XOR(node.getChild(0), PrefixData()))
+        children.add(visit_XOR(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -460,7 +460,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalUnop(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalUnop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_NOT(node.getChild(0), PrefixData()))
+        children.add(visit_NOT(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -479,9 +479,9 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalExpression_0(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalExpression>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_logicalBinop(node.getChild(0), PrefixData()))
-        children.add(visit_logicalExpression(node.getChild(1), PrefixData()))
-        children.add(visit_logicalExpression(node.getChild(2), PrefixData()))
+        children.add(visit_logicalBinop(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_logicalExpression(node.getChild(1), PrefixData(depth = value.depth)))
+        children.add(visit_logicalExpression(node.getChild(2), PrefixData(depth = value.depth)))
         value.view = "(${children[1].view} ${children[0].view} ${children[2].view})"
         return value
     }
@@ -491,8 +491,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalExpression_1(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalExpression>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_logicalUnop(node.getChild(0), PrefixData()))
-        children.add(visit_logicalExpression(node.getChild(1), PrefixData()))
+        children.add(visit_logicalUnop(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_logicalExpression(node.getChild(1), PrefixData(depth = value.depth)))
         value.view = "${children[0].view}${children[1].view}"
         return value
     }
@@ -502,8 +502,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalExpression_2(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalExpression>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_logicalAtom(node.getChild(0), PrefixData()))
-
+        children.add(visit_logicalAtom(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -520,7 +520,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalAtom_0(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalAtom>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_VAR(node.getChild(0), PrefixData()))
+        children.add(visit_VAR(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -530,8 +530,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_logicalAtom_1(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalAtom>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_comparison(node.getChild(0), PrefixData()))
-
+        children.add(visit_comparison(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -552,7 +552,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_relation_0(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_EQ(node.getChild(0), PrefixData()))
+        children.add(visit_EQ(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -562,7 +562,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_relation_1(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_NE(node.getChild(0), PrefixData()))
+        children.add(visit_NE(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -572,7 +572,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_relation_2(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_GT(node.getChild(0), PrefixData()))
+        children.add(visit_GT(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -582,7 +582,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_relation_3(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_GE(node.getChild(0), PrefixData()))
+        children.add(visit_GE(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -592,7 +592,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_relation_4(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_LT(node.getChild(0), PrefixData()))
+        children.add(visit_LT(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -602,7 +602,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_relation_5(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_LE(node.getChild(0), PrefixData()))
+        children.add(visit_LE(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -612,9 +612,9 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_comparison(node: ASTNode.InnerNode<PrefixGrammarInfo.comparison>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_relation(node.getChild(0), PrefixData()))
-        children.add(visit_arithmeticExpression(node.getChild(1), PrefixData()))
-        children.add(visit_arithmeticExpression(node.getChild(2), PrefixData()))
+        children.add(visit_relation(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_arithmeticExpression(node.getChild(1), PrefixData(depth = value.depth)))
+        children.add(visit_arithmeticExpression(node.getChild(2), PrefixData(depth = value.depth)))
         value.view = "(${children[1].view} ${children[0].view} ${children[2].view})"
         return value
     }
@@ -634,7 +634,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticBinop_0(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_PLUS(node.getChild(0), PrefixData()))
+        children.add(visit_PLUS(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -644,7 +644,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticBinop_1(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_MINUS(node.getChild(0), PrefixData()))
+        children.add(visit_MINUS(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -654,7 +654,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticBinop_2(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_TIMES(node.getChild(0), PrefixData()))
+        children.add(visit_TIMES(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -664,7 +664,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticBinop_3(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_DIV(node.getChild(0), PrefixData()))
+        children.add(visit_DIV(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -682,9 +682,9 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticExpression_0(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticExpression>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_arithmeticBinop(node.getChild(0), PrefixData()))
-        children.add(visit_arithmeticExpression(node.getChild(1), PrefixData()))
-        children.add(visit_arithmeticExpression(node.getChild(2), PrefixData()))
+        children.add(visit_arithmeticBinop(node.getChild(0), PrefixData(depth = value.depth)))
+        children.add(visit_arithmeticExpression(node.getChild(1), PrefixData(depth = value.depth)))
+        children.add(visit_arithmeticExpression(node.getChild(2), PrefixData(depth = value.depth)))
         value.view = "(${children[1].view} ${children[0].view} ${children[2].view})"
         return value
     }
@@ -694,8 +694,8 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticExpression_1(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticExpression>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_arithmeticAtom(node.getChild(0), PrefixData()))
-
+        children.add(visit_arithmeticAtom(node.getChild(0), PrefixData(depth = value.depth)))
+        value.view = children[0].view
         return value
     }
 
@@ -712,7 +712,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticAtom_0(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticAtom>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_VAR(node.getChild(0), PrefixData()))
+        children.add(visit_VAR(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }
@@ -722,7 +722,7 @@ arithmeticAtom -> VAR | UINT
     */
     fun visit_arithmeticAtom_1(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticAtom>, value: PrefixData): PrefixData {
         val children = mutableListOf<PrefixData>()
-        children.add(visit_UINT(node.getChild(0), PrefixData()))
+        children.add(visit_UINT(node.getChild(0), PrefixData(depth = value.depth)))
         value.view = children[0].text
         return value
     }

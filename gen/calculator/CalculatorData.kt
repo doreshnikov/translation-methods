@@ -23,12 +23,7 @@ open class CalculatorData(val left: Int = 0) {
 	var value: Int = 0
 
     override fun toString(): String {
-        return "left: ${left}\nvalue: ${value}"
+        return "left:\n${left}\nvalue:\n${value}"
     }
     
-}
-
-fun main() {
-    val s = "" // put your input here
-    println(CalculatorVisitor.collect(Parser(CalculatorGrammarInfo).parse(s)))
 }
