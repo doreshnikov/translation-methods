@@ -6,12 +6,29 @@ import grammar.token.Token
 class Expansion(vararg lexemes: Token) : ArrayList<Token>(),
     Restricted by Restricted.Terminal + Restricted.State {
 
-    companion object {
-        private val factory = hashMapOf<String, Int>()
+    companion object ExpansionStorage {
+        data class Storage(val factory: MutableMap<String, Int>, val storage: MutableMap<String, Int>)
+
+        private val storages = mutableMapOf<String, Storage>()
+        private var grammarName: String? = null
+
+        val current: Storage?
+            get() {
+                return storages[grammarName ?: return null]
+            }
+
+        fun switchTo(name: String) {
+            grammarName = name.also {
+                if (it !in storages) storages[it] = Storage(mutableMapOf(), mutableMapOf())
+            }
+        }
 
         operator fun invoke(state: Token.StateToken, expansion: Expansion): Expansion {
-            expansion.id = factory.getOrDefault(state.toString(), 0).also {
-                factory[state.toString()] = it + 1
+            expansion.id = current!!.storage.getOrPut("$state: $expansion") {
+                current!!.factory.putIfAbsent(state.toString(), 0)
+                current!!.factory[state.toString()]!!.also {
+                    current!!.factory[state.toString()] = current!!.factory[state.getString()]!! + 1
+                }
             }
             return expansion
         }

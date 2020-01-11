@@ -2,6 +2,7 @@ package translate.test
 
 import parse.Parser
 import translate.codegen.GrammarInfoBuilder
+import translate.codegen.VisitorBuilder
 import translate.codegen.WalkerBuilder
 import translate.codegen.helpers.GrammarInfo
 import translate.meta.helpers.MetaGrammarInfo
@@ -16,20 +17,17 @@ fun main() {
         }
         val uname = singleUpperCase(name)
         try {
-            val root = Parser(MetaGrammarInfo).parse(str)
+            val grammarInfoObject = Class.forName("$name.${uname}GrammarInfo").kotlin.objectInstance as GrammarInfo
             File("$loc\\gen\\$name\\${uname}WalkerBase.kt").bufferedWriter().use { out ->
-                out.write(
-                    WalkerBuilder(
-                        name,
-                        Class.forName("$name.${uname}GrammarInfo").kotlin.objectInstance as GrammarInfo
-                    ).getAll()
-                )
+                out.write(WalkerBuilder(name, grammarInfoObject).getAll())
             }
-//            VisitorBuilder(
-//                "gen.$name",
-//                "${uname}AttributedVisitorInfo",
-//                "${uname}GrammarInfo"
-//            ).doAll(root)
+            val visitorBuilder = VisitorBuilder(name, grammarInfoObject, Parser(MetaGrammarInfo).parse(str)).prepare()
+            File("$loc\\gen\\$name\\${uname}Visitor.kt").bufferedWriter().use { out ->
+                out.write(visitorBuilder.getAll())
+            }
+            File("$loc\\gen\\$name\\${uname}VisitorMain.kt").bufferedWriter().use { out ->
+                out.write(visitorBuilder.getMain())
+            }
             println("[SUCCESS] $name")
         } catch (e: ParseException) {
             println("[FAIL] $name: $e at ${e.errorOffset}")

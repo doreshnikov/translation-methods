@@ -86,7 +86,7 @@ atom -> LPAREN expression RPAREN | UINT
     expression -> term expression
     */
     fun visit_expression(node: ASTNode.InnerNode<CalculatorGrammarInfo.expression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_expressionPlus(node: ASTNode.InnerNode<CalculatorGrammarInfo.expressionPlus>): R {
@@ -102,28 +102,28 @@ atom -> LPAREN expression RPAREN | UINT
     expressionPlus -> PLUS term expressionPlus
     */
     fun visit_expressionPlus_0(node: ASTNode.InnerNode<CalculatorGrammarInfo.expressionPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     expressionPlus -> MINUS term expressionPlus
     */
     fun visit_expressionPlus_1(node: ASTNode.InnerNode<CalculatorGrammarInfo.expressionPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     expressionPlus -> <eps>
     */
     fun visit_expressionPlus_2(node: ASTNode.InnerNode<CalculatorGrammarInfo.expressionPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     term -> factor termPlus
     */
     fun visit_term(node: ASTNode.InnerNode<CalculatorGrammarInfo.term>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_termPlus(node: ASTNode.InnerNode<CalculatorGrammarInfo.termPlus>): R {
@@ -139,21 +139,21 @@ atom -> LPAREN expression RPAREN | UINT
     termPlus -> TIMES factor termPlus
     */
     fun visit_termPlus_0(node: ASTNode.InnerNode<CalculatorGrammarInfo.termPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     termPlus -> DIV factor termPlus
     */
     fun visit_termPlus_1(node: ASTNode.InnerNode<CalculatorGrammarInfo.termPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     termPlus -> <eps>
     */
     fun visit_termPlus_2(node: ASTNode.InnerNode<CalculatorGrammarInfo.termPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_factor(node: ASTNode.InnerNode<CalculatorGrammarInfo.factor>): R {
@@ -168,20 +168,20 @@ atom -> LPAREN expression RPAREN | UINT
     factor -> MINUS factor
     */
     fun visit_factor_0(node: ASTNode.InnerNode<CalculatorGrammarInfo.factor>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     factor -> atom
     */
     fun visit_factor_1(node: ASTNode.InnerNode<CalculatorGrammarInfo.factor>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_atom(node: ASTNode.InnerNode<CalculatorGrammarInfo.atom>): R {
         return when (val id = node.getExpansion().getId()) {
-            4 -> visit_atom_4(node)
-            5 -> visit_atom_5(node)
+            0 -> visit_atom_0(node)
+            1 -> visit_atom_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of atom")
         }
     }
@@ -189,15 +189,15 @@ atom -> LPAREN expression RPAREN | UINT
     /**
     atom -> LPAREN expression RPAREN
     */
-    fun visit_atom_4(node: ASTNode.InnerNode<CalculatorGrammarInfo.atom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+    fun visit_atom_0(node: ASTNode.InnerNode<CalculatorGrammarInfo.atom>): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     atom -> UINT
     */
-    fun visit_atom_5(node: ASTNode.InnerNode<CalculatorGrammarInfo.atom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+    fun visit_atom_1(node: ASTNode.InnerNode<CalculatorGrammarInfo.atom>): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
 }

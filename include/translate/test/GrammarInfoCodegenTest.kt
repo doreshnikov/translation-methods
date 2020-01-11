@@ -2,8 +2,6 @@ package translate.test
 
 import parse.Parser
 import translate.codegen.GrammarInfoBuilder
-import translate.codegen.WalkerBuilder
-import translate.codegen.helpers.GrammarInfo
 import translate.meta.helpers.MetaGrammarInfo
 import java.io.File
 import java.text.ParseException

@@ -80,7 +80,7 @@ atom -> LPAREN regex RPAREN | ALPHA
     regex -> sequence regexPlus
     */
     fun visit_regex(node: ASTNode.InnerNode<RegexGrammarInfo.regex>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_regexPlus(node: ASTNode.InnerNode<RegexGrammarInfo.regexPlus>): R {
@@ -95,21 +95,21 @@ atom -> LPAREN regex RPAREN | ALPHA
     regexPlus -> CHOICE regex
     */
     fun visit_regexPlus_0(node: ASTNode.InnerNode<RegexGrammarInfo.regexPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     regexPlus -> <eps>
     */
     fun visit_regexPlus_1(node: ASTNode.InnerNode<RegexGrammarInfo.regexPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     sequence -> term sequencePlus
     */
     fun visit_sequence(node: ASTNode.InnerNode<RegexGrammarInfo.sequence>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_sequencePlus(node: ASTNode.InnerNode<RegexGrammarInfo.sequencePlus>): R {
@@ -124,21 +124,21 @@ atom -> LPAREN regex RPAREN | ALPHA
     sequencePlus -> sequence
     */
     fun visit_sequencePlus_0(node: ASTNode.InnerNode<RegexGrammarInfo.sequencePlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     sequencePlus -> <eps>
     */
     fun visit_sequencePlus_1(node: ASTNode.InnerNode<RegexGrammarInfo.sequencePlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     term -> atom number closure
     */
     fun visit_term(node: ASTNode.InnerNode<RegexGrammarInfo.term>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_number(node: ASTNode.InnerNode<RegexGrammarInfo.number>): R {
@@ -153,14 +153,14 @@ atom -> LPAREN regex RPAREN | ALPHA
     number -> UINT
     */
     fun visit_number_0(node: ASTNode.InnerNode<RegexGrammarInfo.number>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     number -> <eps>
     */
     fun visit_number_1(node: ASTNode.InnerNode<RegexGrammarInfo.number>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_closure(node: ASTNode.InnerNode<RegexGrammarInfo.closure>): R {
@@ -175,20 +175,20 @@ atom -> LPAREN regex RPAREN | ALPHA
     closure -> KLEENE closure
     */
     fun visit_closure_0(node: ASTNode.InnerNode<RegexGrammarInfo.closure>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     closure -> <eps>
     */
     fun visit_closure_1(node: ASTNode.InnerNode<RegexGrammarInfo.closure>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_atom(node: ASTNode.InnerNode<RegexGrammarInfo.atom>): R {
         return when (val id = node.getExpansion().getId()) {
-            2 -> visit_atom_2(node)
-            3 -> visit_atom_3(node)
+            0 -> visit_atom_0(node)
+            1 -> visit_atom_1(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of atom")
         }
     }
@@ -196,15 +196,15 @@ atom -> LPAREN regex RPAREN | ALPHA
     /**
     atom -> LPAREN regex RPAREN
     */
-    fun visit_atom_2(node: ASTNode.InnerNode<RegexGrammarInfo.atom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+    fun visit_atom_0(node: ASTNode.InnerNode<RegexGrammarInfo.atom>): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     atom -> ALPHA
     */
-    fun visit_atom_3(node: ASTNode.InnerNode<RegexGrammarInfo.atom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+    fun visit_atom_1(node: ASTNode.InnerNode<RegexGrammarInfo.atom>): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
 }

@@ -15,7 +15,6 @@ class WalkerBuilder(
     private val grammarInfoObject: GrammarInfo
 ) : BuilderHelper {
 
-    private val packagePath = packageName.replace(".", "\\")
     private val interfaceName = "${grammarInfoObject.getSimpleName()}WalkerBase"
 
     override fun getDefinedTokens(): List<Token> {
@@ -41,7 +40,7 @@ class WalkerBuilder(
     $token -> ${expansions.first()}
     */
     fun visit_${token}(node: ${getNodeType(token)}): R {
-        throw IllegalStateException("Unexpected expansion ${"$"}{node.getToken()} -> ${"$"}{node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${"$"}{node.getToken()} -> ${"$"}{node.getExpansion()} visited while traversing tree")
     }"""
         } else {
             """
@@ -57,7 +56,7 @@ ${expansions.joinToString("\n") {
     $token -> $it
     */
     fun visit_${token}_${it.getId()}(node: ${getNodeType(token)}): R {
-        throw IllegalStateException("Unexpected expansion ${"$"}{node.getToken()} -> ${"$"}{node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${"$"}{node.getToken()} -> ${"$"}{node.getExpansion()} visited while traversing tree") 
     }"""
             }}"""
         }

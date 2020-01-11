@@ -24,6 +24,10 @@ object Beautifier {
         return value.replace("\t", " ".repeat(4))
     }
 
+    fun plusIndent(value: String, indent: Int = 1): String {
+        return detabify(value.split("\n").joinToString("\n") { "${"\t".repeat(indent)}$it" })
+    }
+
     fun packageName(clazz: KClass<*>): String {
         return clazz.qualifiedName!!.split(".")
             .filter { it[0].isLowerCase() }.joinToString(".")

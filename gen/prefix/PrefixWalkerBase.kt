@@ -187,7 +187,7 @@ arithmeticAtom -> VAR | UINT
     main -> code
     */
     fun visit_main(node: ASTNode.InnerNode<PrefixGrammarInfo.main>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_code(node: ASTNode.InnerNode<PrefixGrammarInfo.code>): R {
@@ -202,14 +202,14 @@ arithmeticAtom -> VAR | UINT
     code -> codeBlock code
     */
     fun visit_code_0(node: ASTNode.InnerNode<PrefixGrammarInfo.code>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     code -> <eps>
     */
     fun visit_code_1(node: ASTNode.InnerNode<PrefixGrammarInfo.code>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_codeBlock(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>): R {
@@ -226,28 +226,28 @@ arithmeticAtom -> VAR | UINT
     codeBlock -> statement
     */
     fun visit_codeBlock_0(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     codeBlock -> ifBlock
     */
     fun visit_codeBlock_1(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     codeBlock -> forBlock
     */
     fun visit_codeBlock_2(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     codeBlock -> PASS
     */
     fun visit_codeBlock_3(node: ASTNode.InnerNode<PrefixGrammarInfo.codeBlock>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_statement(node: ASTNode.InnerNode<PrefixGrammarInfo.statement>): R {
@@ -262,42 +262,42 @@ arithmeticAtom -> VAR | UINT
     statement -> print
     */
     fun visit_statement_0(node: ASTNode.InnerNode<PrefixGrammarInfo.statement>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     statement -> assignment
     */
     fun visit_statement_1(node: ASTNode.InnerNode<PrefixGrammarInfo.statement>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     print -> PRINTW expression
     */
     fun visit_print(node: ASTNode.InnerNode<PrefixGrammarInfo.print>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     assignment -> ASSIGN VAR expression
     */
     fun visit_assignment(node: ASTNode.InnerNode<PrefixGrammarInfo.assignment>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     ifBlock -> IFW logicalExpression innerBody innerBody
     */
     fun visit_ifBlock(node: ASTNode.InnerNode<PrefixGrammarInfo.ifBlock>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     forBlock -> FORW VAR arithmeticAtom arithmeticAtom innerBody
     */
     fun visit_forBlock(node: ASTNode.InnerNode<PrefixGrammarInfo.forBlock>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_innerBody(node: ASTNode.InnerNode<PrefixGrammarInfo.innerBody>): R {
@@ -312,20 +312,20 @@ arithmeticAtom -> VAR | UINT
     innerBody -> codeBlock
     */
     fun visit_innerBody_0(node: ASTNode.InnerNode<PrefixGrammarInfo.innerBody>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     innerBody -> BOTH codeBlock innerBody
     */
     fun visit_innerBody_1(node: ASTNode.InnerNode<PrefixGrammarInfo.innerBody>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_expression(node: ASTNode.InnerNode<PrefixGrammarInfo.expression>): R {
         return when (val id = node.getExpansion().getId()) {
+            0 -> visit_expression_0(node)
             1 -> visit_expression_1(node)
-            2 -> visit_expression_2(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of expression")
         }
     }
@@ -333,15 +333,15 @@ arithmeticAtom -> VAR | UINT
     /**
     expression -> logicalExpression
     */
-    fun visit_expression_1(node: ASTNode.InnerNode<PrefixGrammarInfo.expression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+    fun visit_expression_0(node: ASTNode.InnerNode<PrefixGrammarInfo.expression>): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     expression -> arithmeticExpression
     */
-    fun visit_expression_2(node: ASTNode.InnerNode<PrefixGrammarInfo.expression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+    fun visit_expression_1(node: ASTNode.InnerNode<PrefixGrammarInfo.expression>): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_logicalBinop(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalBinop>): R {
@@ -357,28 +357,28 @@ arithmeticAtom -> VAR | UINT
     logicalBinop -> AND
     */
     fun visit_logicalBinop_0(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalBinop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     logicalBinop -> OR
     */
     fun visit_logicalBinop_1(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalBinop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     logicalBinop -> XOR
     */
     fun visit_logicalBinop_2(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalBinop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     logicalUnop -> NOT
     */
     fun visit_logicalUnop(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalUnop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_logicalExpression(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalExpression>): R {
@@ -394,21 +394,21 @@ arithmeticAtom -> VAR | UINT
     logicalExpression -> logicalBinop logicalExpression logicalExpression
     */
     fun visit_logicalExpression_0(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalExpression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     logicalExpression -> logicalUnop logicalExpression
     */
     fun visit_logicalExpression_1(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalExpression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     logicalExpression -> logicalAtom
     */
     fun visit_logicalExpression_2(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalExpression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_logicalAtom(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalAtom>): R {
@@ -423,14 +423,14 @@ arithmeticAtom -> VAR | UINT
     logicalAtom -> VAR
     */
     fun visit_logicalAtom_0(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalAtom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     logicalAtom -> comparison
     */
     fun visit_logicalAtom_1(node: ASTNode.InnerNode<PrefixGrammarInfo.logicalAtom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_relation(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>): R {
@@ -449,49 +449,49 @@ arithmeticAtom -> VAR | UINT
     relation -> EQ
     */
     fun visit_relation_0(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     relation -> NE
     */
     fun visit_relation_1(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     relation -> GT
     */
     fun visit_relation_2(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     relation -> GE
     */
     fun visit_relation_3(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     relation -> LT
     */
     fun visit_relation_4(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     relation -> LE
     */
     fun visit_relation_5(node: ASTNode.InnerNode<PrefixGrammarInfo.relation>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     comparison -> relation arithmeticExpression arithmeticExpression
     */
     fun visit_comparison(node: ASTNode.InnerNode<PrefixGrammarInfo.comparison>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_arithmeticBinop(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>): R {
@@ -508,28 +508,28 @@ arithmeticAtom -> VAR | UINT
     arithmeticBinop -> PLUS
     */
     fun visit_arithmeticBinop_0(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     arithmeticBinop -> MINUS
     */
     fun visit_arithmeticBinop_1(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     arithmeticBinop -> TIMES
     */
     fun visit_arithmeticBinop_2(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     arithmeticBinop -> DIV
     */
     fun visit_arithmeticBinop_3(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticBinop>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_arithmeticExpression(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticExpression>): R {
@@ -544,14 +544,14 @@ arithmeticAtom -> VAR | UINT
     arithmeticExpression -> arithmeticBinop arithmeticExpression arithmeticExpression
     */
     fun visit_arithmeticExpression_0(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticExpression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     arithmeticExpression -> arithmeticAtom
     */
     fun visit_arithmeticExpression_1(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticExpression>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_arithmeticAtom(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticAtom>): R {
@@ -566,14 +566,14 @@ arithmeticAtom -> VAR | UINT
     arithmeticAtom -> VAR
     */
     fun visit_arithmeticAtom_0(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticAtom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     arithmeticAtom -> UINT
     */
     fun visit_arithmeticAtom_1(node: ASTNode.InnerNode<PrefixGrammarInfo.arithmeticAtom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
 }

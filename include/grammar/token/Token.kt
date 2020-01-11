@@ -20,7 +20,7 @@ interface Token {
     companion object TokenStorage {
         data class Storage(val factory: MutableMap<String, Token>, val all: MutableList<Token>)
 
-        private val grammars = hashMapOf<String?, Storage>()
+        private val grammars = mutableMapOf<String?, Storage>()
         private var grammarName: String? = null
 
         init {
@@ -35,7 +35,10 @@ interface Token {
             get() = grammars[null]!!
 
         fun switchTo(name: String?) {
-            grammarName = name.also { if (it !in grammars) grammars[it] = Storage(hashMapOf(), arrayListOf()) }
+            if (name != null) {
+                Expansion.switchTo(name)
+            }
+            grammarName = name.also { if (it !in grammars) grammars[it] = Storage(mutableMapOf(), mutableListOf()) }
         }
 
         val REGISTERED: GetViewer<String, Token>
