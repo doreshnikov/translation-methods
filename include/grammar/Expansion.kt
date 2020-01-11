@@ -12,7 +12,7 @@ class Expansion(vararg lexemes: Token) : ArrayList<Token>(),
         private val storages = mutableMapOf<String, Storage>()
         private var grammarName: String? = null
 
-        val current: Storage?
+        private val current: Storage?
             get() {
                 return storages[grammarName ?: return null]
             }

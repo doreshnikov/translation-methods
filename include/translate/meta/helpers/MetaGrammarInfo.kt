@@ -14,11 +14,12 @@ object MetaGrammarInfo : GrammarInfo {
             LTRIG, RTRIG, CHARRANGE,
             ASSIGN, ADD, SUB, MUL, DIV,
             LARRAY, RARRAY, SEP,
+            LBRACKET, RBRACKET,
             MACRO, TOKENS, GRAMMAR, FRAGMENTS, COMPANION,
             SKIP, SYNTHESIS, INHERITANCE, COMPUTE, START,
             DEFAULT, INT_TYPE, DOUBLE_TYPE, STRING_TYPE, KOTLIN_FUNC,
             DOUBLE, INT, CHAR, STRING, RSTRING,
-            SPNAME, CAMELNAME, CAPSNAME,
+            MACROREF, SPNAME, CAMELNAME, CAPSNAME,
             WHITESPACE,
 
             all, m, kfPlus,
@@ -67,6 +68,9 @@ object MetaGrammarInfo : GrammarInfo {
     object RARRAY       : Token.StringToken("RARRAY", "]")
     object SEP          : Token.StringToken("SEP", ",")
 
+    object LBRACKET     : Token.StringToken("LBRACKET", "(")
+    object RBRACKET     : Token.StringToken("RBRACKET", ")")
+
     // keywords
 
     object MACRO        : Token.StringToken("MACRO", "macro")
@@ -100,7 +104,8 @@ object MetaGrammarInfo : GrammarInfo {
     object STRING       : Token.RegexToken("STRING", "\"[^\"]*\"".toRegex())
     object RSTRING      : Token.RegexToken("RSTRING", "r\"[^\"]*\"".toRegex())
 
-    object SPNAME       : Token.RegexToken("SPNAME", "@(\\d*|macro)\\.[a-zA-Z()]+".toRegex())
+    object MACROREF     : Token.RegexToken("MACROREF", "@macro.".toRegex())
+    object SPNAME       : Token.RegexToken("SPNAME", "@\\d*\\.[a-zA-Z]+".toRegex())
     object CAMELNAME    : Token.RegexToken("CAMELNAME", "[a-z]+([A-Z][a-z]*)*".toRegex())
     object CAPSNAME     : Token.RegexToken("CAPSNAME", "[A-Z]+".toRegex())
 
@@ -236,6 +241,7 @@ object MetaGrammarInfo : GrammarInfo {
                                     defValue    into Expansion(SUB, defTerm),
                                         atName      into Expansion(SPNAME),
                                         atName      into Expansion(CAMELNAME),
+                                        atName      into Expansion(MACROREF, CAMELNAME, LBRACKET, defValue, RBRACKET),
                                 defPlus     into Expansion(SEP, defAtom, defPlus),
                                 defPlus     into Expansion(Token.UniqueToken.EPSILON),
                         def         into Expansion(Token.UniqueToken.EPSILON),

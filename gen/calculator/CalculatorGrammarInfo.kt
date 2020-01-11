@@ -57,7 +57,7 @@ object CalculatorGrammarInfo : GrammarInfo {
     private val grammar = Grammar(
         expression,
 
-        expression into Expansion(term, expression),
+        expression into Expansion(term, expressionPlus),
         expressionPlus into Expansion(PLUS, term, expressionPlus),
         expressionPlus into Expansion(MINUS, term, expressionPlus),
         expressionPlus into Expansion(Token.UniqueToken.EPSILON),

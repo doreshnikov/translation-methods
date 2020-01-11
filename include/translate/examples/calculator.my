@@ -1,3 +1,11 @@
+macro {
+
+    fun toInt(value: String): Int {
+        return value.toInt()
+    }
+
+}
+
 tokens {
 
     companion {
@@ -30,19 +38,19 @@ grammar {
         start : expression ;
     }
 
-    expression      : term expression{ left = @1.value } :: { value = @2.value } ;
-    expressionPlus  : PLUS  term expressionPlus{ left = left + @2.value } :: { value = @3.value }
-                    | MINUS term expressionPlus{ left = left - @2.value } :: { value = @3.value }
+    expression      : term expressionPlus{ left = @0.value } :: { value = @1.value } ;
+    expressionPlus  : PLUS  term expressionPlus{ left = left + @1.value } :: { value = @2.value }
+                    | MINUS term expressionPlus{ left = left - @1.value } :: { value = @2.value }
                     | EPSILON :: { value = left } ;
 
-    term            : factor termPlus{ left = @1.value } :: { value = @2.value } ;
-    termPlus        : TIMES factor termPlus{ left = left * @2.value } :: { value = @3.value }
-                    | DIV   factor termPlus{ left = left / @2.value } :: { value = @3.value }
+    term            : factor termPlus{ left = @0.value } :: { value = @1.value } ;
+    termPlus        : TIMES factor termPlus{ left = left * @1.value } :: { value = @2.value }
+                    | DIV   factor termPlus{ left = left / @1.value } :: { value = @2.value }
                     | EPSILON :: { value = left } ;
 
-    factor          : MINUS factor :: { value = -@2.value }
-                    | atom :: { value = @1.value } ;
-    atom            : LPAREN expression RPAREN :: { value = @2.value }
-                    | UINT :: { value = @1.INT } ;
+    factor          : MINUS factor :: { value = -@1.value }
+                    | atom :: { value = @0.value } ;
+    atom            : LPAREN expression RPAREN :: { value = @1.value }
+                    | UINT :: { value = @macro.toInt(@0.text) } ;
 
 }

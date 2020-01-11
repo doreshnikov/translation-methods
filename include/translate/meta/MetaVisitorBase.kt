@@ -56,7 +56,7 @@ defValue -> STRING | defTerm defMod | SUB defTerm
 defTerm -> atName | INT | DOUBLE
 defMod -> op defTerm | <eps>
 op -> ADD | SUB | MUL | DIV
-atName -> SPNAME | CAMELNAME
+atName -> SPNAME | CAMELNAME | MACROREF CAMELNAME LBRACKET defValue RBRACKET
 defPlus -> SEP defAtom defPlus | <eps>
 */
 
@@ -81,6 +81,8 @@ defPlus -> SEP defAtom defPlus | <eps>
             MetaGrammarInfo.LARRAY -> visit_LARRAY(node as ASTNode.TerminalNode<MetaGrammarInfo.LARRAY>, value)
             MetaGrammarInfo.RARRAY -> visit_RARRAY(node as ASTNode.TerminalNode<MetaGrammarInfo.RARRAY>, value)
             MetaGrammarInfo.SEP -> visit_SEP(node as ASTNode.TerminalNode<MetaGrammarInfo.SEP>, value)
+            MetaGrammarInfo.LBRACKET -> visit_LBRACKET(node as ASTNode.TerminalNode<MetaGrammarInfo.LBRACKET>, value)
+            MetaGrammarInfo.RBRACKET -> visit_RBRACKET(node as ASTNode.TerminalNode<MetaGrammarInfo.RBRACKET>, value)
             MetaGrammarInfo.MACRO -> visit_MACRO(node as ASTNode.TerminalNode<MetaGrammarInfo.MACRO>, value)
             MetaGrammarInfo.TOKENS -> visit_TOKENS(node as ASTNode.TerminalNode<MetaGrammarInfo.TOKENS>, value)
             MetaGrammarInfo.GRAMMAR -> visit_GRAMMAR(node as ASTNode.TerminalNode<MetaGrammarInfo.GRAMMAR>, value)
@@ -101,6 +103,7 @@ defPlus -> SEP defAtom defPlus | <eps>
             MetaGrammarInfo.CHAR -> visit_CHAR(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CHAR>>, value)
             MetaGrammarInfo.STRING -> visit_STRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.STRING>>, value)
             MetaGrammarInfo.RSTRING -> visit_RSTRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.RSTRING>>, value)
+            MetaGrammarInfo.MACROREF -> visit_MACROREF(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.MACROREF>>, value)
             MetaGrammarInfo.SPNAME -> visit_SPNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.SPNAME>>, value)
             MetaGrammarInfo.CAMELNAME -> visit_CAMELNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CAMELNAME>>, value)
             MetaGrammarInfo.CAPSNAME -> visit_CAPSNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CAPSNAME>>, value)
@@ -220,6 +223,14 @@ defPlus -> SEP defAtom defPlus | <eps>
         return visitTerminal(node.getToken())
     }
 
+    fun visit_LBRACKET(node: ASTNode.TerminalNode<MetaGrammarInfo.LBRACKET>, value: A): R {
+        return visitTerminal(node.getToken())
+    }
+
+    fun visit_RBRACKET(node: ASTNode.TerminalNode<MetaGrammarInfo.RBRACKET>, value: A): R {
+        return visitTerminal(node.getToken())
+    }
+
     fun visit_MACRO(node: ASTNode.TerminalNode<MetaGrammarInfo.MACRO>, value: A): R {
         return visitTerminal(node.getToken())
     }
@@ -297,6 +308,10 @@ defPlus -> SEP defAtom defPlus | <eps>
     }
 
     fun visit_RSTRING(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.RSTRING>>, value: A): R {
+        return visitTerminal(node.getToken())
+    }
+
+    fun visit_MACROREF(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.MACROREF>>, value: A): R {
         return visitTerminal(node.getToken())
     }
 
@@ -1093,6 +1108,7 @@ defPlus -> SEP defAtom defPlus | <eps>
         return when (val id = node.getExpansion().getId()) {
             0 -> visit_atName_0(node, value)
             1 -> visit_atName_1(node, value)
+            2 -> visit_atName_2(node, value)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of atName")
         }
     }
@@ -1109,6 +1125,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     atName -> CAMELNAME
     */
     fun visit_atName_1(node: ASTNode.InnerNode<MetaGrammarInfo.atName>, value: A): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+    }
+
+
+    /**
+    atName -> MACROREF CAMELNAME LBRACKET defValue RBRACKET
+    */
+    fun visit_atName_2(node: ASTNode.InnerNode<MetaGrammarInfo.atName>, value: A): R {
         throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
     }
 

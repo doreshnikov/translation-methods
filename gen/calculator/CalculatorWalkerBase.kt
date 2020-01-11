@@ -20,7 +20,7 @@ interface CalculatorWalkerBase<R> : Walker<R> {
 
 /*
 Start: expression
-expression -> term expression
+expression -> term expressionPlus
 expressionPlus -> PLUS term expressionPlus | MINUS term expressionPlus | <eps>
 term -> factor termPlus
 termPlus -> TIMES factor termPlus | DIV factor termPlus | <eps>
@@ -83,7 +83,7 @@ atom -> LPAREN expression RPAREN | UINT
     }
 
     /**
-    expression -> term expression
+    expression -> term expressionPlus
     */
     fun visit_expression(node: ASTNode.InnerNode<CalculatorGrammarInfo.expression>): R {
         throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")

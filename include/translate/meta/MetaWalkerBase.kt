@@ -61,7 +61,7 @@ defValue -> STRING | defTerm defMod | SUB defTerm
 defTerm -> atName | INT | DOUBLE
 defMod -> op defTerm | <eps>
 op -> ADD | SUB | MUL | DIV
-atName -> SPNAME | CAMELNAME
+atName -> SPNAME | CAMELNAME | MACROREF CAMELNAME LBRACKET defValue RBRACKET
 defPlus -> SEP defAtom defPlus | <eps>
 */
 
@@ -86,6 +86,8 @@ defPlus -> SEP defAtom defPlus | <eps>
             MetaGrammarInfo.LARRAY -> visit_LARRAY(node as ASTNode.TerminalNode<MetaGrammarInfo.LARRAY>)
             MetaGrammarInfo.RARRAY -> visit_RARRAY(node as ASTNode.TerminalNode<MetaGrammarInfo.RARRAY>)
             MetaGrammarInfo.SEP -> visit_SEP(node as ASTNode.TerminalNode<MetaGrammarInfo.SEP>)
+            MetaGrammarInfo.LBRACKET -> visit_LBRACKET(node as ASTNode.TerminalNode<MetaGrammarInfo.LBRACKET>)
+            MetaGrammarInfo.RBRACKET -> visit_RBRACKET(node as ASTNode.TerminalNode<MetaGrammarInfo.RBRACKET>)
             MetaGrammarInfo.MACRO -> visit_MACRO(node as ASTNode.TerminalNode<MetaGrammarInfo.MACRO>)
             MetaGrammarInfo.TOKENS -> visit_TOKENS(node as ASTNode.TerminalNode<MetaGrammarInfo.TOKENS>)
             MetaGrammarInfo.GRAMMAR -> visit_GRAMMAR(node as ASTNode.TerminalNode<MetaGrammarInfo.GRAMMAR>)
@@ -106,6 +108,7 @@ defPlus -> SEP defAtom defPlus | <eps>
             MetaGrammarInfo.CHAR -> visit_CHAR(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CHAR>>)
             MetaGrammarInfo.STRING -> visit_STRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.STRING>>)
             MetaGrammarInfo.RSTRING -> visit_RSTRING(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.RSTRING>>)
+            MetaGrammarInfo.MACROREF -> visit_MACROREF(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.MACROREF>>)
             MetaGrammarInfo.SPNAME -> visit_SPNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.SPNAME>>)
             MetaGrammarInfo.CAMELNAME -> visit_CAMELNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CAMELNAME>>)
             MetaGrammarInfo.CAPSNAME -> visit_CAPSNAME(node as ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.CAPSNAME>>)
@@ -225,6 +228,14 @@ defPlus -> SEP defAtom defPlus | <eps>
         return visitTerminal(node.getToken())
     }
 
+    fun visit_LBRACKET(node: ASTNode.TerminalNode<MetaGrammarInfo.LBRACKET>): R {
+        return visitTerminal(node.getToken())
+    }
+
+    fun visit_RBRACKET(node: ASTNode.TerminalNode<MetaGrammarInfo.RBRACKET>): R {
+        return visitTerminal(node.getToken())
+    }
+
     fun visit_MACRO(node: ASTNode.TerminalNode<MetaGrammarInfo.MACRO>): R {
         return visitTerminal(node.getToken())
     }
@@ -305,6 +316,10 @@ defPlus -> SEP defAtom defPlus | <eps>
         return visitTerminal(node.getToken())
     }
 
+    fun visit_MACROREF(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.MACROREF>>): R {
+        return visitTerminal(node.getToken())
+    }
+
     fun visit_SPNAME(node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.SPNAME>>): R {
         return visitTerminal(node.getToken())
     }
@@ -325,7 +340,7 @@ defPlus -> SEP defAtom defPlus | <eps>
     all -> m t g
     */
     fun visit_all(node: ASTNode.InnerNode<MetaGrammarInfo.all>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_m(node: ASTNode.InnerNode<MetaGrammarInfo.m>): R {
@@ -340,14 +355,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     m -> MACRO LPAREN kfPlus RPAREN
     */
     fun visit_m_0(node: ASTNode.InnerNode<MetaGrammarInfo.m>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     m -> <eps>
     */
     fun visit_m_1(node: ASTNode.InnerNode<MetaGrammarInfo.m>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_kfPlus(node: ASTNode.InnerNode<MetaGrammarInfo.kfPlus>): R {
@@ -362,21 +377,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     kfPlus -> KOTLIN_FUNC kfPlus
     */
     fun visit_kfPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.kfPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     kfPlus -> <eps>
     */
     fun visit_kfPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.kfPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     t -> TOKENS LPAREN tComp tFrag tPlus RPAREN
     */
     fun visit_t(node: ASTNode.InnerNode<MetaGrammarInfo.t>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_tComp(node: ASTNode.InnerNode<MetaGrammarInfo.tComp>): R {
@@ -391,28 +406,28 @@ defPlus -> SEP defAtom defPlus | <eps>
     tComp -> COMPANION LPAREN tSkip RPAREN
     */
     fun visit_tComp_0(node: ASTNode.InnerNode<MetaGrammarInfo.tComp>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tComp -> <eps>
     */
     fun visit_tComp_1(node: ASTNode.InnerNode<MetaGrammarInfo.tComp>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tSkip -> SKIP DESCRIBE tArray EOLN
     */
     fun visit_tSkip(node: ASTNode.InnerNode<MetaGrammarInfo.tSkip>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     tArray -> LARRAY CAPSNAME tArrayPlus RARRAY
     */
     fun visit_tArray(node: ASTNode.InnerNode<MetaGrammarInfo.tArray>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_tArrayPlus(node: ASTNode.InnerNode<MetaGrammarInfo.tArrayPlus>): R {
@@ -427,14 +442,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     tArrayPlus -> SEP CAPSNAME tArrayPlus
     */
     fun visit_tArrayPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.tArrayPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tArrayPlus -> <eps>
     */
     fun visit_tArrayPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.tArrayPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_tFrag(node: ASTNode.InnerNode<MetaGrammarInfo.tFrag>): R {
@@ -449,21 +464,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     tFrag -> FRAGMENTS LPAREN tFragPlus RPAREN
     */
     fun visit_tFrag_0(node: ASTNode.InnerNode<MetaGrammarInfo.tFrag>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tFrag -> <eps>
     */
     fun visit_tFrag_1(node: ASTNode.InnerNode<MetaGrammarInfo.tFrag>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tFragLine -> CAPSNAME DESCRIBE STRING EOLN
     */
     fun visit_tFragLine(node: ASTNode.InnerNode<MetaGrammarInfo.tFragLine>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_tFragPlus(node: ASTNode.InnerNode<MetaGrammarInfo.tFragPlus>): R {
@@ -478,21 +493,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     tFragPlus -> tFragLine tFragPlus
     */
     fun visit_tFragPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.tFragPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tFragPlus -> <eps>
     */
     fun visit_tFragPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.tFragPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tLine -> CAPSNAME DESCRIBE tDef EOLN
     */
     fun visit_tLine(node: ASTNode.InnerNode<MetaGrammarInfo.tLine>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_tDef(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): R {
@@ -508,21 +523,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     tDef -> STRING
     */
     fun visit_tDef_0(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tDef -> RSTRING
     */
     fun visit_tDef_1(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tDef -> LTRIG CHAR CHARRANGE CHAR RTRIG
     */
     fun visit_tDef_2(node: ASTNode.InnerNode<MetaGrammarInfo.tDef>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_tPlus(node: ASTNode.InnerNode<MetaGrammarInfo.tPlus>): R {
@@ -537,28 +552,28 @@ defPlus -> SEP defAtom defPlus | <eps>
     tPlus -> tLine tPlus
     */
     fun visit_tPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.tPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     tPlus -> <eps>
     */
     fun visit_tPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.tPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     g -> GRAMMAR LPAREN gComp gPlus RPAREN
     */
     fun visit_g(node: ASTNode.InnerNode<MetaGrammarInfo.g>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     gComp -> COMPANION LPAREN gSynth gInh gCompv gStart RPAREN
     */
     fun visit_gComp(node: ASTNode.InnerNode<MetaGrammarInfo.gComp>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_gSynth(node: ASTNode.InnerNode<MetaGrammarInfo.gSynth>): R {
@@ -573,14 +588,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     gSynth -> SYNTHESIS LPAREN attribs RPAREN
     */
     fun visit_gSynth_0(node: ASTNode.InnerNode<MetaGrammarInfo.gSynth>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     gSynth -> <eps>
     */
     fun visit_gSynth_1(node: ASTNode.InnerNode<MetaGrammarInfo.gSynth>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_gInh(node: ASTNode.InnerNode<MetaGrammarInfo.gInh>): R {
@@ -595,14 +610,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     gInh -> INHERITANCE LPAREN attribs RPAREN
     */
     fun visit_gInh_0(node: ASTNode.InnerNode<MetaGrammarInfo.gInh>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     gInh -> <eps>
     */
     fun visit_gInh_1(node: ASTNode.InnerNode<MetaGrammarInfo.gInh>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_gCompv(node: ASTNode.InnerNode<MetaGrammarInfo.gCompv>): R {
@@ -617,28 +632,28 @@ defPlus -> SEP defAtom defPlus | <eps>
     gCompv -> COMPUTE LPAREN attribs RPAREN
     */
     fun visit_gCompv_0(node: ASTNode.InnerNode<MetaGrammarInfo.gCompv>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     gCompv -> <eps>
     */
     fun visit_gCompv_1(node: ASTNode.InnerNode<MetaGrammarInfo.gCompv>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     gStart -> START DESCRIBE CAMELNAME EOLN
     */
     fun visit_gStart(node: ASTNode.InnerNode<MetaGrammarInfo.gStart>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     gLine -> CAMELNAME def DESCRIBE rules EOLN
     */
     fun visit_gLine(node: ASTNode.InnerNode<MetaGrammarInfo.gLine>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_gPlus(node: ASTNode.InnerNode<MetaGrammarInfo.gPlus>): R {
@@ -653,28 +668,28 @@ defPlus -> SEP defAtom defPlus | <eps>
     gPlus -> gLine gPlus
     */
     fun visit_gPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.gPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     gPlus -> <eps>
     */
     fun visit_gPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.gPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     attribs -> attrib attribsPlus
     */
     fun visit_attribs(node: ASTNode.InnerNode<MetaGrammarInfo.attribs>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     attrib -> CAMELNAME DESCRIBE type setDef EOLN
     */
     fun visit_attrib(node: ASTNode.InnerNode<MetaGrammarInfo.attrib>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_attribsPlus(node: ASTNode.InnerNode<MetaGrammarInfo.attribsPlus>): R {
@@ -689,14 +704,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     attribsPlus -> attrib attribsPlus
     */
     fun visit_attribsPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.attribsPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     attribsPlus -> <eps>
     */
     fun visit_attribsPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.attribsPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_type(node: ASTNode.InnerNode<MetaGrammarInfo.type>): R {
@@ -712,35 +727,35 @@ defPlus -> SEP defAtom defPlus | <eps>
     type -> INT_TYPE
     */
     fun visit_type_0(node: ASTNode.InnerNode<MetaGrammarInfo.type>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     type -> DOUBLE_TYPE
     */
     fun visit_type_1(node: ASTNode.InnerNode<MetaGrammarInfo.type>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     type -> STRING_TYPE
     */
     fun visit_type_2(node: ASTNode.InnerNode<MetaGrammarInfo.type>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     rules -> rule rulesPlus
     */
     fun visit_rules(node: ASTNode.InnerNode<MetaGrammarInfo.rules>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     rule -> seq def
     */
     fun visit_rule(node: ASTNode.InnerNode<MetaGrammarInfo.rule>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_rulesPlus(node: ASTNode.InnerNode<MetaGrammarInfo.rulesPlus>): R {
@@ -755,14 +770,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     rulesPlus -> CHOICE rule rulesPlus
     */
     fun visit_rulesPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.rulesPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     rulesPlus -> <eps>
     */
     fun visit_rulesPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.rulesPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_def(node: ASTNode.InnerNode<MetaGrammarInfo.def>): R {
@@ -777,14 +792,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     def -> DEFINE LPAREN defBody RPAREN
     */
     fun visit_def_0(node: ASTNode.InnerNode<MetaGrammarInfo.def>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     def -> <eps>
     */
     fun visit_def_1(node: ASTNode.InnerNode<MetaGrammarInfo.def>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_pass(node: ASTNode.InnerNode<MetaGrammarInfo.pass>): R {
@@ -799,28 +814,28 @@ defPlus -> SEP defAtom defPlus | <eps>
     pass -> LPAREN defBody RPAREN
     */
     fun visit_pass_0(node: ASTNode.InnerNode<MetaGrammarInfo.pass>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     pass -> <eps>
     */
     fun visit_pass_1(node: ASTNode.InnerNode<MetaGrammarInfo.pass>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     defBody -> defAtom defPlus
     */
     fun visit_defBody(node: ASTNode.InnerNode<MetaGrammarInfo.defBody>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     /**
     defAtom -> CAMELNAME ASSIGN defValue
     */
     fun visit_defAtom(node: ASTNode.InnerNode<MetaGrammarInfo.defAtom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_defValue(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): R {
@@ -836,21 +851,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     defValue -> STRING
     */
     fun visit_defValue_0(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     defValue -> defTerm defMod
     */
     fun visit_defValue_1(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     defValue -> SUB defTerm
     */
     fun visit_defValue_2(node: ASTNode.InnerNode<MetaGrammarInfo.defValue>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_defTerm(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>): R {
@@ -866,21 +881,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     defTerm -> atName
     */
     fun visit_defTerm_0(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     defTerm -> INT
     */
     fun visit_defTerm_1(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     defTerm -> DOUBLE
     */
     fun visit_defTerm_2(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_defMod(node: ASTNode.InnerNode<MetaGrammarInfo.defMod>): R {
@@ -895,14 +910,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     defMod -> op defTerm
     */
     fun visit_defMod_0(node: ASTNode.InnerNode<MetaGrammarInfo.defMod>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     defMod -> <eps>
     */
     fun visit_defMod_1(node: ASTNode.InnerNode<MetaGrammarInfo.defMod>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_setDef(node: ASTNode.InnerNode<MetaGrammarInfo.setDef>): R {
@@ -917,14 +932,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     setDef -> DEFINE LPAREN DEFAULT ASSIGN defValue RPAREN
     */
     fun visit_setDef_0(node: ASTNode.InnerNode<MetaGrammarInfo.setDef>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     setDef -> <eps>
     */
     fun visit_setDef_1(node: ASTNode.InnerNode<MetaGrammarInfo.setDef>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_op(node: ASTNode.InnerNode<MetaGrammarInfo.op>): R {
@@ -941,28 +956,28 @@ defPlus -> SEP defAtom defPlus | <eps>
     op -> ADD
     */
     fun visit_op_0(node: ASTNode.InnerNode<MetaGrammarInfo.op>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     op -> SUB
     */
     fun visit_op_1(node: ASTNode.InnerNode<MetaGrammarInfo.op>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     op -> MUL
     */
     fun visit_op_2(node: ASTNode.InnerNode<MetaGrammarInfo.op>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     op -> DIV
     */
     fun visit_op_3(node: ASTNode.InnerNode<MetaGrammarInfo.op>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_defPlus(node: ASTNode.InnerNode<MetaGrammarInfo.defPlus>): R {
@@ -977,21 +992,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     defPlus -> SEP defAtom defPlus
     */
     fun visit_defPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.defPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     defPlus -> <eps>
     */
     fun visit_defPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.defPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     seq -> atom seqPlus
     */
     fun visit_seq(node: ASTNode.InnerNode<MetaGrammarInfo.seq>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree")
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree")
     }
 
     fun visit_atom(node: ASTNode.InnerNode<MetaGrammarInfo.atom>): R {
@@ -1006,14 +1021,14 @@ defPlus -> SEP defAtom defPlus | <eps>
     atom -> CAPSNAME
     */
     fun visit_atom_0(node: ASTNode.InnerNode<MetaGrammarInfo.atom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     atom -> CAMELNAME pass
     */
     fun visit_atom_1(node: ASTNode.InnerNode<MetaGrammarInfo.atom>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_seqPlus(node: ASTNode.InnerNode<MetaGrammarInfo.seqPlus>): R {
@@ -1028,20 +1043,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     seqPlus -> atom seqPlus
     */
     fun visit_seqPlus_0(node: ASTNode.InnerNode<MetaGrammarInfo.seqPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     seqPlus -> <eps>
     */
     fun visit_seqPlus_1(node: ASTNode.InnerNode<MetaGrammarInfo.seqPlus>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     fun visit_atName(node: ASTNode.InnerNode<MetaGrammarInfo.atName>): R {
         return when (val id = node.getExpansion().getId()) {
             0 -> visit_atName_0(node)
             1 -> visit_atName_1(node)
+            2 -> visit_atName_2(node)
             else -> throw IllegalStateException("Unexpected expansion id $id in expansion of atName")
         }
     }
@@ -1050,14 +1066,21 @@ defPlus -> SEP defAtom defPlus | <eps>
     atName -> SPNAME
     */
     fun visit_atName_0(node: ASTNode.InnerNode<MetaGrammarInfo.atName>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
     /**
     atName -> CAMELNAME
     */
     fun visit_atName_1(node: ASTNode.InnerNode<MetaGrammarInfo.atName>): R {
-        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while visiting traversing tree") 
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
+    }
+
+    /**
+    atName -> MACROREF CAMELNAME LBRACKET defValue RBRACKET
+    */
+    fun visit_atName_2(node: ASTNode.InnerNode<MetaGrammarInfo.atName>): R {
+        throw IllegalStateException("Unexpected expansion ${node.getToken()} -> ${node.getExpansion()} visited while traversing tree") 
     }
 
 }

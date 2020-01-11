@@ -44,11 +44,11 @@ interface Token {
         val REGISTERED: GetViewer<String, Token>
             get() = object : GetViewer<String, Token> {
                 override fun all(): List<Token> {
-                    return current!!.all.toList() + common.all.toList()
+                    return common.all.toList() + current!!.all.toList()
                 }
 
                 override fun get(key: String): Token {
-                    return current!!.factory[key] ?: common.factory[key]!!
+                    return common.factory[key]!! ?: current!!.factory[key]!!
                 }
             }
 

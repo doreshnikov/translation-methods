@@ -31,19 +31,28 @@ class VisitorBuilder(
 
     data class Attribute(val name: String, val type: String) {
         override fun toString(): String {
-            return "$name: $type?"
+            return "$name: $type"
         }
     }
 
-    data class ComputedAttribute(val name: String, val type: String, val init: String) {
+    data class ComputedAttribute(val name: String, val type: String, val value: String) {
         override fun toString(): String {
-            return "val $name: $type?\n\t\tget() = $init"
+            return "val $name: $type\n\t\tget() = $value"
         }
     }
 
     data class ValuedAttribute(val name: String, val value: String) {
         override fun toString(): String {
             return "$name = $value"
+        }
+    }
+
+    private fun getTypeInit(type: String): String {
+        return when (type) {
+            "Int" -> "0"
+            "Double" -> "0.0"
+            "String" -> "\"\""
+            else -> "$type()"
         }
     }
 
@@ -68,6 +77,13 @@ class VisitorBuilder(
 
     override fun <T : Token> collect(root: ASTNode<T>): String {
         return visit(root, null)
+    }
+
+    override fun visit_STRING(
+        node: ASTNode.TerminalNode<Token.VariantToken.VariantInstanceToken<MetaGrammarInfo.STRING>>,
+        value: String?
+    ): String {
+        return fixAtNames(super.visit_STRING(node, value))
     }
 
     /**
@@ -453,7 +469,7 @@ class VisitorBuilder(
     defTerm -> atName
      */
     override fun visit_defTerm_0(node: ASTNode.InnerNode<MetaGrammarInfo.defTerm>, value: String?): String {
-        return visit_atName(node.getChild(0), null)
+        return fixAtNames(visit_atName(node.getChild(0), null))
     }
 
     /**
@@ -512,15 +528,19 @@ class VisitorBuilder(
         return "/"
     }
 
+    private fun fixAtNames(value: String): String {
+        var spstring = value
+        spstring = spstring.replace("@macro", "${dataObjectName}.Macro")
+        spstring = spstring.replace("@(\\d+)".toRegex(), "children[$1]")
+        spstring = spstring.replace("@", "value")
+        return spstring
+    }
+
     /**
     atName -> SPNAME
      */
     override fun visit_atName_0(node: ASTNode.InnerNode<MetaGrammarInfo.atName>, value: String?): String {
-        var spname = visit_SPNAME(node.getChild(0), null)
-        spname = spname.replace("@macro", "Macro")
-        spname = spname.replace("@(\\d+)".toRegex(), "children[$1]")
-        spname = spname.replace("@", "value")
-        return spname
+        return visit_SPNAME(node.getChild(0), null)
     }
 
     /**
@@ -528,6 +548,15 @@ class VisitorBuilder(
      */
     override fun visit_atName_1(node: ASTNode.InnerNode<MetaGrammarInfo.atName>, value: String?): String {
         return visit_CAMELNAME(node.getChild(0), null)
+    }
+
+    /**
+    atName -> MACROREF CAMELNAME LBRACKET defValue RBRACKET
+     */
+    override fun visit_atName_2(node: ASTNode.InnerNode<MetaGrammarInfo.atName>, value: String?): String {
+        return "${visit_MACROREF(node.getChild(0), null)}${visit_CAMELNAME(node.getChild(1), null)}(${visit_defValue(
+            node.getChild(3), null
+        )})"
     }
 
     override fun getDefinedTokens(): List<Token> {
@@ -593,8 +622,7 @@ ${visitList("\n",
     $token -> ${expansions.first()}
     */
     fun visit_${token}(node: ${getNodeType(token)}, value: $dataObjectName): $dataObjectName {${getStateVisitBody(
-                token,
-                expansions.first()
+                token, expansions.first()
             )}
     }"""
         } else {
@@ -610,8 +638,9 @@ ${expansions.joinToString("\n") {
     /**
     $token -> $it
     */
-    fun visit_${token}_${it.getId()}(node: ${getNodeType(token)}, value: $dataObjectName): $dataObjectName {
-${getStateVisitBody(token, it)}
+    fun visit_${token}_${it.getId()}(node: ${getNodeType(token)}, value: $dataObjectName): $dataObjectName {${getStateVisitBody(
+                    token, it
+                )}
     }"""
             }}"""
         }
@@ -620,7 +649,7 @@ ${getStateVisitBody(token, it)}
     private fun getTerminalVisitMethods(token: Token): String {
         return """
     fun visit_${token}(node: ${getNodeType(token)}, value: $dataObjectName): $dataObjectName {
-        return visitTerminal(node.getToken())
+        return visitTerminal(node.getToken()).also { it.text = node.getToken().getText() }
     }"""
     }
 
@@ -647,15 +676,17 @@ import java.io.File
 import ${Parser::class.qualifiedName}
 import ${grammarInfoObject::class.qualifiedName}
 
-class $dataObjectName(${inheritance.joinToString(", ") { "val $it = null" }}) {
+open class $dataObjectName(${inheritance.joinToString(", ") { "val $it = ${getTypeInit(it.type)}" }}) {
 
     companion object Macro {
 ${Beautifier.plusIndent(macro)}
     }
+    
+    var text: String = ""
 ${visitList("\n",
             visitList(
                 "",
-                synthesis.joinToString("") { "\n\tvar $it = null" },
+                synthesis.joinToString("") { "\n\tvar $it = ${getTypeInit(it.type)}" },
                 compute.joinToString("") { "\n\t$it" }
             ), """
     override fun toString(): String {
