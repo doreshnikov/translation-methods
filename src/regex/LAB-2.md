@@ -206,7 +206,7 @@ private fun parse(state: Token.StateToken, lexer: Lexer): ASTNode<Token.StateTok
 
 ## Тесты
 
-Для тестирования используется класс [Test](test/Test.kt):
+Для тестирования используется класс [Test](../test/Test.kt):
 1. `CorrectnessTest`
     * для проверки совпадения структуры дерева разбора
     * для проверки, что парсер работает без ошибок

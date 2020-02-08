@@ -28,6 +28,7 @@ object MetaGrammarInfo : GrammarInfo {
             attribs, attrib, attribsPlus, type,
             rules, rule, rulesPlus,
             def, pass, defBody, defAtom, defValue, defTerm, defMod, setDef, op, defPlus,
+            macroBody, macroPlus,
             seq, atom, seqPlus,
             atName
         )
@@ -159,6 +160,9 @@ object MetaGrammarInfo : GrammarInfo {
     object op           : Token.StateToken("op")
     object defPlus      : Token.StateToken("defPlus")
 
+    object macroBody    : Token.StateToken("macroBody")
+    object macroPlus    : Token.StateToken("macroPlus")
+
     object seq          : Token.StateToken("seq")
     object seqPlus      : Token.StateToken("seqPlus")
     object atom         : Token.StateToken("atom")
@@ -241,7 +245,10 @@ object MetaGrammarInfo : GrammarInfo {
                                     defValue    into Expansion(SUB, defTerm),
                                         atName      into Expansion(SPNAME),
                                         atName      into Expansion(CAMELNAME),
-                                        atName      into Expansion(MACROREF, CAMELNAME, LBRACKET, defValue, RBRACKET),
+                                        atName      into Expansion(MACROREF, CAMELNAME, LBRACKET, macroBody, RBRACKET),
+                                            macroBody   into Expansion(defValue, macroPlus),
+                                                macroPlus   into Expansion(SEP, defValue, macroPlus),
+                                                macroPlus   into Expansion(Token.UniqueToken.EPSILON),
                                 defPlus     into Expansion(SEP, defAtom, defPlus),
                                 defPlus     into Expansion(Token.UniqueToken.EPSILON),
                         def         into Expansion(Token.UniqueToken.EPSILON),

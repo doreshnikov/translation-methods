@@ -2,7 +2,7 @@ package translate.test
 
 import parse.Parser
 import translate.codegen.VisitorBuilder
-import translate.codegen.WalkerBuilder
+import translate.codegen.WalkerBaseBuilder
 import translate.codegen.helpers.GrammarInfo
 import translate.meta.helpers.MetaGrammarInfo
 import java.io.File
@@ -18,7 +18,7 @@ fun main() {
         try {
             val grammarInfoObject = Class.forName("$name.${uname}GrammarInfo").kotlin.objectInstance as GrammarInfo
             File("$loc\\gen\\$name\\${uname}WalkerBase.kt").bufferedWriter().use { out ->
-                out.write(WalkerBuilder(name, grammarInfoObject).getAll())
+                out.write(WalkerBaseBuilder(name, grammarInfoObject).getAll())
             }
             val visitorBuilder = VisitorBuilder(name, grammarInfoObject, Parser(MetaGrammarInfo).parse(str)).prepare()
             File("$loc\\gen\\$name\\${uname}Visitor.kt").bufferedWriter().use { out ->

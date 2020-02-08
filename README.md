@@ -15,7 +15,7 @@
     - [meta.helpers.MetaVisitorBuilder](include/translate/meta/helpers/MetaVisitorBuilder.kt) описывает правила сборки [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) 
 2. Meta-генерация: [meta.BuildMyself](include/translate/meta/BuildMyself.kt) генерирует
     - [meta.MetaWalkerBase](include/translate/meta/MetaWalkerBase.kt) - интерфейс для классов, обходящих AST мета-грамматики
-        - генерируется с помощью [codegen.WalkerBuilder](include/translate/codegen/WalkerBuilder.kt)
+        - генерируется с помощью [codegen.WalkerBuilder](include/translate/codegen/WalkerBaseBuilder.kt)
     - [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) - интерфейс для классов, обходящих AST мета-грамматики и передающих/возвращающих данные из вершин во время обхода
         - генерируется с помощью [meta.helpers.MetaVisitorBuilder](include/translate/meta/helpers/MetaVisitorBuilder.kt)
 ---
@@ -26,7 +26,7 @@
     - [codegen.GrammarInfoBuilder](include/translate/codegen/GrammarInfoBuilder.kt) наследует [meta.MetaWalkerBase](include/translate/meta/MetaWalkerBase.kt) 
         - использует AST .my файла 
         - собирает файл [GrammarInfo](include/translate/codegen/helpers/GrammarInfo.kt)
-    - [codegen.WalkerBuilder](include/translate/codegen/WalkerBuilder.kt)
+    - [codegen.WalkerBuilder](include/translate/codegen/WalkerBaseBuilder.kt)
         - использует файл [GrammarInfo](include/translate/codegen/helpers/GrammarInfo.kt) 
         - собирает примитивный интерфейс, наследующий [Walker](include/structure/Walker.kt)
     - [codegen.VisitorBuilder](include/translate/codegen/VisitorBuilder.kt) наследует [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) 

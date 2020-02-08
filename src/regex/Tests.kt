@@ -1,14 +1,16 @@
-package regex.test
+package regex
 
-import regex.RegexGrammarInfo
 import grammar.token.Token
 import structure.ASTNode
+import test.Test
 
 @Suppress("DuplicatedCode")
 fun main() {
 
+    Test.register(RegexGrammarInfo)
+
     // @formatter:off
-    Test.CorrectnessTest(
+    Test.ParseTest(
         "CorrectnessTreeLetter", "a",
         ASTNode.InnerNode(
             RegexGrammarInfo.regex,
@@ -27,7 +29,7 @@ fun main() {
             ASTNode.InnerNode(RegexGrammarInfo.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
-    Test.CorrectnessTest(
+    Test.ParseTest(
         "CorrectnessTreeChoice", "a|b",
         ASTNode.InnerNode(
             RegexGrammarInfo.regex,
@@ -65,7 +67,7 @@ fun main() {
             )
         )
     )
-    Test.CorrectnessTest(
+    Test.ParseTest(
         "CorrectnessTreeNumber", "a5",
         ASTNode.InnerNode(
             RegexGrammarInfo.regex,
@@ -86,7 +88,7 @@ fun main() {
             ASTNode.InnerNode(RegexGrammarInfo.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
-    Test.CorrectnessTest(
+    Test.ParseTest(
         "CorrectnessTreeKleene", "a*",
         ASTNode.InnerNode(
             RegexGrammarInfo.regex,
@@ -109,7 +111,7 @@ fun main() {
             ASTNode.InnerNode(RegexGrammarInfo.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
-    Test.CorrectnessTest(
+    Test.ParseTest(
         "CorrectnessTreeConcatenate", "ab",
         ASTNode.InnerNode(
             RegexGrammarInfo.regex,
@@ -142,7 +144,7 @@ fun main() {
             ASTNode.InnerNode(RegexGrammarInfo.regexPlus, ASTNode.TerminalNode(Token.UniqueToken.EPSILON))
         )
     )
-    Test.CorrectnessTest(
+    Test.ParseTest(
         "CorrectnessTreeParenthesis", "(a)", ASTNode.InnerNode(
             RegexGrammarInfo.regex,
             ASTNode.InnerNode(
@@ -180,13 +182,13 @@ fun main() {
     )
     // @formatter:on
 
-    Test.CorrectnessTest("ParsesLongConcatenation", "abcdef")
-    Test.CorrectnessTest("ParsesLongChoice", "a|b|c|d|e|f")
-    Test.CorrectnessTest("ParsesLongKleene", "a*****")
-    Test.CorrectnessTest("ParsesLongParenthesis", "(((((a)))))")
+    Test.ParseTest("ParsesLongConcatenation", "abcdef")
+    Test.ParseTest("ParsesLongChoice", "a|b|c|d|e|f")
+    Test.ParseTest("ParsesLongKleene", "a*****")
+    Test.ParseTest("ParsesLongParenthesis", "(((((a)))))")
 
-    Test.CorrectnessTest("ParsesComplicated (1)", "a|b*|c**|(a*|b**|(c*|d)**)*ab")
-    Test.CorrectnessTest("ParsesComplicated (2)", "(z(y(x*)|(y|z*))*|(x|y)|z*)**")
+    Test.ParseTest("ParsesComplicated (1)", "a|b*|c**|(a*|b**|(c*|d)**)*ab")
+    Test.ParseTest("ParsesComplicated (2)", "(z(y(x*)|(y|z*))*|(x|y)|z*)**")
 
     Test.ParseExceptionTest("LexerCapital", "abcDef")
     Test.ParseExceptionTest("LexerUnknown", "^bcdef")
@@ -210,17 +212,17 @@ fun main() {
     Test.ParseExceptionTest("AsteriskAfterLeftParenthesis", "a(*b)")
     Test.ParseExceptionTest("AsteriskAfterChoice", "a|b|*")
 
-    Test.CorrectnessTest("NoNumberNoAsterisk", "(x)")
+    Test.ParseTest("NoNumberNoAsterisk", "(x)")
 
-    Test.CorrectnessTest("Number", "(b)a1")
-    Test.CorrectnessTest("NumberLong", "(b)a12345")
-    Test.CorrectnessTest("NumberLongToParenthesis", "(a)12345")
-    Test.CorrectnessTest("Asterisk", "(b)a*")
-    Test.CorrectnessTest("AsteriskLong", "(b)a****")
-    Test.CorrectnessTest("AsteriskLongToParenthesis", "(a)****")
+    Test.ParseTest("Number", "(b)a1")
+    Test.ParseTest("NumberLong", "(b)a12345")
+    Test.ParseTest("NumberLongToParenthesis", "(a)12345")
+    Test.ParseTest("Asterisk", "(b)a*")
+    Test.ParseTest("AsteriskLong", "(b)a****")
+    Test.ParseTest("AsteriskLongToParenthesis", "(a)****")
 
-    Test.CorrectnessTest("NumberAndAsterisk", "a12*")
-    Test.CorrectnessTest("NumberAndAsteriskLong", "a12***")
+    Test.ParseTest("NumberAndAsterisk", "a12*")
+    Test.ParseTest("NumberAndAsteriskLong", "a12***")
 
     Test.ParseExceptionTest("AsteriskAndNumber", "a*12")
     Test.ParseExceptionTest("AsteriskWithNoAtom", "*d12")

@@ -4,6 +4,13 @@ macro {
         return value.toInt()
     }
 
+    fun factorial(value: Int, cnt: Int): Int {
+        fun fact(n: Int): Int {
+            return if (n == 0) 1 else n * fact(n - 1)
+        }
+        return if (cnt == 0) value else factorial(fact(value), cnt - 1)
+    }
+
 }
 
 tokens {
@@ -21,6 +28,7 @@ tokens {
     MINUS       : "-" ;
     TIMES       : "*" ;
     DIV         : "/" ;
+    FACT        : "!" ;
 
     UINT        : r"[0-9]*" ;
 
@@ -49,8 +57,12 @@ grammar {
                     | EPSILON :: { value = @.left } ;
 
     factor          : MINUS factor :: { value = -@1.value }
-                    | atom :: { value = @0.value } ;
+                    | primitive :: { value = @0.value } ;
+
+    primitive       : atom factorial :: { value = @macro.factorial(@0.value, @1.value) };
     atom            : LPAREN expression RPAREN :: { value = @1.value }
                     | UINT :: { value = @macro.toInt(@0.text) } ;
+    factorial       : FACT factorial :: { value = @1.value + 1 }
+                    | EPSILON :: { value = 0 };
 
 }

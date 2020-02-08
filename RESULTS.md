@@ -8,7 +8,7 @@
 * [include/](include): описание токенов и грамматики, а также парсер и лексер
     * помимо описания в формате [Description](include/translate/codegen/helpers/GrammarInfo.kt), дополнительная генерация кода не требуется
 * [src/regex/](src/regex):
-    * [Tests](src/regex/test/Tests.kt): тесты для этой грамматики и ее парсинга
+    * [Tests](src/regex/Tests.kt): тесты для этой грамматики и ее парсинга
     * [Main](src/regex/Main.kt): утилита для построения и компиляции AST в .pdf
 * [src/gen/](src/gen):
     * [RegexDescription](src/gen/RegexGrammarInfo.kt): реализация грамматики для регулярных выражений

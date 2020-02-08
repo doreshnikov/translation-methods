@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/src/prefix/old" />
       <excludeFolder url="file://$MODULE_DIR$/src/prefix/out" />
       <excludeFolder url="file://$MODULE_DIR$/src/prefix/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/src/regex" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
