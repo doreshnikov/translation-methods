@@ -17,7 +17,7 @@
     - [meta.MetaWalkerBase](include/translate/meta/MetaWalkerBase.kt) - интерфейс для классов, обходящих AST мета-грамматики
         - генерируется с помощью [codegen.WalkerBuilder](include/translate/codegen/WalkerBaseBuilder.kt)
     - [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) - интерфейс для классов, обходящих AST мета-грамматики и передающих/возвращающих данные из вершин во время обхода
-        - генерируется с помощью [meta.helpers.MetaVisitorBuilder](include/translate/meta/helpers/MetaVisitorBuilder.kt)
+        - генерируется с помощью [meta.helpers.VisitorBaseBuilder](include/translate/codegen/VisitorBaseBuilder)
 ---
 
 ### Функционал
