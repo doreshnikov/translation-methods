@@ -12,12 +12,12 @@
 
 1. Meta-описания:
     - [meta.helpers.MetaGrammarInfo](include/translate/meta/helpers/MetaGrammarInfo.kt) описывает грамматику языка описания грамматик .my
-    - [meta.helpers.MetaVisitorBuilder](include/translate/meta/helpers/MetaVisitorBuilder.kt) описывает правила сборки [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) 
+    - [codegen.VisitorBaseBuilder](include/translate/codegen/VisitorBaseBuilder.kt) описывает правила сборки [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) 
 2. Meta-генерация: [meta.BuildMyself](include/translate/meta/BuildMyself.kt) генерирует
     - [meta.MetaWalkerBase](include/translate/meta/MetaWalkerBase.kt) - интерфейс для классов, обходящих AST мета-грамматики
         - генерируется с помощью [codegen.WalkerBuilder](include/translate/codegen/WalkerBaseBuilder.kt)
     - [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) - интерфейс для классов, обходящих AST мета-грамматики и передающих/возвращающих данные из вершин во время обхода
-        - генерируется с помощью [meta.helpers.VisitorBaseBuilder](include/translate/codegen/VisitorBaseBuilder)
+        - генерируется с помощью [codegen.VisitorBaseBuilder](include/translate/codegen/VisitorBaseBuilder.kt)
 ---
 
 ### Функционал
