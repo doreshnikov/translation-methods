@@ -8,22 +8,16 @@
 * трансформирующие (вычисляются на основе других атрибутов в вершине)
 ---
 
-### Сборка
+## Примеры описания грамматик
 
-1. Meta-описания:
-    - [meta.helpers.MetaGrammarInfo](include/translate/meta/helpers/MetaGrammarInfo.kt) описывает грамматику языка описания грамматик .my
-    - [codegen.VisitorBaseBuilder](include/translate/codegen/VisitorBaseBuilder.kt) описывает правила сборки [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) 
-2. Meta-генерация: [meta.BuildMyself](include/translate/meta/BuildMyself.kt) генерирует
-    - [meta.MetaWalkerBase](include/translate/meta/MetaWalkerBase.kt) - интерфейс для классов, обходящих AST мета-грамматики
-        - генерируется с помощью [codegen.WalkerBuilder](include/translate/codegen/WalkerBaseBuilder.kt)
-    - [meta.MetaVisitorBase](include/translate/meta/MetaVisitorBase.kt) - интерфейс для классов, обходящих AST мета-грамматики и передающих/возвращающих данные из вершин во время обхода
-        - генерируется с помощью [codegen.VisitorBaseBuilder](include/translate/codegen/VisitorBaseBuilder.kt)
----
+* текстовые: [здесь](include/translate/examples)
+* собранные: [здесь](gen) (файлы <Something>GrammarInfo.kt и <Something>Visitor.kt)
+* мета-грамматика (грамматика языка описания грамматик: [MetaGrammarInfo.kt](include/translate/meta/helpers/MetaGrammarInfo.kt)
 
 ### Функционал
 
 1. Генерация
-    - [codegen.GrammarInfoBuilder](include/translate/codegen/GrammarInfoBuilder.kt) наследует [meta.MetaWalkerBase](include/translate/meta/MetaWalkerBase.kt) 
+    - [codegen.GrammarInfoBuilder](include/translate/codegen/GrammarInfoBuilder.kt)
         - использует AST .my файла 
         - собирает файл [GrammarInfo](include/translate/codegen/helpers/GrammarInfo.kt)
     - [codegen.WalkerBuilder](include/translate/codegen/WalkerBaseBuilder.kt)
@@ -34,4 +28,4 @@
         - собирает реализацию интерфейса [Visitor](include/structure/Visitor.kt), вычисляющую заданные атрибуты
 2. Запуск
     - у сгенерированного Visitor есть метод `.collect(ASTNode<Token>)`
-    - этому методу на вход подается корень AST, полученный с как `Parser(GrammarInfo).parse(<string>)`
+    - этому методу на вход подается корень AST, полученный как `Parser(grammarInfo).parse(<string>)`
