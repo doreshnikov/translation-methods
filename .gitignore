@@ -1,7 +1,7 @@
 /data/
 /out/
 
-src/antlr/gen/
+!src/antlr/gen/
 src/antlr/out/
 
 *Generated.kt

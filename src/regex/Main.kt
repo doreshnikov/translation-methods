@@ -1,6 +1,5 @@
 package regex
 
-import regex.RegexGrammarInfo
 import parse.Parser
 import structure.ASTNode
 import utils.GraphvizWalker
@@ -18,7 +17,7 @@ fun main(args: Array<String>) {
                 out.write(GraphvizWalker().collect(Parser(me).parse(data)))
                 println("[SUCCESS] \"$data\" -> data/$index.gv")
                 Runtime.getRuntime().exec(
-                    "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe" +
+                    "C:\\Program Files\\Graphviz 2.44.1\\bin\\dot.exe" +
                             " -Tpdf data/$index.gv" +
                             " -o data/$index.pdf"
                 )

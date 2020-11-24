@@ -7,7 +7,7 @@ import test.Test
 @Suppress("DuplicatedCode")
 fun main() {
 
-    Test.register(RegexGrammarInfo)
+    Test.register(RegexGrammarInfo, null)
 
     // @formatter:off
     Test.ParseTest(
